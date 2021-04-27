@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
   );
   CommunicationCenters.associate = function(models) {
     // associations can be defined here
+    CommunicationCenters.hasOne(models.Controllers, {
+      as: "controller",
+      foreignKey: "communicationCenterId"
+    });
   };
   return CommunicationCenters;
 };

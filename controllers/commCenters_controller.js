@@ -5,7 +5,11 @@ let db = require("../models");
 async function getCommCenters(req, res) {
   console.log("function getCommCenters");
   try {
-    let commCenters = await db.CommunicationCenters.findAndCountAll();
+    let options = {};
+    if (req.query.controller && req.query.controller == "include") {
+      options.include = [{ model: db.Controllers, as: "controller" }];
+    }
+    let commCenters = await db.CommunicationCenters.findAndCountAll(options);
     let count = commCenters.count;
 
     res.json({
@@ -23,13 +27,21 @@ async function getCommCenters(req, res) {
 async function getCommCenterById(req, res) {
   console.log("function getCommCenterById");
   try {
-    let getCommCenter = await db.CommunicationCenters.findByPk(req.params.id);
-    if (getCommCenter == null) {
-      throw new Error(
-        "validationError: CommunicationCenter with this id not found!"
-      );
+    let options = {
+      where: {
+        id: req.params.id
+      }
+    };
+    if (req.query.controller && req.query.controller == "include") {
+      options.include = [{ model: db.Controllers, as: "controller" }];
     }
-    res.json({ getCommCenter });
+    let commCenter = await db.CommunicationCenters.findOne(options);
+    if (commCenter == null) {
+      return res
+        .status(400)
+        .send({ "Bad Request": "CommunicationCenter with this id not found" });
+    }
+    res.json(commCenter);
   } catch (error) {
     console.error(error);
     res.json({
@@ -71,15 +83,12 @@ async function createCommCenter(req, res) {
       }
       options.host = req.body.host;
     }
-    if (req.body.controllerId) {
-      options.controllerId = req.body.controllerId;
-    }
 
     const commCenter = await db.CommunicationCenters.findOrCreate({
       where: options
     });
 
-    res.json({ commCenter });
+    res.json(commCenter);
   } catch (error) {
     console.error(error);
     res.json({
@@ -129,12 +138,8 @@ async function updateCommCenter(req, res) {
       commCenter.host = req.body.host;
     }
 
-    if (req.body.controllerId) {
-      commCenter.controllerId = req.body.controllerId;
-    }
-
     await commCenter.save();
-    res.json({ commCenter });
+    res.json(commCenter);
   } catch (err) {
     console.error(err);
     res.json({ errorMessage: err.message });
