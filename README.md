@@ -14,6 +14,8 @@ DB_NAME= 'conroller_header'
     another example
     $ sequelize model:create --name CommunicationCenters --attributes name:string,distance:string,port:string,host:string,status:string,description:string
 
+    $ sequelize model:create --name Registers --attributes addressRegister:string,dataType:string,sizeRegister:string,recordable:boolean,appointment:string,description:string
+
 
     create tables in db via migrations
        $ sequelize db:migrate

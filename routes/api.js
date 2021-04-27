@@ -6,6 +6,7 @@ module.exports = app => {
   const commCenters = require("../controllers/commCenters_controller");
   const controllers = require("../controllers/controllers_controller");
   const registersGroups = require("../controllers/registersGroups_controller");
+  const registers = require("../controllers/registers_controller");
 
   const users = require("../controllers/user_controller");
   const auth = require("../controllers/auth_controller");
@@ -35,6 +36,12 @@ module.exports = app => {
   router.post("/registersGroups", registersGroups.createRegistersGroup);
   router.put("/registersGroups/:id", registersGroups.updateRegistersGroup);
   router.delete("/registersGroups/:id", registersGroups.deleteRegistersGroup);
+
+  router.get("/registers", registers.getRegisters);
+  router.get("/registers/:id", registers.getRegisterById);
+  router.post("/registers", registers.createRegister);
+  router.put("/registers/:id", registers.updateRegister);
+  router.delete("/registers/:id", registers.deleteRegister);
 
   router.get("/users", auth.checkauth, users.getUsers);
   router.get("/userById/:id", auth.checkauth, users.getUserById);

@@ -65,6 +65,10 @@ async function createRegistersGroup(req, res) {
         });
       }
       options.name = req.body.name;
+    } else {
+      return res.status(400).send({
+        "Bad Request": ` name  required`
+      });
     }
 
     if (req.body.description) {
