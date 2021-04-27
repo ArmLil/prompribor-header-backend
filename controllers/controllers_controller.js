@@ -61,7 +61,6 @@ async function createController(req, res) {
     }
 
     if (req.body.modbusId) {
-      console.log("modbusId", req.body.modbusId);
       let controllerByModbusId = await db.Controllers.findOne({
         where: { modbusId: req.body.modbusId }
       });

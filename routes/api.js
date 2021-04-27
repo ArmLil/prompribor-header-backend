@@ -5,6 +5,7 @@ module.exports = app => {
   const router = require("express").Router();
   const commCenters = require("../controllers/commCenters_controller");
   const controllers = require("../controllers/controllers_controller");
+  const registersGroups = require("../controllers/registersGroups_controller");
 
   const users = require("../controllers/user_controller");
   const auth = require("../controllers/auth_controller");
@@ -28,6 +29,12 @@ module.exports = app => {
   router.post("/controllers", controllers.createController);
   router.put("/controllers/:id", controllers.updateController);
   router.delete("/controllers/:id", controllers.deleteController);
+
+  router.get("/registersGroups", registersGroups.getRegistersGroups);
+  router.get("/registersGroups/:id", registersGroups.getRegistersGroupById);
+  router.post("/registersGroups", registersGroups.createRegistersGroup);
+  router.put("/registersGroups/:id", registersGroups.updateRegistersGroup);
+  router.delete("/registersGroups/:id", registersGroups.deleteRegistersGroup);
 
   router.get("/users", auth.checkauth, users.getUsers);
   router.get("/userById/:id", auth.checkauth, users.getUserById);
