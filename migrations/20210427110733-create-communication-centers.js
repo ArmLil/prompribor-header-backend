@@ -1,23 +1,30 @@
 "use strict";
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable("Types", {
+    return queryInterface.createTable("CommunicationCenters", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      number: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
       name: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: Sequelize.STRING
       },
-      note: {
-        type: Sequelize.TEXT
+      distance: {
+        type: Sequelize.STRING
+      },
+      port: {
+        type: Sequelize.STRING
+      },
+      host: {
+        type: Sequelize.STRING
+      },
+      status: {
+        type: Sequelize.STRING
+      },
+      description: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -28,12 +35,11 @@ module.exports = {
         type: Sequelize.DATE
       },
       deletedAt: {
-        allowNull: true,
         type: Sequelize.DATE
       }
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("Types");
+    return queryInterface.dropTable("CommunicationCenters");
   }
 };

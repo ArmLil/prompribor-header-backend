@@ -48,25 +48,26 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-// io.on('connection', function (socket) {
-//   console.log('user connected...');
-//   socket.emit('news', { hello: 'world' });
-//   socket.on('my other event', function (data) {
-//     console.log('this is on server side', data);
+// io.on("connection", function(socket) {
+//   console.log("user connected...");
+//   socket.emit("news", { hello: "world" });
+//   socket.on("my other event", function(data) {
+//     console.log("this is on server side", data);
 //   });
-//   socket.on("disconnect", ()=>{
-//     console.log("Disconnected")
-//   })
+//   socket.on("disconnect", () => {
+//     console.log("Disconnected");
+//   });
 // });
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3002;
+const host = process.env.HOST || "127.0.0.1";
 
 // server.listen(port, '172.28.2.35', function() {
 //   console.log(`server listening on port ${port}`);
 //   // db.sequelize.sync();
 // });
 
-server.listen(port, function() {
+server.listen(port, host, function() {
   console.log(`server listening on port ${port}`);
   // db.sequelize.sync();
 });

@@ -3,7 +3,7 @@
 module.exports = app => {
   const express = require("express");
   const router = require("express").Router();
-  const types = require("../controllers/type_controller");
+  const commCenters = require("../controllers/commCenter_controller");
 
   const users = require("../controllers/user_controller");
   const auth = require("../controllers/auth_controller");
@@ -14,11 +14,11 @@ module.exports = app => {
     });
   });
 
-  router.get("/types", types.getTypes);
-  router.get("/types/:id", types.getTypeById);
-  router.post("/types", types.createType);
-  router.put("/types/:id", types.updateType);
-  router.delete("/types/:id", types.deleteType);
+  router.get("/commCenters", commCenters.getCommCenters);
+  router.get("/commCenters/:id", commCenters.getCommCenterById);
+  router.post("/commCenters", commCenters.createCommCenter);
+  router.put("/commCenters/:id", commCenters.updateCommCenter);
+  router.delete("/commCenters/:id", commCenters.deleteCommCenter);
 
   router.get("/users", auth.checkauth, users.getUsers);
   router.get("/userById/:id", auth.checkauth, users.getUserById);

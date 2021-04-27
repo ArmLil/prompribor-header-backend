@@ -12,7 +12,7 @@ DB_NAME= 'conroller_header'
     then update the js files if you need it
 
     another example
-    $ sequelize model:create --name UsersChats --attributes id:uuid,user_id:uuid,chat_id:uuid
+    $ sequelize model:create --name CommunicationCenters --attributes name:string,distance:string,port:string,host:string,status:string,description:string
 
 
     create tables in db via migrations
