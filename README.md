@@ -16,6 +16,8 @@ DB_NAME= 'conroller_header'
 
     $ sequelize model:create --name Registers --attributes addressRegister:string,dataType:string,sizeRegister:string,recordable:boolean,appointment:string,description:string
 
+    $ sequelize model:create --name RegistersGroups_Registers --attributes registerId:uuid,registersGroupId:uuid,isMonitored:boolean,createHistory:boolean
+
 
     create tables in db via migrations
        $ sequelize db:migrate

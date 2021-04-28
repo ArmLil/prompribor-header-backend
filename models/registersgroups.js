@@ -20,11 +20,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   RegistersGroups.associate = function(models) {
-    RegistersGroups.belongsToMany(models.Controllers, {
-      as: "controllers",
-      through: models.Controller_RegistersGroups,
+    RegistersGroups.belongsToMany(models.Registers, {
+      as: "registers",
+      through: models.RegistersGroups_Registers,
       foreignKey: "registersGroupId",
-      otherKey: "controllerId"
+      otherKey: "registerId"
     });
   };
   return RegistersGroups;

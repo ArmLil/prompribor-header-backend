@@ -6,9 +6,9 @@ async function getRegistersGroups(req, res) {
   console.log("function getRegistersGroups");
   try {
     let options = {};
-    // if (req.query.commCenter && req.query.commCenter == "include") {
-    //   options.include = [{ model: db.CommunicationCenters, as: "commCenter" }];
-    // }
+    if (req.query.registers && req.query.registers == "include") {
+      options.include = [{ model: db.Registers, as: "registers" }];
+    }
     let registersGroups = await db.RegistersGroups.findAndCountAll(options);
     let count = registersGroups.count;
 
@@ -32,9 +32,9 @@ async function getRegistersGroupById(req, res) {
         id: req.params.id
       }
     };
-    // if (req.query.commCenter && req.query.commCenter == "include") {
-    //   options.include = [{ model: db.CommunicationCenters, as: "commCenter" }];
-    // }
+    if (req.query.registers && req.query.registers == "include") {
+      options.include = [{ model: db.Registers, as: "registers" }];
+    }
     const registersGroup = await db.RegistersGroups.findOne(options);
     if (registersGroup == null) {
       return res

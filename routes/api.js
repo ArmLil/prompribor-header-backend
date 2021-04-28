@@ -8,6 +8,7 @@ module.exports = app => {
   const registersGroups = require("../controllers/registersGroups_controller");
   const registers = require("../controllers/registers_controller");
   const controller_RegistersGroups = require("../controllers/controller_RegistersGroups_controller");
+  const registersGroups_Registers = require("../controllers/registersGroups_Registers_controller");
   const users = require("../controllers/user_controller");
   const auth = require("../controllers/auth_controller");
 
@@ -32,6 +33,7 @@ module.exports = app => {
   router.put("/controllers/:id", controllers.updateController);
   router.delete("/controllers/:id", controllers.deleteController);
 
+  // if query ?registers=include then will get with registers
   router.get("/registersGroups", registersGroups.getRegistersGroups);
   router.get("/registersGroups/:id", registersGroups.getRegistersGroupById);
   router.post("/registersGroups", registersGroups.createRegistersGroup);
@@ -63,6 +65,27 @@ module.exports = app => {
   router.delete(
     "/controller_RegistersGroups/:id",
     controller_RegistersGroups.deleteController_RegistersGroup
+  );
+
+  router.get(
+    "/registersGroups_Registers",
+    registersGroups_Registers.getRegistersGroups_Registers
+  );
+  router.get(
+    "/registersGroups_Registers/:id",
+    registersGroups_Registers.getRegistersGroup_RegisterById
+  );
+  router.post(
+    "/registersGroups_Registers",
+    registersGroups_Registers.createRegistersGroup_Register
+  );
+  router.put(
+    "/registersGroups_Registers/:id",
+    registersGroups_Registers.updateRegistersGroup_Register
+  );
+  router.delete(
+    "/registersGroups_Registers/:id",
+    registersGroups_Registers.deleteRegistersGroup_Register
   );
 
   router.get("/users", auth.checkauth, users.getUsers);
