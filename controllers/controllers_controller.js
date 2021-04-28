@@ -9,6 +9,18 @@ async function getControllers(req, res) {
     if (req.query.commCenter && req.query.commCenter == "include") {
       options.include = [{ model: db.CommunicationCenters, as: "commCenter" }];
     }
+    if (req.query.registersGroups && req.query.registersGroups == "include") {
+      if (options.include) {
+        options.include.push({
+          model: db.RegistersGroups,
+          as: "registersGroups"
+        });
+      } else {
+        options.include = [
+          { model: db.RegistersGroups, as: "registersGroups" }
+        ];
+      }
+    }
     let controllers = await db.Controllers.findAndCountAll(options);
     let count = controllers.count;
 
@@ -34,6 +46,18 @@ async function getControllerById(req, res) {
     };
     if (req.query.commCenter && req.query.commCenter == "include") {
       options.include = [{ model: db.CommunicationCenters, as: "commCenter" }];
+    }
+    if (req.query.registersGroups && req.query.registersGroups == "include") {
+      if (options.include) {
+        options.include.push({
+          model: db.RegistersGroups,
+          as: "registersGroups"
+        });
+      } else {
+        options.include = [
+          { model: db.RegistersGroups, as: "registersGroups" }
+        ];
+      }
     }
     const controller = await db.Controllers.findOne(options);
     if (controller == null) {

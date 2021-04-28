@@ -3,8 +3,14 @@ module.exports = (sequelize, DataTypes) => {
   const RegistersGroups = sequelize.define(
     "RegistersGroups",
     {
+      id: {
+        type: DataTypes.UUID,
+        autoIncrement: false,
+        primaryKey: true,
+        defaultValue: DataTypes.UUIDV4
+      },
       name: DataTypes.STRING,
-      description: DataTypes.STRING
+      description: DataTypes.TEXT
     },
     {
       timestamps: true,
@@ -14,7 +20,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   RegistersGroups.associate = function(models) {
-    // associations can be defined here
+    RegistersGroups.belongsToMany(models.Controllers, {
+      as: "controllers",
+      through: models.Controller_RegistersGroups,
+      foreignKey: "registersGroupId",
+      otherKey: "controllerId"
+    });
   };
   return RegistersGroups;
 };

@@ -1,18 +1,20 @@
 "use strict";
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable("RegistersGroups", {
+    return queryInterface.createTable("Controller_RegistersGroups", {
       id: {
         allowNull: false,
         type: Sequelize.UUID,
         primaryKey: true,
         autoIncrement: false
       },
-      name: {
-        type: Sequelize.STRING
+      controllerId: {
+        type: Sequelize.UUID,
+        allowNull: false
       },
-      description: {
-        type: Sequelize.TEXT
+      registersGroupId: {
+        type: Sequelize.UUID,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
@@ -28,6 +30,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("RegistersGroups");
+    return queryInterface.dropTable("Controller_RegistersGroups");
   }
 };

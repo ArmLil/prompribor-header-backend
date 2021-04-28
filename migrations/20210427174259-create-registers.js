@@ -4,15 +4,15 @@ module.exports = {
     return queryInterface.createTable("Registers", {
       id: {
         allowNull: false,
-        autoIncrement: true,
+        type: Sequelize.UUID,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        autoIncrement: false
       },
       addressRegister: {
         type: Sequelize.STRING
       },
       sizeRegister: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       recordable: {
         type: Sequelize.BOOLEAN
@@ -24,7 +24,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,

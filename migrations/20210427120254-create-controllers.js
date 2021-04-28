@@ -4,9 +4,9 @@ module.exports = {
     return queryInterface.createTable("Controllers", {
       id: {
         allowNull: false,
-        autoIncrement: true,
+        type: Sequelize.UUID,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        autoIncrement: false
       },
       name: {
         type: Sequelize.STRING
@@ -15,10 +15,10 @@ module.exports = {
         type: Sequelize.STRING
       },
       communicationCenterId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,

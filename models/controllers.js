@@ -3,11 +3,17 @@ module.exports = (sequelize, DataTypes) => {
   const Controllers = sequelize.define(
     "Controllers",
     {
+      id: {
+        type: DataTypes.UUID,
+        autoIncrement: false,
+        primaryKey: true,
+        defaultValue: DataTypes.UUIDV4
+      },
       name: DataTypes.STRING,
       modbusId: DataTypes.STRING,
-      description: DataTypes.STRING,
+      description: DataTypes.TEXT,
       communicationCenterId: {
-        type: DataTypes.INTEGER
+        type: DataTypes.UUID
       }
     },
     {
@@ -23,6 +29,12 @@ module.exports = (sequelize, DataTypes) => {
       as: "commCenter",
       targetKey: "id",
       foreignKey: "communicationCenterId"
+    });
+    Controllers.belongsToMany(models.RegistersGroups, {
+      as: "registersGroups",
+      through: models.Controller_RegistersGroups,
+      foreignKey: "controllerId",
+      otherKey: "registersGroupId"
     });
   };
   return Controllers;

@@ -10,6 +10,15 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4
       },
       username: DataTypes.STRING,
+      name: {
+        type: DataTypes.STRING
+      },
+      secondName: {
+        type: DataTypes.STRING
+      },
+      fatherName: {
+        type: DataTypes.STRING
+      },
       email: {
         type: DataTypes.STRING,
         validate: {
