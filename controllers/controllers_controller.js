@@ -94,6 +94,7 @@ async function getRegGroupsRegisters(req, res) {
           as: "registers",
           include: [
             {
+              where: { controllerId: req.params.id },
               model: db.Registers_Controllers_values,
               as: "values"
             }
