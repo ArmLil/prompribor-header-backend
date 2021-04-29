@@ -11,6 +11,7 @@ module.exports = app => {
   const registersGroups_Registers = require("../controllers/registersGroups_Registers_controller");
   const registersHistory = require("../controllers/registersHistory_controller");
   const registersHistory_full = require("../controllers/registersHistory_full_controller");
+  const registers_Controllers_values = require("../controllers/registers_Controllers_values_controller");
   const users = require("../controllers/user_controller");
   const auth = require("../controllers/auth_controller");
 
@@ -118,6 +119,27 @@ module.exports = app => {
   router.delete(
     "/registersHistory_full/:id",
     registersHistory_full.deleteRegistersHistory_full
+  );
+
+  router.get(
+    "/registers_Controllers_values",
+    registers_Controllers_values.getRegisters_Controllers_values
+  );
+  router.get(
+    "/registers_Controllers_values/:id",
+    registers_Controllers_values.getRegisters_Controllers_valuesById
+  );
+  router.post(
+    "/registers_Controllers_values",
+    registers_Controllers_values.createRegisters_Controllers_values
+  );
+  router.put(
+    "/registers_Controllers_values/:id",
+    registers_Controllers_values.updateRegisters_Controllers_values
+  );
+  router.delete(
+    "/registers_Controllers_values/:id",
+    registers_Controllers_values.deleteRegisters_Controllers_values
   );
 
   router.get("/users", auth.checkauth, users.getUsers);
