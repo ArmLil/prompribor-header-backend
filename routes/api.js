@@ -10,6 +10,7 @@ module.exports = app => {
   const controller_RegistersGroups = require("../controllers/controller_RegistersGroups_controller");
   const registersGroups_Registers = require("../controllers/registersGroups_Registers_controller");
   const registersHistory = require("../controllers/registersHistory_controller");
+  const registersHistory_full = require("../controllers/registersHistory_full_controller");
   const users = require("../controllers/user_controller");
   const auth = require("../controllers/auth_controller");
 
@@ -96,6 +97,27 @@ module.exports = app => {
   router.delete(
     "/registersHistory/:id",
     registersHistory.deleteRegistersHistory
+  );
+
+  router.get(
+    "/registersHistory_full",
+    registersHistory_full.getRegistersHistory_full
+  );
+  router.get(
+    "/registersHistory_full/:id",
+    registersHistory_full.getRegistersHistory_full_ById
+  );
+  router.post(
+    "/registersHistory_full",
+    registersHistory_full.createRegistersHistory_full
+  );
+  router.put(
+    "/registersHistory_full/:id",
+    registersHistory_full.updateRegistersHistory_full
+  );
+  router.delete(
+    "/registersHistory_full/:id",
+    registersHistory_full.deleteRegistersHistory_full
   );
 
   router.get("/users", auth.checkauth, users.getUsers);
