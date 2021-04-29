@@ -9,6 +9,7 @@ module.exports = app => {
   const registers = require("../controllers/registers_controller");
   const controller_RegistersGroups = require("../controllers/controller_RegistersGroups_controller");
   const registersGroups_Registers = require("../controllers/registersGroups_Registers_controller");
+  const registersHistory = require("../controllers/registersHistory_controller");
   const users = require("../controllers/user_controller");
   const auth = require("../controllers/auth_controller");
 
@@ -86,6 +87,15 @@ module.exports = app => {
   router.delete(
     "/registersGroups_Registers/:id",
     registersGroups_Registers.deleteRegistersGroup_Register
+  );
+
+  router.get("/registersHistory", registersHistory.getRegistersHistory);
+  router.get("/registersHistory/:id", registersHistory.getRegistersHistoryById);
+  router.post("/registersHistory", registersHistory.createRegistersHistory);
+  router.put("/registersHistory/:id", registersHistory.updateRegistersHistory);
+  router.delete(
+    "/registersHistory/:id",
+    registersHistory.deleteRegistersHistory
   );
 
   router.get("/users", auth.checkauth, users.getUsers);
