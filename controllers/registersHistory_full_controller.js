@@ -78,9 +78,9 @@ async function createRegistersHistory_full(req, res) {
       });
     }
 
-    const registersHistory_full = await db.RegistersHistory_full.findOrCreate({
-      where: options
-    });
+    const registersHistory_full = await db.RegistersHistory_full.create(
+      options
+    );
 
     res.json(registersHistory_full);
   } catch (error) {
