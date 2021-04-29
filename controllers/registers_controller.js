@@ -9,7 +9,15 @@ async function getRegisters(req, res) {
     // if (req.query.commCenter && req.query.commCenter == "include") {
     //   options.include = [{ model: db.CommunicationCenters, as: "commCenter" }];
     // }
-    let registers = await db.Registers.findAndCountAll(options);
+
+    let registers = await db.Registers.findAndCountAll({
+      include: [
+        {
+          model: db.Registers_Controllers_values,
+          as: "values"
+        }
+      ]
+    });
     let count = registers.count;
 
     res.json({
@@ -31,6 +39,12 @@ async function getRegisterById(req, res) {
       where: {
         id: req.params.id
       }
+      // include: [
+      //   {
+      //     model: db.Registers_Controllers_values,
+      //     as: "values"
+      //   }
+      // ]
     };
     // if (req.query.commCenter && req.query.commCenter == "include") {
     //   options.include = [{ model: db.CommunicationCenters, as: "commCenter" }];

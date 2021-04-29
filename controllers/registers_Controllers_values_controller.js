@@ -78,11 +78,32 @@ async function createRegisters_Controllers_values(req, res) {
       });
     }
 
-    const registers_Controllers_values = await db.Registers_Controllers_values.findOrCreate(
+    const _registers_Controllers_values = await db.Registers_Controllers_values.findOne(
       {
-        where: options
+        where: {
+          controllerId: req.body.controllerId,
+          registerId: req.body.registerId
+        }
       }
     );
+    let registers_Controllers_values = {};
+    if (_registers_Controllers_values == null) {
+      registers_Controllers_values = await db.Registers_Controllers_values.create(
+        options
+      );
+    } else {
+      _registers_Controllers_values.value = req.body.value;
+      registers_Controllers_values = _registers_Controllers_values;
+      await db.Registers_Controllers_values.update(
+        { value: req.body.value },
+        {
+          where: {
+            controllerId: req.body.controllerId,
+            registerId: req.body.registerId
+          }
+        }
+      );
+    }
 
     res.json(registers_Controllers_values);
   } catch (error) {

@@ -36,6 +36,12 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "controllerId",
       otherKey: "registersGroupId"
     });
+    Controllers.belongsToMany(models.Registers, {
+      as: "registers",
+      through: models.Registers_Controllers_values,
+      foreignKey: "controllerId",
+      otherKey: "registerId"
+    });
   };
   return Controllers;
 };

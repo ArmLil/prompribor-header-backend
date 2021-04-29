@@ -32,6 +32,10 @@ module.exports = app => {
   // if query ?registersGroups=include then will get with registersGroups
   router.get("/controllers", controllers.getControllers);
   router.get("/controllers/:id", controllers.getControllerById);
+  router.get(
+    "/controllers/getRegGroupsRegisters/:id",
+    controllers.getRegGroupsRegisters
+  );
   router.post("/controllers", controllers.createController);
   router.put("/controllers/:id", controllers.updateController);
   router.delete("/controllers/:id", controllers.deleteController);

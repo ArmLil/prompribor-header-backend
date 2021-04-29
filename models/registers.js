@@ -24,7 +24,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   Registers.associate = function(models) {
-    // associations can be defined here
+    Registers.hasMany(models.Registers_Controllers_values, {
+      as: "values",
+      foreignKey: "registerId"
+    });
   };
   return Registers;
 };

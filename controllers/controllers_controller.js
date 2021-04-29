@@ -74,6 +74,54 @@ async function getControllerById(req, res) {
   }
 }
 
+async function getRegGroupsRegisters(req, res) {
+  console.log("function getRegGroupsRegisters");
+  try {
+    let options = {
+      where: {
+        id: req.params.id
+      }
+    };
+    if (req.query.commCenter && req.query.commCenter == "include") {
+      options.include = [{ model: db.CommunicationCenters, as: "commCenter" }];
+    }
+    let addOption = {
+      model: db.RegistersGroups,
+      as: "registersGroups",
+      include: [
+        {
+          model: db.Registers,
+          as: "registers",
+          include: [
+            {
+              model: db.Registers_Controllers_values,
+              as: "values"
+            }
+          ]
+        }
+      ]
+    };
+    if (options.include) {
+      options.include.push(addOption);
+    } else {
+      options.include = [addOption];
+    }
+
+    const controller = await db.Controllers.findOne(options);
+    if (controller == null) {
+      return res
+        .status(400)
+        .send({ "Bad Request": "Controller by this id not found" });
+    }
+    res.json(controller);
+  } catch (error) {
+    console.error(error);
+    res.json({
+      errorMessage: error.message
+    });
+  }
+}
+
 async function createController(req, res) {
   console.log("function createController", req.body);
   try {
@@ -214,6 +262,7 @@ async function deleteController(req, res) {
 module.exports = {
   getControllers,
   getControllerById,
+  getRegGroupsRegisters,
   createController,
   updateController,
   deleteController
