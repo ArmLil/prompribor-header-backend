@@ -8,7 +8,7 @@ DB_NAME= 'conroller_header'
      $ sequelize init
 
     to generate models and migrations
-     $ sequelize model:create --name User --attributes username:string,email:string,password:text
+     $ sequelize model:create --name Users --attributes username:string,email:string,password:text
     then update the js files if you need it
 
     another example

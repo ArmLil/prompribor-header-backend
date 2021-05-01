@@ -1,7 +1,7 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define(
-    "User",
+  const Users = sequelize.define(
+    "Users",
     {
       id: {
         type: DataTypes.UUID,
@@ -18,6 +18,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       fatherName: {
         type: DataTypes.STRING
+      },
+      roleAdmin: {
+        type: DataTypes.BOOLEAN
       },
       email: {
         type: DataTypes.STRING,
@@ -39,6 +42,6 @@ module.exports = (sequelize, DataTypes) => {
       tableName: "users"
     }
   );
-  User.associate = function(models) {};
-  return User;
+  Users.associate = function(models) {};
+  return Users;
 };

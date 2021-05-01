@@ -35,6 +35,10 @@ app.get("/", function(req, res) {
   res.sendFile(__dirname + "/index.html");
 });
 
+app.get("/api/v1/", function(req, res) {
+  res.send("Система мониторинга нефтепроводов");
+});
+
 app.use("/api/v1/", api);
 
 app.engine("handlebars", exphbs());

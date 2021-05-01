@@ -13,15 +13,17 @@ module.exports = {
         allowNull: false
       },
       name: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: Sequelize.STRING
       },
       secondName: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: Sequelize.STRING
       },
       fatherName: {
         type: Sequelize.STRING
+      },
+      roleAdmin: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       email: {
         type: Sequelize.STRING

@@ -25,16 +25,16 @@ function checkauth(req, res, next) {
   if (!token) {
     return res
       .status(403)
-      .json({ success: false, errorMessage: "Token is not provided" });
+      .json({ success: false, message: "Token is not provided" });
   }
   jwt.verify(token, process.env.TOKEN_SECRET, function(err, decoded) {
     if (err) {
       console.error(err);
       return res.status(403).json({
-        errorMessage: err.message
+        message: err.message
       });
     } else {
-      db.User.findOne({
+      db.Users.findOne({
         where: {
           id: decoded.data.id
         }
@@ -43,21 +43,21 @@ function checkauth(req, res, next) {
           if (!user) {
             return res
               .status(403)
-              .json({ errorMessage: "User with this token does not exist" });
+              .json({ message: "Users with this token does not exist" });
           } else if (!user.email_confirmed) {
             // to disable email confirmation discomment next 3 lines of code
 
-            // req.user = decoded;
-            // console.log("Token is valid", decoded);
-            // return next();
+            req.user = decoded;
+            console.log("Token is valid", decoded);
+            return next();
 
-            emailSender(user.dataValues, req.headers.host, token, result => {
-              if (result.errorMessage) {
-                res.json(result);
-              } else {
-                res.json({ data: { user, token, message: result.message } });
-              }
-            });
+            // emailSender(user.dataValues, req.headers.host, token, result => {
+            //   if (result.errorMessage) {
+            //     res.json(result);
+            //   } else {
+            //     res.json({ data: { user, token, message: result.message } });
+            //   }
+            // });
           } else {
             req.user = decoded;
             console.log("Token is valid", decoded);
@@ -67,7 +67,7 @@ function checkauth(req, res, next) {
         .catch(error => {
           console.error("Opps", error);
           res.json({
-            errorMessage: error
+            message: error
           });
         });
     }
@@ -80,28 +80,30 @@ function checkauth(req, res, next) {
 //   next()
 // }
 
-async function register(req, res) {
-  console.log("function registerUser");
+async function signup(req, res) {
+  console.log("function signup");
   try {
-    const findUserByUsername = await db.User.findOne({
+    const findUsersByUsersname = await db.Users.findOne({
       where: { username: req.body.username }
     });
-    if (findUserByUsername) {
-      return res
-        .status(403)
-        .json({ errorMessage: "User with this username already exists!" });
+    if (findUsersByUsersname) {
+      return res.status(403).json({
+        message: "Пользователь с таким никнеймом уже зарегистрирован."
+      });
     }
 
-    const findUserByEmail = await db.User.findOne({
+    const findUsersByEmail = await db.Users.findOne({
       where: { email: req.body.email }
     });
-    if (findUserByEmail) {
+    if (findUsersByEmail) {
       return res
         .status(403)
-        .json({ errorMessage: "User with this email already exists!" });
+        .json({
+          message: "Пользователь с таким е-майлом уже зарегистрирован."
+        });
     }
 
-    const user = await db.User.findOrCreate({
+    const user = await db.Users.findOrCreate({
       where: { username: req.body.username, email: req.body.email },
       defaults: {
         email: req.body.email,
@@ -126,45 +128,49 @@ async function register(req, res) {
     await delete user[0].dataValues.password;
 
     // to disable email confirmation comment these emailSender part and then
-    // discomment res.json({ data: { user, token }});
+    // discomment res.json({ data: { user, token }}); or vice versa
 
-    await emailSender(user[0].dataValues, req.headers.host, token, result => {
-      if (result.errorMessage) {
-        return res.status(403).json(result);
-      } else {
-        res.json({ data: { user, token, message: result.message } });
-      }
+    // await emailSender(user[0].dataValues, req.headers.host, token, result => {
+    //   if (result.errorMessage) {
+    //     return res.status(403).json(result);
+    //   } else {
+    //     res.json({ data: { user, token, message: result.message } });
+    //   }
+    // });
+
+    res.json({
+      user,
+      token,
+      message: `Пользователь ${user[0].username} успешно зарегистрирован.`
     });
-
-    // res.json({ data: { user, token }});
   } catch (error) {
     console.error(error);
     res.json({
-      errorMessage: error.message
+      message: error.message
     });
   }
 }
 
 async function login(req, res, next) {
-  let email = req.body.email;
+  let username = req.body.username;
   let password = req.body.password;
 
-  if (!email || !password) {
+  if (!username || !password) {
     return res.status(403).json({
-      errorMessage: "Email or password is not provided"
+      message: "username or password is not provided"
     });
   }
 
   try {
-    const user = await db.User.findOne({
+    const user = await db.Users.findOne({
       where: {
-        email: req.body.email
+        username: req.body.username
       }
     });
 
     if (!user) {
       return res.status(403).json({
-        errorMessage: "User with this email does not exist"
+        message: "Пользователь с указанным никнеймом не существует."
       });
     }
 
@@ -175,7 +181,8 @@ async function login(req, res, next) {
             id: user.id,
             username: user.username,
             email: user.email,
-            email_confirmed: user.email_confirmed
+            email_confirmed: user.email_confirmed,
+            roleAdmin: user.roleAdmin
           }
         },
         process.env.TOKEN_SECRET,
@@ -183,33 +190,45 @@ async function login(req, res, next) {
       );
 
       if (!user.email_confirmed) {
-        // to disable email confirmation discomment next 3 lines of code
+        // to disable email confirmation discomment next 5 lines of code or vice versa
 
         // req.user = decoded;
         // console.log("Token is valid", decoded);
-        // return next();
-
-        emailSender(user.dataValues, req.headers.host, token, result => {
-          if (result.errorMessage) {
-            return res.json(result);
-          } else {
-            return res.json({ data: { user, token, message: result.message } });
-          }
+        return res.status(200).json({
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          email_confirmed: user.email_confirmed,
+          token,
+          roleAdmin: user.roleAdmin
         });
+
+        // emailSender(user.dataValues, req.headers.host, token, result => {
+        //   if (result.errorMessage) {
+        //     return res.json(result);
+        //   } else {
+        //     return res.json({ data: { user, token, message: result.message } });
+        //   }
+        // });
       } else {
         return res.status(200).json({
-          data: { token }
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          email_confirmed: user.email_confirmed,
+          token,
+          roleAdmin: user.roleAdmin
         });
       }
     } else {
       return res.status(403).json({
-        errorMessage: "Password is not valid"
+        message: "Пароль не валидный."
       });
     }
   } catch (error) {
     console.error(error);
     return res.json({
-      errorMessage: error.message
+      message: error.message
     });
   }
 }
@@ -227,7 +246,7 @@ function emailConfirmation(req, res, next) {
         errorMessage: err.message
       });
     } else {
-      db.User.findByPk(decoded.data.id)
+      db.Users.findByPk(decoded.data.id)
         .then(user => {
           if (!user)
             res.status(403).json({ errorMessage: "user is not found" });
@@ -239,7 +258,8 @@ function emailConfirmation(req, res, next) {
                 id: user.id,
                 username: user.username,
                 email: user.email,
-                email_confirmed: user.email_confirmed
+                email_confirmed: user.email_confirmed,
+                roleAdmin: user.roleAdmin
               }
             },
             process.env.TOKEN_SECRET,
@@ -260,12 +280,12 @@ function emailConfirmation(req, res, next) {
 
 function showHome(req, res) {
   res.statusCode = 302;
-  res.setHeader("Location", "http://localhost:4200/overview");
+  res.setHeader("Location", "http://localhost:8081/home");
   res.end();
 }
 
 module.exports = {
-  register,
+  signup,
   login,
   checkauth,
   emailConfirmation,

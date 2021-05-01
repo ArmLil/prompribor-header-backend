@@ -5,10 +5,10 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
-async function getUsers(req, res) {
-  console.log("function getUsers");
+async function getUserss(req, res) {
+  console.log("function getUserss");
   try {
-    let users = await db.User.findAndCountAll({
+    let users = await db.Users.findAndCountAll({
       attributes: { exclude: ["password"] }
     });
 
@@ -24,10 +24,10 @@ async function getUsers(req, res) {
   }
 }
 
-async function getUserById(req, res) {
-  console.log("function getUserById");
+async function getUsersById(req, res) {
+  console.log("function getUsersById");
   try {
-    let user = await db.User.findByPk(req.params.id, {
+    let user = await db.Users.findByPk(req.params.id, {
       attributes: { exclude: ["password"] }
     });
 
@@ -40,26 +40,26 @@ async function getUserById(req, res) {
   }
 }
 
-// async function createUser(req, res) {
-//   console.log("function registerUser");
+// async function createUsers(req, res) {
+//   console.log("function registerUsers");
 //   try {
-//     const findUserByUsername = await db.User.findOne({
+//     const findUsersByUsersname = await db.Users.findOne({
 //       where: { username: req.body.username }
 //     });
-//     if (findUserByUsername) {
+//     if (findUsersByUsersname) {
 //       throw new Error(
-//         "validationError: User with this username already exists!"
+//         "validationError: Users with this username already exists!"
 //       );
 //     }
 //
-//     const findUserByEmail = await db.User.findOne({
+//     const findUsersByEmail = await db.Users.findOne({
 //       where: { email: req.body.email }
 //     });
-//     if (findUserByEmail) {
-//       throw new Error("validationError: User with this email already exists!");
+//     if (findUsersByEmail) {
+//       throw new Error("validationError: Users with this email already exists!");
 //     }
 //
-//     const user = await db.User.findOrCreate({
+//     const user = await db.Users.findOrCreate({
 //       where: { username: req.body.username, email: req.body.email },
 //       defaults: {
 //         email: req.body.email,
@@ -76,31 +76,31 @@ async function getUserById(req, res) {
 //   }
 // }
 
-// async function updateUser(req, res) {
+// async function updateUsers(req, res) {
 //   try {
-//     const user = await db.User.findByPk(req.params.id);
+//     const user = await db.Users.findByPk(req.params.id);
 //     if (!user)
-//       throw new Error("validationError: User by this id is not found!");
+//       throw new Error("validationError: Users by this id is not found!");
 //
 //     //check username
 //     //do not let user to update his username with a username which already exists
-//     const findUserByUsername = await db.User.findOne({
+//     const findUsersByUsersname = await db.Users.findOne({
 //       where: { username: req.body.username }
 //     });
-//     if (user.username !== req.body.username && findUserByUsername) {
-//       console.log("findUserByUsername=", findUserByUsername.toJSON());
+//     if (user.username !== req.body.username && findUsersByUsersname) {
+//       console.log("findUsersByUsersname=", findUsersByUsersname.toJSON());
 //       throw new Error(
-//         "validationError: User with this username already exists!"
+//         "validationError: Users with this username already exists!"
 //       );
 //     }
 //
 //     //check email
 //     //do not let user to update his email with an email which already exists
-//     const findUserByEmail = await db.User.findOne({
+//     const findUsersByEmail = await db.Users.findOne({
 //       where: { email: req.body.email }
 //     });
-//     if (user.email !== req.body.email && findUserByEmail) {
-//       throw new Error("validationError: User with this email already exists!");
+//     if (user.email !== req.body.email && findUsersByEmail) {
+//       throw new Error("validationError: Users with this email already exists!");
 //     }
 //
 //     user.username = req.body.username;
@@ -117,12 +117,12 @@ async function getUserById(req, res) {
 //   }
 // }
 
-// async function deleteUser(req, res) {
-//   console.log("function deleteUsers");
+// async function deleteUsers(req, res) {
+//   console.log("function deleteUserss");
 //   try {
-//     const user = await db.User.findByPk(req.params.id);
+//     const user = await db.Users.findByPk(req.params.id);
 //     if (!user)
-//       throw new Error("validationError: User by this id is not found!");
+//       throw new Error("validationError: Users by this id is not found!");
 //     await user.destroy();
 //     await db.Article.destroy({
 //       where: {
@@ -139,9 +139,9 @@ async function getUserById(req, res) {
 // }
 
 module.exports = {
-  getUsers,
-  getUserById
-  // createUser,
-  // updateUser,
-  // deleteUser
+  getUserss,
+  getUsersById
+  // createUsers,
+  // updateUsers,
+  // deleteUsers
 };

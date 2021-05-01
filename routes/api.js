@@ -53,6 +53,7 @@ module.exports = app => {
   router.put("/registers/:id", registers.updateRegister);
   router.delete("/registers/:id", registers.deleteRegister);
 
+  //controller_RegistersGroups
   router.get(
     "/controller_RegistersGroups",
     controller_RegistersGroups.getController_RegistersGroups
@@ -74,6 +75,7 @@ module.exports = app => {
     controller_RegistersGroups.deleteController_RegistersGroup
   );
 
+  //registersGroups_Registers
   router.get(
     "/registersGroups_Registers",
     registersGroups_Registers.getRegistersGroups_Registers
@@ -95,6 +97,7 @@ module.exports = app => {
     registersGroups_Registers.deleteRegistersGroup_Register
   );
 
+  // registersHistory
   router.get("/registersHistory", registersHistory.getRegistersHistory);
   router.get("/registersHistory/:id", registersHistory.getRegistersHistoryById);
   router.post("/registersHistory", registersHistory.createRegistersHistory);
@@ -104,6 +107,7 @@ module.exports = app => {
     registersHistory.deleteRegistersHistory
   );
 
+  // registersHistory_full
   router.get(
     "/registersHistory_full",
     registersHistory_full.getRegistersHistory_full
@@ -125,6 +129,7 @@ module.exports = app => {
     registersHistory_full.deleteRegistersHistory_full
   );
 
+  // registers_Controllers_values
   router.get(
     "/registers_Controllers_values",
     registers_Controllers_values.getRegisters_Controllers_values
@@ -146,14 +151,15 @@ module.exports = app => {
     registers_Controllers_values.deleteRegisters_Controllers_values
   );
 
-  router.get("/users", auth.checkauth, users.getUsers);
-  router.get("/userById/:id", auth.checkauth, users.getUserById);
-  // router.post("/users", auth.checkauth, users.createUser);
-  // router.put("/users/:id", auth.checkauth, users.updateUser);
-  // router.delete("/users/:id", auth.checkauth, users.deleteUser);
+  // users
+  router.get("/users", auth.checkauth, users.getUserss);
+  router.get("/userById/:id", auth.checkauth, users.getUsersById);
+  // router.post("/users", auth.checkauth, users.createUsers);
+  // router.put("/users/:id", auth.checkauth, users.updateUsers);
+  // router.delete("/users/:id", auth.checkauth, users.deleteUsers);
 
-  // router.post("/register", auth.register);
-  // router.post("/login", auth.login);
+  router.post("/signup", auth.signup);
+  router.post("/login", auth.login);
   // router.get("/confirmation/:token", auth.emailConfirmation, auth.showHome);
 
   return router;
