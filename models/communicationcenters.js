@@ -7,27 +7,29 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         autoIncrement: false,
         primaryKey: true,
-        defaultValue: DataTypes.UUIDV4
+        defaultValue: DataTypes.UUIDV4,
       },
       name: DataTypes.STRING,
-      distance: DataTypes.STRING,
+      index: DataTypes.INTEGER,
+      lat: DataTypes.STRING,
+      len: DataTypes.STRING,
       port: DataTypes.STRING,
       host: DataTypes.STRING,
       status: DataTypes.STRING,
-      description: DataTypes.TEXT
+      description: DataTypes.TEXT,
     },
     {
       timestamps: true,
       paranoid: true,
       underscored: false,
-      tableName: "CommunicationCenters"
+      tableName: "CommunicationCenters",
     }
   );
-  CommunicationCenters.associate = function(models) {
+  CommunicationCenters.associate = function (models) {
     // associations can be defined here
     CommunicationCenters.hasOne(models.Controllers, {
       as: "controller",
-      foreignKey: "communicationCenterId"
+      foreignKey: "communicationCenterId",
     });
   };
   return CommunicationCenters;

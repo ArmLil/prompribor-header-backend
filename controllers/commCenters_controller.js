@@ -14,12 +14,12 @@ async function getCommCenters(req, res) {
 
     res.json({
       commCenters,
-      count
+      count,
     });
   } catch (error) {
     console.error(error);
     res.json({
-      errorMessage: error.message
+      errorMessage: error.message,
     });
   }
 }
@@ -29,8 +29,8 @@ async function getCommCenterById(req, res) {
   try {
     let options = {
       where: {
-        id: req.params.id
-      }
+        id: req.params.id,
+      },
     };
     if (req.query.controller && req.query.controller == "include") {
       options.include = [{ model: db.Controllers, as: "controller" }];
@@ -45,7 +45,7 @@ async function getCommCenterById(req, res) {
   } catch (error) {
     console.error(error);
     res.json({
-      errorMessage: error.message
+      errorMessage: error.message,
     });
   }
 }
@@ -65,8 +65,14 @@ async function createCommCenter(req, res) {
     if (req.body.status) {
       options.status = req.body.status;
     }
-    if (req.body.distance) {
-      options.distance = req.body.distance;
+    if (req.body.index) {
+      options.index = req.body.index;
+    }
+    if (req.body.lat) {
+      options.lat = req.body.lat;
+    }
+    if (req.body.len) {
+      options.len = req.body.len;
     }
     if (req.body.port) {
       options.port = req.body.port;
@@ -74,7 +80,7 @@ async function createCommCenter(req, res) {
     if (req.body.host) {
       //host must be unique
       let commCenter = await db.CommunicationCenters.findOne({
-        where: { host: req.body.host }
+        where: { host: req.body.host },
       });
       if (commCenter) {
         return res
@@ -85,14 +91,14 @@ async function createCommCenter(req, res) {
     }
 
     const commCenter = await db.CommunicationCenters.findOrCreate({
-      where: options
+      where: options,
     });
 
     res.json(commCenter);
   } catch (error) {
     console.error(error);
     res.json({
-      errorMessage: error.message
+      errorMessage: error.message,
     });
   }
 }
@@ -117,8 +123,14 @@ async function updateCommCenter(req, res) {
     if (req.body.status) {
       commCenter.status = req.body.status;
     }
-    if (req.body.distance) {
-      commCenter.distance = req.body.distance;
+    if (req.body.index) {
+      commCenter.index = req.body.index;
+    }
+    if (req.body.lat) {
+      commCenter.lat = req.body.lat;
+    }
+    if (req.body.len) {
+      commCenter.len = req.body.len;
     }
     if (req.body.port) {
       commCenter.port = req.body.port;
@@ -128,7 +140,7 @@ async function updateCommCenter(req, res) {
       //check host
       //do not let commCenter be updated with a host which already exists
       const findCommCenterByHost = await db.CommunicationCenters.findOne({
-        where: { host: req.body.host }
+        where: { host: req.body.host },
       });
       if (findCommCenterByHost) {
         return res
@@ -168,5 +180,5 @@ module.exports = {
   getCommCenterById,
   createCommCenter,
   updateCommCenter,
-  deleteCommCenter
+  deleteCommCenter,
 };
