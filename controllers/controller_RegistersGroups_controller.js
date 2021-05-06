@@ -13,12 +13,12 @@ async function getController_RegistersGroups(req, res) {
 
     res.json({
       controller_RegistersGroups,
-      count
+      count,
     });
   } catch (error) {
     console.error(error);
     res.json({
-      errorMessage: error.message
+      errorMessage: error.message,
     });
   }
 }
@@ -28,22 +28,22 @@ async function getController_RegistersGroupById(req, res) {
   try {
     let options = {
       where: {
-        id: req.params.id
-      }
+        id: req.params.id,
+      },
     };
-    const controller_RegistersGroup = await db.Controller_RegistersGroup.findOne(
+    const controller_RegistersGroup = await db.Controller_RegistersGroups.findOne(
       options
     );
     if (controller_RegistersGroup == null) {
       return res.status(400).send({
-        "Bad Request": "controller_RegistersGroup by this id not found"
+        "Bad Request": "controller_RegistersGroup by this id not found",
       });
     }
     res.json(controller_RegistersGroup);
   } catch (error) {
     console.error(error);
     res.json({
-      errorMessage: error.message
+      errorMessage: error.message,
     });
   }
 }
@@ -53,11 +53,15 @@ async function createController_RegistersGroup(req, res) {
   try {
     let options = {};
 
-    if (req.body.controllerId && req.body.registersGroupId) {
-      const controller = await db.Controllers.findByPk(req.body.controllerId);
+    if (req.body.controllerModbusId && req.body.registersGroupId) {
+      const controller = await db.Controllers.findOne({
+        where: {
+          modbusId: req.body.controllerModbusId,
+        },
+      });
       if (controller == null) {
         return res.status(400).send({
-          "Bad Request": `controller by id ${req.body.controllerId} not found`
+          "Bad Request": `controller by modbusId ${req.body.controllerModbusId} not found`,
         });
       }
 
@@ -66,20 +70,20 @@ async function createController_RegistersGroup(req, res) {
       );
       if (registersGroup == null) {
         return res.status(400).send({
-          "Bad Request": `registersGroup by id ${req.body.registersGroupId} not found`
+          "Bad Request": `registersGroup by id ${req.body.registersGroupId} not found`,
         });
       }
-      options.controllerId = req.body.controllerId;
+      options.controllerModbusId = req.body.controllerModbusId;
       options.registersGroupId = req.body.registersGroupId;
     } else {
       return res.status(400).send({
-        "Bad Request": ` controllerId and registersGroupId required`
+        "Bad Request": ` controllerModbusId and registersGroupId required`,
       });
     }
 
     const controller_RegistersGroup = await db.Controller_RegistersGroups.findOrCreate(
       {
-        where: options
+        where: options,
       }
     );
 
@@ -87,7 +91,7 @@ async function createController_RegistersGroup(req, res) {
   } catch (error) {
     console.error(error);
     res.json({
-      errorMessage: error.message
+      errorMessage: error.message,
     });
   }
 }
@@ -100,27 +104,31 @@ async function updateController_RegistersGroup(req, res) {
     );
     if (controller_RegistersGroup == null) {
       return res.status(400).send({
-        "Bad Request": `Controller_RegistersGroup by ${req.params.id} id not found`
+        "Bad Request": `Controller_RegistersGroup by ${req.params.id} id not found`,
       });
     }
     if (
-      req.body.controllerId == undefined &&
+      req.body.controllerModbusId == undefined &&
       req.body.controllersGroupId == undefined
     ) {
       return res.status(400).send({
-        "Bad Request": ` controllerId or registersGroupId required`
+        "Bad Request": ` controllerModbusId and registersGroupId required`,
       });
     }
-    let _controllerId = controller_RegistersGroup.controllerId;
+    let _controllerModbusId = controller_RegistersGroup.controllerModbusId;
     let _registersGroupId = controller_RegistersGroup.registersGroupId;
-    if (req.body.controllerId) {
-      const controller = await db.Controllers.findByPk(req.body.controllerId);
+    if (req.body.controllerModbusId) {
+      const controller = await db.Controllers.findOne({
+        where: {
+          modbusId: req.body.controllerModbusId,
+        },
+      });
       if (controller == null) {
         return res.status(400).send({
-          "Bad Request": `Controller by id ${req.body.controllerId} not found`
+          "Bad Request": `Controller by modbusId ${req.body.controllerModbusId} not found`,
         });
       }
-      _controllerId = req.body.controllerId;
+      _controllerModbusId = req.body.controllerModbusId;
     }
     if (req.body.registersGroupId) {
       const registersGroup = await db.RegistersGroups.findByPk(
@@ -128,7 +136,7 @@ async function updateController_RegistersGroup(req, res) {
       );
       if (registersGroup == null) {
         return res.status(400).send({
-          "Bad Request": `RegistersGroup by id ${req.body.registersGroupId} not found`
+          "Bad Request": `RegistersGroup by id ${req.body.registersGroupId} not found`,
         });
       }
       _registersGroupId = req.body.registersGroupId;
@@ -137,9 +145,9 @@ async function updateController_RegistersGroup(req, res) {
     const controller_RegistersGroup_duplicate = await db.Controller_RegistersGroups.findOne(
       {
         where: {
-          controllerId: _controllerId,
-          registersGroupId: _registersGroupId
-        }
+          controllerModbusId: _controllerModbusId,
+          registersGroupId: _registersGroupId,
+        },
       }
     );
     if (
@@ -147,10 +155,10 @@ async function updateController_RegistersGroup(req, res) {
       controller_RegistersGroup_duplicate.id !== controller_RegistersGroup.id
     ) {
       return res.status(400).send({
-        "Bad Request": `Controller_RegistersGroup already exists`
+        "Bad Request": `Controller_RegistersGroup already exists`,
       });
     }
-    controller_RegistersGroup.controllerId = _controllerId;
+    controller_RegistersGroup.controllerModbusId = _controllerModbusId;
     controller_RegistersGroup.registersGroupId = _registersGroupId;
 
     await controller_RegistersGroup.save();
@@ -169,12 +177,12 @@ async function deleteController_RegistersGroup(req, res) {
     );
     if (controller_RegistersGroup == null) {
       return res.status(400).send({
-        "Bad Request": "Controller_RegistersGroup by this id not found"
+        "Bad Request": "Controller_RegistersGroup by this id not found",
       });
     }
     await controller_RegistersGroup.destroy();
     res.json({
-      massage: `Controller_RegistersGroup with id ${controller_RegistersGroup.id} deleted`
+      massage: `Controller_RegistersGroup with id ${controller_RegistersGroup.id} deleted`,
     });
   } catch (error) {
     console.error(error);
@@ -187,5 +195,5 @@ module.exports = {
   getController_RegistersGroupById,
   createController_RegistersGroup,
   updateController_RegistersGroup,
-  deleteController_RegistersGroup
+  deleteController_RegistersGroup,
 };

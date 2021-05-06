@@ -14,12 +14,12 @@ async function getRegisters_Controllers_values(req, res) {
 
     res.json({
       registers_Controllers_values,
-      count
+      count,
     });
   } catch (error) {
     console.error(error);
     res.json({
-      errorMessage: error.message
+      errorMessage: error.message,
     });
   }
 }
@@ -29,22 +29,22 @@ async function getRegisters_Controllers_valuesById(req, res) {
   try {
     let options = {
       where: {
-        id: req.params.id
-      }
+        id: req.params.id,
+      },
     };
     const registers_Controllers_values = await db.Registers_Controllers_values.findOne(
       options
     );
     if (registers_Controllers_values == null) {
       return res.status(400).send({
-        "Bad Request": "registers_Controllers_values by this id not found"
+        "Bad Request": "registers_Controllers_values by this id not found",
       });
     }
     res.json(registers_Controllers_values);
   } catch (error) {
     console.error(error);
     res.json({
-      errorMessage: error.message
+      errorMessage: error.message,
     });
   }
 }
@@ -54,36 +54,44 @@ async function createRegisters_Controllers_values(req, res) {
   try {
     let options = {};
 
-    if (req.body.controllerId && req.body.registerId && req.body.value) {
-      const controller = await db.Controllers.findByPk(req.body.controllerId);
+    if (
+      req.body.controllerModbusId &&
+      req.body.registerAddress &&
+      req.body.value
+    ) {
+      const controller = await db.Controllers.findOne({
+        where: { modbusId: req.body.controllerModbusId },
+      });
       if (controller == null) {
         return res.status(400).send({
-          "Bad Request": `controller by id ${req.body.controllerId} not found`
+          "Bad Request": `controller by modbusId ${req.body.controllerModbusId} not found`,
         });
       }
 
-      const register = await db.Registers.findByPk(req.body.registerId);
+      const register = await db.Registers.findOne({
+        where: { address: req.body.registerAddress },
+      });
       if (register == null) {
         return res.status(400).send({
-          "Bad Request": `register by id ${req.body.registerId} not found`
+          "Bad Request": `register by address ${req.body.registerAddress} not found`,
         });
       }
 
-      options.controllerId = req.body.controllerId;
-      options.registerId = req.body.registerId;
+      options.controllerModbusId = req.body.controllerModbusId;
+      options.registerAddress = req.body.registerAddress;
       options.value = req.body.value;
     } else {
       return res.status(400).send({
-        "Bad Request": ` controllerId, registerId, value required in body`
+        "Bad Request": ` controllerModbusId, registerAddress, value required in body`,
       });
     }
 
     const _registers_Controllers_values = await db.Registers_Controllers_values.findOne(
       {
         where: {
-          controllerId: req.body.controllerId,
-          registerId: req.body.registerId
-        }
+          controllerModbusId: req.body.controllerModbusId,
+          registerAddress: req.body.registerAddress,
+        },
       }
     );
     let registers_Controllers_values = {};
@@ -98,9 +106,9 @@ async function createRegisters_Controllers_values(req, res) {
         { value: req.body.value },
         {
           where: {
-            controllerId: req.body.controllerId,
-            registerId: req.body.registerId
-          }
+            controllerModbusId: req.body.controllerModbusId,
+            registerAddress: req.body.registerAddress,
+          },
         }
       );
     }
@@ -109,7 +117,7 @@ async function createRegisters_Controllers_values(req, res) {
   } catch (error) {
     console.error(error);
     res.json({
-      errorMessage: error.message
+      errorMessage: error.message,
     });
   }
 }
@@ -122,37 +130,41 @@ async function updateRegisters_Controllers_values(req, res) {
     );
     if (registers_Controllers_values == null) {
       return res.status(400).send({
-        "Bad Request": `Registers_Controllers_values by ${req.params.id} id not found`
+        "Bad Request": `Registers_Controllers_values by ${req.params.id} id not found`,
       });
     }
     if (req.body.value == undefined) {
       return res.status(400).send({
-        "Bad Request": ` value required`
+        "Bad Request": ` value required`,
       });
     }
-    let _controllerId = registers_Controllers_values.controllerId;
-    let _registerId = registers_Controllers_values.registerId;
-    if (req.body.controllerId) {
-      const controller = await db.Controllers.findByPk(req.body.controllerId);
+    let _controllerModbusId = registers_Controllers_values.controllerModbusId;
+    let _registerAddress = registers_Controllers_values.registerAddress;
+    if (req.body.controllerModbusId) {
+      const controller = await db.Controllers.findOne({
+        where: { modbusId: req.body.controllerModbusId },
+      });
       if (controller == null) {
         return res.status(400).send({
-          "Bad Request": `Controller by id ${req.body.controllerId} not found`
+          "Bad Request": `Controller by modbusId ${req.body.controllerModbusId} not found`,
         });
       }
-      _controllerId = req.body.controllerId;
+      _controllerModbusId = req.body.controllerModbusId;
     }
-    if (req.body.registerId) {
-      const register = await db.Registers.findByPk(req.body.registerId);
+    if (req.body.registerAddress) {
+      const register = await db.Registers.findOne({
+        where: { address: req.body.registerAddress },
+      });
       if (register == null) {
         return res.status(400).send({
-          "Bad Request": `RegistersGroup by id ${req.body.registerId} not found`
+          "Bad Request": `RegistersGroup by address ${req.body.registerAddress} not found`,
         });
       }
-      _registerId = req.body.registerId;
+      _registerAddress = req.body.registerAddress;
     }
 
-    registers_Controllers_values.controllerId = _controllerId;
-    registers_Controllers_values.registerId = _registerId;
+    registers_Controllers_values.controllerModbusId = _controllerModbusId;
+    registers_Controllers_values.registerAddress = _registerAddress;
     registers_Controllers_values.value = req.body.value;
 
     await registers_Controllers_values.save();
@@ -171,12 +183,12 @@ async function deleteRegisters_Controllers_values(req, res) {
     );
     if (registers_Controllers_values == null) {
       return res.status(400).send({
-        "Bad Request": "Registers_Controllers_values by this id not found"
+        "Bad Request": "Registers_Controllers_values by this id not found",
       });
     }
     await registers_Controllers_values.destroy();
     res.json({
-      massage: `Registers_Controllers_values with id ${registers_Controllers_values.id} deleted`
+      massage: `Registers_Controllers_values with id ${registers_Controllers_values.id} deleted`,
     });
   } catch (error) {
     console.error(error);
@@ -189,5 +201,5 @@ module.exports = {
   getRegisters_Controllers_valuesById,
   createRegisters_Controllers_values,
   updateRegisters_Controllers_values,
-  deleteRegisters_Controllers_values
+  deleteRegisters_Controllers_values,
 };

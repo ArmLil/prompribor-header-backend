@@ -7,20 +7,20 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         autoIncrement: false,
         primaryKey: true,
-        defaultValue: DataTypes.UUIDV4
+        defaultValue: DataTypes.UUIDV4,
       },
-      registerId: DataTypes.UUID,
+      registerAddress: DataTypes.STRING,
       registersGroupId: DataTypes.UUID,
       isMonitored: DataTypes.BOOLEAN,
-      createHistory: DataTypes.BOOLEAN
+      createHistory: DataTypes.BOOLEAN,
     },
     {
       timestamps: true,
       paranoid: true,
       underscored: false,
-      tableName: "RegistersGroups_Registers"
+      tableName: "RegistersGroups_Registers",
     }
   );
-  RegistersGroups_Registers.associate = function(models) {};
+  RegistersGroups_Registers.associate = function (models) {};
   return RegistersGroups_Registers;
 };

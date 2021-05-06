@@ -6,36 +6,36 @@ module.exports = {
         allowNull: false,
         type: Sequelize.UUID,
         primaryKey: true,
-        autoIncrement: false
+        autoIncrement: false,
       },
-      registerId: {
-        type: Sequelize.UUID,
-        allowNull: false
+      registerAddress: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       registersGroupId: {
         type: Sequelize.UUID,
-        allowNull: false
+        allowNull: false,
       },
       isMonitored: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
       },
       createHistory: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       deletedAt: {
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable("RegistersGroups_Registers");
-  }
+  },
 };

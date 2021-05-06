@@ -14,12 +14,12 @@ async function getRegistersHistory_full(req, res) {
 
     res.json({
       registersHistory_full,
-      count
+      count,
     });
   } catch (error) {
     console.error(error);
     res.json({
-      errorMessage: error.message
+      errorMessage: error.message,
     });
   }
 }
@@ -29,22 +29,22 @@ async function getRegistersHistory_full_ById(req, res) {
   try {
     let options = {
       where: {
-        id: req.params.id
-      }
+        id: req.params.id,
+      },
     };
     const registersHistory_full = await db.RegistersHistory_full.findOne(
       options
     );
     if (registersHistory_full == null) {
       return res.status(400).send({
-        "Bad Request": "registersHistory_full by this id not found"
+        "Bad Request": "registersHistory_full by this id not found",
       });
     }
     res.json(registersHistory_full);
   } catch (error) {
     console.error(error);
     res.json({
-      errorMessage: error.message
+      errorMessage: error.message,
     });
   }
 }
@@ -54,27 +54,35 @@ async function createRegistersHistory_full(req, res) {
   try {
     let options = {};
 
-    if (req.body.controllerId && req.body.registerId && req.body.value) {
-      const controller = await db.Controllers.findByPk(req.body.controllerId);
+    if (
+      req.body.controllerModbusId &&
+      req.body.registerAddress &&
+      req.body.value
+    ) {
+      const controller = await db.Controllers.findOne({
+        where: { modbusId: req.body.controllerModbusId },
+      });
       if (controller == null) {
         return res.status(400).send({
-          "Bad Request": `controller by id ${req.body.controllerId} not found`
+          "Bad Request": `controller by modbusId ${req.body.controllerModbusId} not found`,
         });
       }
 
-      const register = await db.Registers.findByPk(req.body.registerId);
+      const register = await db.Registers.findOne({
+        where: { address: req.body.registerAddress },
+      });
       if (register == null) {
         return res.status(400).send({
-          "Bad Request": `register by id ${req.body.registerId} not found`
+          "Bad Request": `register by address ${req.body.registerAddress} not found`,
         });
       }
 
-      options.controllerId = req.body.controllerId;
-      options.registerId = req.body.registerId;
+      options.controllerModbusId = req.body.controllerModbusId;
+      options.registerAddress = req.body.registerAddress;
       options.value = req.body.value;
     } else {
       return res.status(400).send({
-        "Bad Request": ` controllerId, registerId, value required in body`
+        "Bad Request": ` controllerModbusId, registerAddress, value required in body`,
       });
     }
 
@@ -86,7 +94,7 @@ async function createRegistersHistory_full(req, res) {
   } catch (error) {
     console.error(error);
     res.json({
-      errorMessage: error.message
+      errorMessage: error.message,
     });
   }
 }
@@ -99,37 +107,41 @@ async function updateRegistersHistory_full(req, res) {
     );
     if (registersHistory_full == null) {
       return res.status(400).send({
-        "Bad Request": `RegistersHistory_full by ${req.params.id} id not found`
+        "Bad Request": `RegistersHistory_full by ${req.params.id} id not found`,
       });
     }
     if (req.body.value == undefined) {
       return res.status(400).send({
-        "Bad Request": ` value required`
+        "Bad Request": ` value required`,
       });
     }
-    let _controllerId = registersHistory_full.controllerId;
-    let _registerId = registersHistory_full.registerId;
-    if (req.body.controllerId) {
-      const controller = await db.Controllers.findByPk(req.body.controllerId);
+    let _controllerModbusId = registersHistory_full.controllerModbusId;
+    let _registerAddress = registersHistory_full.registerAddress;
+    if (req.body.controllerModbusId) {
+      const controller = await db.Controllers.findOne({
+        where: { modbusId: req.body.controllerModbusId },
+      });
       if (controller == null) {
         return res.status(400).send({
-          "Bad Request": `Controller by id ${req.body.controllerId} not found`
+          "Bad Request": `Controller by modbusId ${req.body.controllerModbusId} not found`,
         });
       }
-      _controllerId = req.body.controllerId;
+      _controllerModbusId = req.body.controllerModbusId;
     }
-    if (req.body.registerId) {
-      const register = await db.Registers.findByPk(req.body.registerId);
+    if (req.body.registerAddress) {
+      const register = await db.Registers.findOne({
+        where: { address: req.body.registerAddress },
+      });
       if (register == null) {
         return res.status(400).send({
-          "Bad Request": `RegistersGroup by id ${req.body.registerId} not found`
+          "Bad Request": `RegistersGroup by address ${req.body.registerAddress} not found`,
         });
       }
-      _registerId = req.body.registerId;
+      _registerAddress = req.body.registerAddress;
     }
 
-    registersHistory_full.controllerId = _controllerId;
-    registersHistory_full.registerId = _registerId;
+    registersHistory_full.controllerModbusId = _controllerModbusId;
+    registersHistory_full.registerAddress = _registerAddress;
     registersHistory_full.value = req.body.value;
 
     await registersHistory_full.save();
@@ -148,12 +160,12 @@ async function deleteRegistersHistory_full(req, res) {
     );
     if (registersHistory_full == null) {
       return res.status(400).send({
-        "Bad Request": "RegistersHistory_full by this id not found"
+        "Bad Request": "RegistersHistory_full by this id not found",
       });
     }
     await registersHistory_full.destroy();
     res.json({
-      massage: `RegistersHistory_full with id ${registersHistory_full.id} deleted`
+      massage: `RegistersHistory_full with id ${registersHistory_full.id} deleted`,
     });
   } catch (error) {
     console.error(error);
@@ -166,5 +178,5 @@ module.exports = {
   getRegistersHistory_full_ById,
   createRegistersHistory_full,
   updateRegistersHistory_full,
-  deleteRegistersHistory_full
+  deleteRegistersHistory_full,
 };

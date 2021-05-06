@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       as: "registers",
       through: models.RegistersGroups_Registers,
       foreignKey: "registersGroupId",
-      otherKey: "registerId"
+      otherKey: "registerAddress"
     });
   };
   return RegistersGroups;

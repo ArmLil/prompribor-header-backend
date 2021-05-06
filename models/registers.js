@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4
       },
-      addressRegister: DataTypes.STRING,
+      address: DataTypes.STRING,
       sizeRegister: DataTypes.INTEGER,
       recordable: DataTypes.BOOLEAN,
       dataType: DataTypes.STRING,
@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
   Registers.associate = function(models) {
     Registers.hasMany(models.Registers_Controllers_values, {
       as: "values",
-      foreignKey: "registerId"
+      foreignKey: "registerAddress"
     });
   };
   return Registers;

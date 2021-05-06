@@ -69,16 +69,16 @@ async function createRegister(req, res) {
   try {
     let options = {};
 
-    if (req.body.addressRegister) {
-      let registerByAddressRegister = await db.Registers.findOne({
-        where: { addressRegister: req.body.addressRegister }
+    if (req.body.address) {
+      let registerByaddress = await db.Registers.findOne({
+        where: { address: req.body.address }
       });
-      if (registerByAddressRegister) {
+      if (registerByaddress) {
         return res.status(400).send({
-          "Bad Request": `Register with addressRegister ${req.body.addressRegister} already exists.`
+          "Bad Request": `Register with address ${req.body.address} already exists.`
         });
       }
-      options.addressRegister = req.body.addressRegister;
+      options.address = req.body.address;
     }
 
     if (req.body.sizeRegister) {
@@ -121,18 +121,18 @@ async function updateRegister(req, res) {
     }
 
     if (
-      req.body.addressRegister &&
-      register.addressRegister != req.body.addressRegister
+      req.body.address &&
+      register.address != req.body.address
     ) {
-      let registerByAddressRegister = await db.Registers.findOne({
-        where: { addressRegister: req.body.addressRegister }
+      let registerByaddress = await db.Registers.findOne({
+        where: { address: req.body.address }
       });
-      if (registerByAddressRegister) {
+      if (registerByaddress) {
         return res.status(400).send({
-          "Bad Request": `Register with addressRegister ${req.body.addressRegister} already exists.`
+          "Bad Request": `Register with address ${req.body.address} already exists.`
         });
       }
-      register.addressRegister = req.body.addressRegister;
+      register.address = req.body.address;
     }
 
     if (req.body.description) {

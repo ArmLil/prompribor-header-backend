@@ -6,30 +6,30 @@ module.exports = {
         allowNull: false,
         type: Sequelize.UUID,
         primaryKey: true,
-        autoIncrement: false
+        autoIncrement: false,
       },
-      controllerId: {
-        type: Sequelize.UUID,
-        allowNull: false
+      controllerModbusId: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       registersGroupId: {
         type: Sequelize.UUID,
-        allowNull: false
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       deletedAt: {
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable("Controller_RegistersGroups");
-  }
+  },
 };

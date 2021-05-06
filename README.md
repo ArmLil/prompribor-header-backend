@@ -14,11 +14,11 @@ DB_NAME= 'conroller_header'
     another example
     $ sequelize model:create --name CommunicationCenters --attributes name:string,distance:string,port:string,host:string,status:string,description:string
 
-    $ sequelize model:create --name Registers --attributes addressRegister:string,dataType:string,sizeRegister:string,recordable:boolean,appointment:string,description:string
+    $ sequelize model:create --name Registers --attributes address:string,dataType:string,sizeRegister:string,recordable:boolean,appointment:string,description:string
 
-    $ sequelize model:create --name RegistersGroups_Registers --attributes registerId:uuid,registersGroupId:uuid,isMonitored:boolean,createHistory:boolean
+    $ sequelize model:create --name RegistersGroups_Registers --attributes registerAddress:uuid,registersGroupId:uuid,isMonitored:boolean,createHistory:boolean
 
-    $ sequelize model:create --name Registers_Controllers_values --attributes registerId:uuid,controllerId:uuid,value:string
+    $ sequelize model:create --name Registers_Controllers_values --attributes registerAddress:uuid,controllerModbusId:uuid,value:string
 
 
     create tables in db via migrations

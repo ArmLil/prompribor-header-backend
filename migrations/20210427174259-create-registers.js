@@ -6,40 +6,40 @@ module.exports = {
         allowNull: false,
         type: Sequelize.UUID,
         primaryKey: true,
-        autoIncrement: false
+        autoIncrement: false,
       },
-      addressRegister: {
-        type: Sequelize.STRING
+      address: {
+        type: Sequelize.STRING,
       },
       sizeRegister: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       recordable: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
       },
       dataType: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       appointment: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       description: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       deletedAt: {
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable("Registers");
-  }
+  },
 };

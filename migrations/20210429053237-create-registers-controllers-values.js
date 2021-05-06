@@ -6,31 +6,31 @@ module.exports = {
         allowNull: false,
         type: Sequelize.UUID,
         primaryKey: true,
-        autoIncrement: false
+        autoIncrement: false,
       },
-      registerId: {
-        type: Sequelize.UUID
+      registerAddress: {
+        type: Sequelize.STRING,
       },
-      controllerId: {
-        type: Sequelize.UUID
+      controllerModbusId: {
+        type: Sequelize.STRING,
       },
       value: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       deletedAt: {
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable("Registers_Controllers_values");
-  }
+  },
 };

@@ -7,15 +7,15 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         autoIncrement: false,
         primaryKey: true,
-        defaultValue: DataTypes.UUIDV4
+        defaultValue: DataTypes.UUIDV4,
       },
-      registerId: DataTypes.UUID,
-      controllerId: DataTypes.UUID,
-      value: DataTypes.STRING
+      registerAddress: DataTypes.STRING,
+      controllerModbusId: DataTypes.STRING,
+      value: DataTypes.STRING,
     },
     {}
   );
-  Registers_Controllers_values.associate = function(models) {
+  Registers_Controllers_values.associate = function (models) {
     // associations can be defined here
   };
   return Registers_Controllers_values;

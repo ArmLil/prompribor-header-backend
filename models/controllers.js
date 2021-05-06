@@ -33,14 +33,14 @@ module.exports = (sequelize, DataTypes) => {
     Controllers.belongsToMany(models.RegistersGroups, {
       as: "registersGroups",
       through: models.Controller_RegistersGroups,
-      foreignKey: "controllerId",
+      foreignKey: "controllerModbusId",
       otherKey: "registersGroupId"
     });
     Controllers.belongsToMany(models.Registers, {
       as: "registers",
       through: models.Registers_Controllers_values,
-      foreignKey: "controllerId",
-      otherKey: "registerId"
+      foreignKey: "controllerModbusId",
+      otherKey: "registerAddress"
     });
   };
   return Controllers;

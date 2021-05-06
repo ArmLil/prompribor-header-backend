@@ -12,12 +12,12 @@ async function getRegistersHistory(req, res) {
 
     res.json({
       registersHistory,
-      count
+      count,
     });
   } catch (error) {
     console.error(error);
     res.json({
-      errorMessage: error.message
+      errorMessage: error.message,
     });
   }
 }
@@ -27,20 +27,20 @@ async function getRegistersHistoryById(req, res) {
   try {
     let options = {
       where: {
-        id: req.params.id
-      }
+        id: req.params.id,
+      },
     };
     const registersHistory = await db.RegistersHistory.findOne(options);
     if (registersHistory == null) {
       return res.status(400).send({
-        "Bad Request": "registersHistory by this id not found"
+        "Bad Request": "registersHistory by this id not found",
       });
     }
     res.json(registersHistory);
   } catch (error) {
     console.error(error);
     res.json({
-      errorMessage: error.message
+      errorMessage: error.message,
     });
   }
 }
@@ -50,27 +50,35 @@ async function createRegistersHistory(req, res) {
   try {
     let options = {};
 
-    if (req.body.controllerId && req.body.registerId && req.body.value) {
-      const controller = await db.Controllers.findByPk(req.body.controllerId);
+    if (
+      req.body.controllerModbusId &&
+      req.body.registerAddress &&
+      req.body.value
+    ) {
+      const controller = await db.Controllers.findOne({
+        where: { modbusId: req.body.controllerModbusId },
+      });
       if (controller == null) {
         return res.status(400).send({
-          "Bad Request": `controller by id ${req.body.controllerId} not found`
+          "Bad Request": `controller by modbusId ${req.body.controllerModbusId} not found`,
         });
       }
 
-      const register = await db.Registers.findByPk(req.body.registerId);
+      const register = await db.Registers.findOne({
+        where: { address: req.body.registerAddress },
+      });
       if (register == null) {
         return res.status(400).send({
-          "Bad Request": `register by id ${req.body.registerId} not found`
+          "Bad Request": `register by address ${req.body.registerAddress} not found`,
         });
       }
 
-      options.controllerId = req.body.controllerId;
-      options.registerId = req.body.registerId;
+      options.controllerModbusId = req.body.controllerModbusId;
+      options.registerAddress = req.body.registerAddress;
       options.value = req.body.value;
     } else {
       return res.status(400).send({
-        "Bad Request": ` controllerId, registerId, value required in body`
+        "Bad Request": ` controllerModbusId, registerAddress, value required in body`,
       });
     }
 
@@ -81,7 +89,7 @@ async function createRegistersHistory(req, res) {
   } catch (error) {
     console.error(error);
     res.json({
-      errorMessage: error.message
+      errorMessage: error.message,
     });
   }
 }
@@ -92,37 +100,41 @@ async function updateRegistersHistory(req, res) {
     const registersHistory = await db.RegistersHistory.findByPk(req.params.id);
     if (registersHistory == null) {
       return res.status(400).send({
-        "Bad Request": `RegistersHistory by ${req.params.id} id not found`
+        "Bad Request": `RegistersHistory by ${req.params.id} id not found`,
       });
     }
     if (req.body.value == undefined) {
       return res.status(400).send({
-        "Bad Request": ` value required`
+        "Bad Request": ` value required`,
       });
     }
-    let _controllerId = registersHistory.controllerId;
-    let _registerId = registersHistory.registerId;
-    if (req.body.controllerId) {
-      const controller = await db.Controllers.findByPk(req.body.controllerId);
+    let _controllerModbusId = registersHistory.controllerModbusId;
+    let _registerAddress = registersHistory.registerAddress;
+    if (req.body.controllerModbusId) {
+      const controller = await db.Controllers.findOne({
+        where: { modbusId: req.body.controllerModbusId },
+      });
       if (controller == null) {
         return res.status(400).send({
-          "Bad Request": `Controller by id ${req.body.controllerId} not found`
+          "Bad Request": `Controller by modbusId ${req.body.controllerModbusId} not found`,
         });
       }
-      _controllerId = req.body.controllerId;
+      _controllerModbusId = req.body.controllerModbusId;
     }
-    if (req.body.registerId) {
-      const register = await db.Registers.findByPk(req.body.registerId);
+    if (req.body.registerAddress) {
+      const register = await db.Registers.findOne({
+        where: { address: req.body.registerAddress },
+      });
       if (register == null) {
         return res.status(400).send({
-          "Bad Request": `RegistersGroup by id ${req.body.registerId} not found`
+          "Bad Request": `RegistersGroup by address ${req.body.registerAddress} not found`,
         });
       }
-      _registerId = req.body.registerId;
+      _registerAddress = req.body.registerAddress;
     }
 
-    registersHistory.controllerId = _controllerId;
-    registersHistory.registerId = _registerId;
+    registersHistory.controllerModbusId = _controllerModbusId;
+    registersHistory.registerAddress = _registerAddress;
     registersHistory.value = req.body.value;
 
     await registersHistory.save();
@@ -139,12 +151,12 @@ async function deleteRegistersHistory(req, res) {
     const registersHistory = await db.RegistersHistory.findByPk(req.params.id);
     if (registersHistory == null) {
       return res.status(400).send({
-        "Bad Request": "RegistersHistory by this id not found"
+        "Bad Request": "RegistersHistory by this id not found",
       });
     }
     await registersHistory.destroy();
     res.json({
-      massage: `RegistersHistory with id ${registersHistory.id} deleted`
+      massage: `RegistersHistory with id ${registersHistory.id} deleted`,
     });
   } catch (error) {
     console.error(error);
@@ -157,5 +169,5 @@ module.exports = {
   getRegistersHistoryById,
   createRegistersHistory,
   updateRegistersHistory,
-  deleteRegistersHistory
+  deleteRegistersHistory,
 };
