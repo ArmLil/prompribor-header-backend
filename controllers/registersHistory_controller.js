@@ -14,10 +14,10 @@ async function getRegistersHistory(req, res) {
       registersHistory,
       count,
     });
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.json({
-      errorMessage: error.message,
+      message: err,
     });
   }
 }
@@ -33,14 +33,14 @@ async function getRegistersHistoryById(req, res) {
     const registersHistory = await db.RegistersHistory.findOne(options);
     if (registersHistory == null) {
       return res.status(400).send({
-        "Bad Request": "registersHistory by this id not found",
+        "message": "registersHistory by this id not found",
       });
     }
     res.json(registersHistory);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.json({
-      errorMessage: error.message,
+      message: err,
     });
   }
 }
@@ -60,7 +60,7 @@ async function createRegistersHistory(req, res) {
       });
       if (controller == null) {
         return res.status(400).send({
-          "Bad Request": `controller by modbusId ${req.body.controllerModbusId} not found`,
+          "message": `controller by modbusId ${req.body.controllerModbusId} not found`,
         });
       }
 
@@ -69,7 +69,7 @@ async function createRegistersHistory(req, res) {
       });
       if (register == null) {
         return res.status(400).send({
-          "Bad Request": `register by address ${req.body.registerAddress} not found`,
+          "message": `register by address ${req.body.registerAddress} not found`,
         });
       }
 
@@ -78,7 +78,7 @@ async function createRegistersHistory(req, res) {
       options.value = req.body.value;
     } else {
       return res.status(400).send({
-        "Bad Request": ` controllerModbusId, registerAddress, value required in body`,
+        "message": ` controllerModbusId, registerAddress, value required in body`,
       });
     }
 
@@ -86,10 +86,10 @@ async function createRegistersHistory(req, res) {
     await db.RegistersHistory_full.create(options);
 
     res.json(registersHistory);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.json({
-      errorMessage: error.message,
+      message: err,
     });
   }
 }
@@ -100,12 +100,12 @@ async function updateRegistersHistory(req, res) {
     const registersHistory = await db.RegistersHistory.findByPk(req.params.id);
     if (registersHistory == null) {
       return res.status(400).send({
-        "Bad Request": `RegistersHistory by ${req.params.id} id not found`,
+        "message": `RegistersHistory by ${req.params.id} id not found`,
       });
     }
     if (req.body.value == undefined) {
       return res.status(400).send({
-        "Bad Request": ` value required`,
+        "message": ` value required`,
       });
     }
     let _controllerModbusId = registersHistory.controllerModbusId;
@@ -116,7 +116,7 @@ async function updateRegistersHistory(req, res) {
       });
       if (controller == null) {
         return res.status(400).send({
-          "Bad Request": `Controller by modbusId ${req.body.controllerModbusId} not found`,
+          "message": `Controller by modbusId ${req.body.controllerModbusId} not found`,
         });
       }
       _controllerModbusId = req.body.controllerModbusId;
@@ -127,7 +127,7 @@ async function updateRegistersHistory(req, res) {
       });
       if (register == null) {
         return res.status(400).send({
-          "Bad Request": `RegistersGroup by address ${req.body.registerAddress} not found`,
+          "message": `RegistersGroup by address ${req.body.registerAddress} not found`,
         });
       }
       _registerAddress = req.body.registerAddress;
@@ -141,7 +141,7 @@ async function updateRegistersHistory(req, res) {
     res.json(registersHistory);
   } catch (err) {
     console.error(err);
-    res.json({ errorMessage: err.message });
+    res.json({ message: err });
   }
 }
 
@@ -151,16 +151,16 @@ async function deleteRegistersHistory(req, res) {
     const registersHistory = await db.RegistersHistory.findByPk(req.params.id);
     if (registersHistory == null) {
       return res.status(400).send({
-        "Bad Request": "RegistersHistory by this id not found",
+        "message": "RegistersHistory by this id not found",
       });
     }
     await registersHistory.destroy();
     res.json({
       massage: `RegistersHistory with id ${registersHistory.id} deleted`,
     });
-  } catch (error) {
-    console.error(error);
-    res.json({ errorMessage: error.message });
+  } catch (err) {
+    console.error(err);
+    res.json({ message: err });
   }
 }
 

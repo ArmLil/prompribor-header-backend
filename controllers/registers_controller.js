@@ -5,29 +5,17 @@ let db = require("../models");
 async function getRegisters(req, res) {
   console.log("function getRegisters");
   try {
-    let options = {};
-    // if (req.query.commCenter && req.query.commCenter == "include") {
-    //   options.include = [{ model: db.CommunicationCenters, as: "commCenter" }];
-    // }
-
-    let registers = await db.Registers.findAndCountAll({
-      include: [
-        {
-          model: db.Registers_Controllers_values,
-          as: "values"
-        }
-      ]
-    });
+    let registers = await db.Registers.findAndCountAll();
     let count = registers.count;
 
     res.json({
       registers,
-      count
+      count,
     });
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.json({
-      errorMessage: error.message
+      message: err,
     });
   }
 }
@@ -37,29 +25,20 @@ async function getRegisterById(req, res) {
   try {
     let options = {
       where: {
-        id: req.params.id
-      }
-      // include: [
-      //   {
-      //     model: db.Registers_Controllers_values,
-      //     as: "values"
-      //   }
-      // ]
+        address: req.params.id,
+      },
     };
-    // if (req.query.commCenter && req.query.commCenter == "include") {
-    //   options.include = [{ model: db.CommunicationCenters, as: "commCenter" }];
-    // }
     const register = await db.Registers.findOne(options);
     if (register == null) {
       return res
         .status(400)
-        .send({ "Bad Request": "Register by this id not found" });
+        .send({ message: `Register by address ${req.params.id} not found` });
     }
     res.json(register);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.json({
-      errorMessage: error.message
+      message: err,
     });
   }
 }
@@ -69,17 +48,7 @@ async function createRegister(req, res) {
   try {
     let options = {};
 
-    if (req.body.address) {
-      let registerByaddress = await db.Registers.findOne({
-        where: { address: req.body.address }
-      });
-      if (registerByaddress) {
-        return res.status(400).send({
-          "Bad Request": `Register with address ${req.body.address} already exists.`
-        });
-      }
-      options.address = req.body.address;
-    }
+    options.address = req.body.address;
 
     if (req.body.sizeRegister) {
       options.sizeRegister = req.body.sizeRegister;
@@ -98,14 +67,14 @@ async function createRegister(req, res) {
     }
 
     const register = await db.Registers.findOrCreate({
-      where: options
+      where: options,
     });
 
     res.json(register);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.json({
-      errorMessage: error.message
+      message: err,
     });
   }
 }
@@ -117,24 +86,23 @@ async function updateRegister(req, res) {
     if (register == null) {
       return res
         .status(400)
-        .send({ "Bad Request": "Register by this id not found" });
+        .send({ message: `Register by id ${req.params.id} not found` });
     }
-
-    if (
-      req.body.address &&
-      register.address != req.body.address
-    ) {
-      let registerByaddress = await db.Registers.findOne({
-        where: { address: req.body.address }
-      });
-      if (registerByaddress) {
-        return res.status(400).send({
-          "Bad Request": `Register with address ${req.body.address} already exists.`
-        });
-      }
+    if (req.body.sizeRegister) {
+      options.sizeRegister = req.body.sizeRegister;
+    }
+    if (req.body.recordable) {
+      options.recordable = req.body.recordable;
+    }
+    if (req.body.dataType) {
+      options.dataType = req.body.dataType;
+    }
+    if (req.body.appointment) {
+      options.appointment = req.body.appointment;
+    }
+    if (req.body.address) {
       register.address = req.body.address;
     }
-
     if (req.body.description) {
       register.description = req.body.description;
     }
@@ -143,7 +111,7 @@ async function updateRegister(req, res) {
     res.json(register);
   } catch (err) {
     console.error(err);
-    res.json({ errorMessage: err.message });
+    res.json({ message: err });
   }
 }
 
@@ -154,15 +122,15 @@ async function deleteRegister(req, res) {
     if (register == null) {
       return res
         .status(400)
-        .send({ "Bad Request": "Register by this id not found" });
+        .send({ message: `Register by address ${req.params.id} not found` });
     }
     await register.destroy();
     res.json({
-      massage: `register with id ${register.id} deleted`
+      massage: `register with id ${register.id} deleted`,
     });
-  } catch (error) {
-    console.error(error);
-    res.json({ errorMessage: error.message });
+  } catch (err) {
+    console.error(err);
+    res.json({ message: err });
   }
 }
 
@@ -171,5 +139,5 @@ module.exports = {
   getRegisterById,
   createRegister,
   updateRegister,
-  deleteRegister
+  deleteRegister,
 };

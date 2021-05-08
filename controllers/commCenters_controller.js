@@ -16,10 +16,10 @@ async function getCommCenters(req, res) {
       commCenters,
       count,
     });
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.json({
-      errorMessage: error.message,
+      message: err,
     });
   }
 }
@@ -29,23 +29,22 @@ async function getCommCenterById(req, res) {
   try {
     let options = {
       where: {
-        id: req.params.id,
+        path: req.params.id,
       },
+      include: [{ model: db.Controllers, as: "controller" }],
     };
-    if (req.query.controller && req.query.controller == "include") {
-      options.include = [{ model: db.Controllers, as: "controller" }];
-    }
+
     let commCenter = await db.CommunicationCenters.findOne(options);
     if (commCenter == null) {
       return res
         .status(400)
-        .send({ "Bad Request": "CommunicationCenter with this id not found" });
+        .send({ message: "CommunicationCenter with this id not found" });
     }
     res.json(commCenter);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.json({
-      errorMessage: error.message,
+      message: err,
     });
   }
 }
@@ -54,11 +53,23 @@ async function createCommCenter(req, res) {
   console.log("function CommCenter");
   try {
     let options = {};
+
+    options.path = req.body.path;
+
     if (req.body.name) {
+      let commCenter = await db.CommunicationCenters.findOne({
+        where: { name: req.body.name },
+      });
+      if (commCenter) {
+        return res
+          .status(400)
+          .send({ message: `Name ${req.body.name} already exists.` });
+      }
       options.name = req.body.name;
     } else {
-      return res.status(400).send({ "Bad Request": "name required" });
+      return res.status(400).send({ message: "name required" });
     }
+
     if (req.body.description) {
       options.description = req.body.description;
     }
@@ -85,7 +96,7 @@ async function createCommCenter(req, res) {
       if (commCenter) {
         return res
           .status(400)
-          .send({ "Bad Request": `Host ${req.body.host} already exists.` });
+          .send({ message: `Host ${req.body.host} already exists.` });
       }
       options.host = req.body.host;
     }
@@ -95,11 +106,9 @@ async function createCommCenter(req, res) {
     });
 
     res.json(commCenter);
-  } catch (error) {
-    console.error(error);
-    res.json({
-      errorMessage: error.message,
-    });
+  } catch (err) {
+    console.error(JSON.stringify(err));
+    res.json({ message: err });
   }
 }
 
@@ -110,9 +119,12 @@ async function updateCommCenter(req, res) {
     if (commCenter == null) {
       return res
         .status(400)
-        .send({ "Bad Request": "CommunicationCenter by this id not found" });
+        .send({ message: "CommunicationCenter by this id not found" });
     }
 
+    if (req.body.path) {
+      commCenter.path = req.body.path;
+    }
     if (req.body.name) {
       commCenter.name = req.body.name;
     }
@@ -145,7 +157,7 @@ async function updateCommCenter(req, res) {
       if (findCommCenterByHost) {
         return res
           .status(400)
-          .send({ "Bad Request": `Host ${req.body.host} already exists.` });
+          .send({ message: `Host ${req.body.host} already exists.` });
       }
       commCenter.host = req.body.host;
     }
@@ -154,7 +166,7 @@ async function updateCommCenter(req, res) {
     res.json(commCenter);
   } catch (err) {
     console.error(err);
-    res.json({ errorMessage: err.message });
+    res.json({ message: err });
   }
 }
 
@@ -165,13 +177,13 @@ async function deleteCommCenter(req, res) {
     if (commCenter == null) {
       return res
         .status(400)
-        .send({ "Bad Request": "CommunicationCenter by this id not found" });
+        .send({ message: "CommunicationCenter by this id not found" });
     }
     await commCenter.destroy();
-    res.json({ massage: `commCenter with id ${commCenter.id} deleted` });
-  } catch (error) {
-    console.error(error);
-    res.json({ errorMessage: error.message });
+    res.json({ massage: `commCenter with id ${commCenter.path} deleted` });
+  } catch (err) {
+    console.error(err);
+    res.json({ message: err });
   }
 }
 

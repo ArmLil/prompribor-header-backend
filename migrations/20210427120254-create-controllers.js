@@ -2,20 +2,16 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable("Controllers", {
-      id: {
+      modbusId: {
         allowNull: false,
-        type: Sequelize.UUID,
+        type: Sequelize.STRING,
         primaryKey: true,
-        autoIncrement: false,
       },
       name: {
         type: Sequelize.STRING,
       },
-      modbusId: {
+      commCenterPath: {
         type: Sequelize.STRING,
-      },
-      communicationCenterId: {
-        type: Sequelize.UUID,
       },
       description: {
         type: Sequelize.TEXT,

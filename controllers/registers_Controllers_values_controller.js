@@ -16,10 +16,10 @@ async function getRegisters_Controllers_values(req, res) {
       registers_Controllers_values,
       count,
     });
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.json({
-      errorMessage: error.message,
+      message: err,
     });
   }
 }
@@ -37,14 +37,14 @@ async function getRegisters_Controllers_valuesById(req, res) {
     );
     if (registers_Controllers_values == null) {
       return res.status(400).send({
-        "Bad Request": "registers_Controllers_values by this id not found",
+        "message": "registers_Controllers_values by this id not found",
       });
     }
     res.json(registers_Controllers_values);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.json({
-      errorMessage: error.message,
+      message: err,
     });
   }
 }
@@ -64,7 +64,7 @@ async function createRegisters_Controllers_values(req, res) {
       });
       if (controller == null) {
         return res.status(400).send({
-          "Bad Request": `controller by modbusId ${req.body.controllerModbusId} not found`,
+          "message": `controller by modbusId ${req.body.controllerModbusId} not found`,
         });
       }
 
@@ -73,7 +73,7 @@ async function createRegisters_Controllers_values(req, res) {
       });
       if (register == null) {
         return res.status(400).send({
-          "Bad Request": `register by address ${req.body.registerAddress} not found`,
+          "message": `register by address ${req.body.registerAddress} not found`,
         });
       }
 
@@ -82,7 +82,7 @@ async function createRegisters_Controllers_values(req, res) {
       options.value = req.body.value;
     } else {
       return res.status(400).send({
-        "Bad Request": ` controllerModbusId, registerAddress, value required in body`,
+        "message": ` controllerModbusId, registerAddress, value required in body`,
       });
     }
 
@@ -114,10 +114,10 @@ async function createRegisters_Controllers_values(req, res) {
     }
 
     res.json(registers_Controllers_values);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.json({
-      errorMessage: error.message,
+      message: err,
     });
   }
 }
@@ -130,12 +130,12 @@ async function updateRegisters_Controllers_values(req, res) {
     );
     if (registers_Controllers_values == null) {
       return res.status(400).send({
-        "Bad Request": `Registers_Controllers_values by ${req.params.id} id not found`,
+        "message": `Registers_Controllers_values by ${req.params.id} id not found`,
       });
     }
     if (req.body.value == undefined) {
       return res.status(400).send({
-        "Bad Request": ` value required`,
+        "message": ` value required`,
       });
     }
     let _controllerModbusId = registers_Controllers_values.controllerModbusId;
@@ -146,7 +146,7 @@ async function updateRegisters_Controllers_values(req, res) {
       });
       if (controller == null) {
         return res.status(400).send({
-          "Bad Request": `Controller by modbusId ${req.body.controllerModbusId} not found`,
+          "message": `Controller by modbusId ${req.body.controllerModbusId} not found`,
         });
       }
       _controllerModbusId = req.body.controllerModbusId;
@@ -157,7 +157,7 @@ async function updateRegisters_Controllers_values(req, res) {
       });
       if (register == null) {
         return res.status(400).send({
-          "Bad Request": `RegistersGroup by address ${req.body.registerAddress} not found`,
+          "message": `RegistersGroup by address ${req.body.registerAddress} not found`,
         });
       }
       _registerAddress = req.body.registerAddress;
@@ -171,7 +171,7 @@ async function updateRegisters_Controllers_values(req, res) {
     res.json(registers_Controllers_values);
   } catch (err) {
     console.error(err);
-    res.json({ errorMessage: err.message });
+    res.json({ message: err });
   }
 }
 
@@ -183,16 +183,16 @@ async function deleteRegisters_Controllers_values(req, res) {
     );
     if (registers_Controllers_values == null) {
       return res.status(400).send({
-        "Bad Request": "Registers_Controllers_values by this id not found",
+        "message": "Registers_Controllers_values by this id not found",
       });
     }
     await registers_Controllers_values.destroy();
     res.json({
       massage: `Registers_Controllers_values with id ${registers_Controllers_values.id} deleted`,
     });
-  } catch (error) {
-    console.error(error);
-    res.json({ errorMessage: error.message });
+  } catch (err) {
+    console.error(err);
+    res.json({ message: err });
   }
 }
 

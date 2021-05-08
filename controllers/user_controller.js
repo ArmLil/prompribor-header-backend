@@ -16,10 +16,10 @@ async function getUserss(req, res) {
       users: users,
       count: users.count
     });
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.json({
-      errorMessage: error.message
+      message: err
     });
   }
 }
@@ -32,10 +32,10 @@ async function getUsersById(req, res) {
     });
 
     res.json({ user });
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.json({
-      errorMessage: error.message
+      message: err
     });
   }
 }
@@ -68,10 +68,10 @@ async function getUsersById(req, res) {
 //     });
 //
 //     res.json({ user });
-//   } catch (error) {
-//     console.error(error);
+//   } catch (err) {
+//     console.error(err);
 //     res.json({
-//       errorMessage: error.message
+//       message: err
 //     });
 //   }
 // }
@@ -113,7 +113,7 @@ async function getUsersById(req, res) {
 //     res.json({ user });
 //   } catch (err) {
 //     console.error(err);
-//     res.json({ errorMessage: err.message });
+//     res.json({ message: err });
 //   }
 // }
 
@@ -132,9 +132,9 @@ async function getUsersById(req, res) {
 //     res.json({
 //       massage: `user ${user.username}, ${user.email}, ${user.id} is deleted`
 //     });
-//   } catch (error) {
-//     console.error(error);
-//     res.json({ errorMessage: error.message });
+//   } catch (err) {
+//     console.error(err);
+//     res.json({ message: err });
 //   }
 // }
 

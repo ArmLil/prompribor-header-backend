@@ -3,44 +3,41 @@ module.exports = (sequelize, DataTypes) => {
   const Controllers = sequelize.define(
     "Controllers",
     {
-      id: {
-        type: DataTypes.UUID,
-        autoIncrement: false,
+      modbusId: {
+        type: DataTypes.STRING,
         primaryKey: true,
-        defaultValue: DataTypes.UUIDV4
       },
       name: DataTypes.STRING,
-      modbusId: DataTypes.STRING,
       description: DataTypes.TEXT,
-      communicationCenterId: {
-        type: DataTypes.UUID
-      }
+      commCenterPath: {
+        type: DataTypes.STRING,
+      },
     },
     {
       timestamps: true,
       paranoid: true,
       underscored: false,
-      tableName: "Controllers"
+      tableName: "Controllers",
     }
   );
-  Controllers.associate = function(models) {
+  Controllers.associate = function (models) {
     // associations can be defined here
     Controllers.belongsTo(models.CommunicationCenters, {
       as: "commCenter",
-      targetKey: "id",
-      foreignKey: "communicationCenterId"
+      targetKey: "path",
+      foreignKey: "commCenterPath",
     });
     Controllers.belongsToMany(models.RegistersGroups, {
       as: "registersGroups",
       through: models.Controller_RegistersGroups,
       foreignKey: "controllerModbusId",
-      otherKey: "registersGroupId"
+      otherKey: "registersGroupId",
     });
     Controllers.belongsToMany(models.Registers, {
       as: "registers",
       through: models.Registers_Controllers_values,
       foreignKey: "controllerModbusId",
-      otherKey: "registerAddress"
+      otherKey: "registerAddress",
     });
   };
   return Controllers;

@@ -16,10 +16,10 @@ async function getRegistersGroups(req, res) {
       registersGroups,
       count
     });
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.json({
-      errorMessage: error.message
+      message: err
     });
   }
 }
@@ -39,13 +39,13 @@ async function getRegistersGroupById(req, res) {
     if (registersGroup == null) {
       return res
         .status(400)
-        .send({ "Bad Request": "RegistersGroup by this id not found" });
+        .send({ "message": "RegistersGroup by this id not found" });
     }
     res.json(registersGroup);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.json({
-      errorMessage: error.message
+      message: err
     });
   }
 }
@@ -61,13 +61,13 @@ async function createRegistersGroup(req, res) {
       });
       if (registersGroupByName) {
         return res.status(400).send({
-          "Bad Request": `RegistersGroup with name ${req.body.name} already exists.`
+          "message": `RegistersGroup with name ${req.body.name} already exists.`
         });
       }
       options.name = req.body.name;
     } else {
       return res.status(400).send({
-        "Bad Request": ` name  required`
+        "message": ` name  required`
       });
     }
 
@@ -80,10 +80,10 @@ async function createRegistersGroup(req, res) {
     });
 
     res.json(registersGroup);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.json({
-      errorMessage: error.message
+      message: err
     });
   }
 }
@@ -95,7 +95,7 @@ async function updateRegistersGroup(req, res) {
     if (registersGroup == null) {
       return res
         .status(400)
-        .send({ "Bad Request": "RegistersGroup by this id not found" });
+        .send({ "message": "RegistersGroup by this id not found" });
     }
 
     if (req.body.name && registersGroup.name != req.body.name) {
@@ -104,7 +104,7 @@ async function updateRegistersGroup(req, res) {
       });
       if (registersGroupByName) {
         return res.status(400).send({
-          "Bad Request": `RegistersGroup with name ${req.body.name} already exists.`
+          "message": `RegistersGroup with name ${req.body.name} already exists.`
         });
       }
       registersGroup.name = req.body.name;
@@ -118,7 +118,7 @@ async function updateRegistersGroup(req, res) {
     res.json(registersGroup);
   } catch (err) {
     console.error(err);
-    res.json({ errorMessage: err.message });
+    res.json({ message: err });
   }
 }
 
@@ -129,15 +129,15 @@ async function deleteRegistersGroup(req, res) {
     if (registersGroup == null) {
       return res
         .status(400)
-        .send({ "Bad Request": "RegistersGroup by this id not found" });
+        .send({ "message": "RegistersGroup by this id not found" });
     }
     await registersGroup.destroy();
     res.json({
       massage: `registersGroup with id ${registersGroup.id} deleted`
     });
-  } catch (error) {
-    console.error(error);
-    res.json({ errorMessage: error.message });
+  } catch (err) {
+    console.error(err);
+    res.json({ message: err });
   }
 }
 

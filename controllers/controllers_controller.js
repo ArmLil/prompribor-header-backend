@@ -13,11 +13,11 @@ async function getControllers(req, res) {
       if (options.include) {
         options.include.push({
           model: db.RegistersGroups,
-          as: "registersGroups"
+          as: "registersGroups",
         });
       } else {
         options.include = [
-          { model: db.RegistersGroups, as: "registersGroups" }
+          { model: db.RegistersGroups, as: "registersGroups" },
         ];
       }
     }
@@ -26,12 +26,12 @@ async function getControllers(req, res) {
 
     res.json({
       controllers,
-      count
+      count,
     });
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.json({
-      errorMessage: error.message
+      message: err,
     });
   }
 }
@@ -41,8 +41,8 @@ async function getControllerById(req, res) {
   try {
     let options = {
       where: {
-        id: req.params.id
-      }
+        modbusId: req.params.id,
+      },
     };
     if (req.query.commCenter && req.query.commCenter == "include") {
       options.include = [{ model: db.CommunicationCenters, as: "commCenter" }];
@@ -51,11 +51,11 @@ async function getControllerById(req, res) {
       if (options.include) {
         options.include.push({
           model: db.RegistersGroups,
-          as: "registersGroups"
+          as: "registersGroups",
         });
       } else {
         options.include = [
-          { model: db.RegistersGroups, as: "registersGroups" }
+          { model: db.RegistersGroups, as: "registersGroups" },
         ];
       }
     }
@@ -63,28 +63,37 @@ async function getControllerById(req, res) {
     if (controller == null) {
       return res
         .status(400)
-        .send({ "Bad Request": "Controller by this id not found" });
+        .send({ message: "Controller by this id not found" });
     }
     res.json(controller);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.json({
-      errorMessage: error.message
+      message: err,
     });
   }
 }
 
-async function getRegGroupsRegisters(req, res) {
-  console.log("function getRegGroupsRegisters");
+async function getRegGroupsRegistersValues(req, res) {
+  console.log("function getRegGroupsRegistersValues", req.params);
   try {
+    const _controller = await db.Controllers.findOne({
+      where: { commCenterPath: req.params.commCenterPath },
+    });
+    if (_controller == null) {
+      return res.status(400).send({
+        message: `Controller by commCenterPath ${req.params.commCenterPath} not found`,
+      });
+    }
+    // console.log({ _controller });
+
     let options = {
       where: {
-        id: req.params.id
-      }
+        commCenterPath: req.params.commCenterPath,
+      },
+      include: [{ model: db.CommunicationCenters, as: "commCenter" }],
     };
-    if (req.query.commCenter && req.query.commCenter == "include") {
-      options.include = [{ model: db.CommunicationCenters, as: "commCenter" }];
-    }
+
     let addOption = {
       model: db.RegistersGroups,
       as: "registersGroups",
@@ -92,33 +101,30 @@ async function getRegGroupsRegisters(req, res) {
         {
           model: db.Registers,
           as: "registers",
-          include: [
-            {
-              where: { controllerModbusId: req.params.id },
-              model: db.Registers_Controllers_values,
-              as: "values"
-            }
-          ]
-        }
-      ]
+          // include: [
+          //   {
+          //     model: db.Registers_Controllers_values,
+          //     as: "values",
+          //     where: { controllerModbusId: _controller.modbusId },
+          //   },
+          // ],
+        },
+      ],
     };
-    if (options.include) {
-      options.include.push(addOption);
-    } else {
-      options.include = [addOption];
-    }
+
+    options.include.push(addOption);
 
     const controller = await db.Controllers.findOne(options);
     if (controller == null) {
       return res
         .status(400)
-        .send({ "Bad Request": "Controller by this id not found" });
+        .send({ message: "Controller by this param not found" });
     }
     res.json(controller);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.json({
-      errorMessage: error.message
+      message: err.message,
     });
   }
 }
@@ -130,54 +136,44 @@ async function createController(req, res) {
     if (req.body.name) {
       options.name = req.body.name;
     } else {
-      return res.status(400).send({ "Bad Request": "name required" });
+      return res.status(400).send({ message: "name required" });
     }
 
-    if (req.body.modbusId) {
-      let controllerByModbusId = await db.Controllers.findOne({
-        where: { modbusId: req.body.modbusId }
-      });
-      if (controllerByModbusId) {
-        return res.status(400).send({
-          "Bad Request": `Controller with modbusId ${req.body.modbusId} already exists.`
-        });
-      }
-      options.modbusId = req.body.modbusId;
-    }
+    options.modbusId = req.body.modbusId;
 
     if (req.body.description) {
       options.description = req.body.description;
     }
 
-    if (req.body.communicationCenterId) {
+    if (req.body.commCenterPath) {
       let controller = await db.Controllers.findOne({
-        where: { communicationCenterId: req.body.communicationCenterId }
+        where: { commCenterPath: req.body.commCenterPath },
       });
       if (controller) {
         return res.status(400).send({
-          "Bad Request": `CommCenter with id ${req.body.communicationCenterId} connected with another controller.`
+          message: `CommCenter with path ${req.body.commCenterPath} connected with another controller.`,
         });
       }
-      let commCenterByComCenterId = await db.CommunicationCenters.findOne({
-        where: { id: req.body.communicationCenterId }
+      let commCenterByPath = await db.CommunicationCenters.findOne({
+        where: { path: req.body.commCenterPath },
       });
-      if (commCenterByComCenterId == null) {
+      if (commCenterByPath == null) {
         return res.status(400).send({
-          "Bad Request": `CommCenter with id ${req.body.communicationCenterId} not found.`
+          message: `CommCenter with path ${req.body.commCenterPath} not found.`,
         });
       }
-      options.communicationCenterId = req.body.communicationCenterId;
+      options.commCenterPath = req.body.commCenterPath;
     }
 
     const controller = await db.Controllers.findOrCreate({
-      where: options
+      where: options,
     });
 
     res.json(controller);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.json({
-      errorMessage: error.message
+      message: err,
     });
   }
 }
@@ -189,7 +185,7 @@ async function updateController(req, res) {
     if (controller == null) {
       return res
         .status(400)
-        .send({ "Bad Request": "Controller by this id not found" });
+        .send({ message: "Controller by this id not found" });
     }
 
     if (req.body.name) {
@@ -197,14 +193,6 @@ async function updateController(req, res) {
     }
 
     if (req.body.modbusId && controller.modbusId != req.body.modbusId) {
-      let controllerByModbusId = await db.Controllers.findOne({
-        where: { modbusId: req.body.modbusId }
-      });
-      if (controllerByModbusId) {
-        return res.status(400).send({
-          "Bad Request": `Controller with modbusId ${req.body.modbusId} already exists.`
-        });
-      }
       controller.modbusId = req.body.modbusId;
     }
 
@@ -213,33 +201,33 @@ async function updateController(req, res) {
     }
 
     if (
-      req.body.communicationCenterId &&
-      controller.communicationCenterId != req.body.communicationCenterId
+      req.body.commCenterPath &&
+      controller.commCenterPath != req.body.commCenterPath
     ) {
       let controllerByComCenterId = await db.Controllers.findOne({
-        where: { communicationCenterId: req.body.communicationCenterId }
+        where: { commCenterPath: req.body.commCenterPath },
       });
       if (controllerByComCenterId) {
         return res.status(400).send({
-          "Bad Request": `CommCenter with id ${req.body.communicationCenterId} connected with another controller.`
+          message: `CommCenter with id ${req.body.commCenterPath} connected with another controller.`,
         });
       }
-      let commCenterByComCenterId = await db.CommunicationCenters.findOne({
-        where: { id: req.body.communicationCenterId }
+      let commCenterByComCenterPath = await db.CommunicationCenters.findOne({
+        where: { path: req.body.commCenterPath },
       });
       if (commCenterByComCenterId == null) {
         return res.status(400).send({
-          "Bad Request": `CommCenter with id ${req.body.communicationCenterId} not found.`
+          message: `CommCenter with id ${req.body.commCenterPath} not found.`,
         });
       }
-      controller.communicationCenterId = req.body.communicationCenterId;
+      controller.commCenterPath = req.body.commCenterPath;
     }
 
     await controller.save();
     res.json(controller);
   } catch (err) {
     console.error(err);
-    res.json({ errorMessage: err.message });
+    res.json({ message: err });
   }
 }
 
@@ -250,21 +238,21 @@ async function deleteController(req, res) {
     if (controller == null) {
       return res
         .status(400)
-        .send({ "Bad Request": "Controller by this id not found" });
+        .send({ message: `Controller by id ${req.params.id} not found` });
     }
     await controller.destroy();
-    res.json({ massage: `controller with id ${controller.id} deleted` });
-  } catch (error) {
-    console.error(error);
-    res.json({ errorMessage: error.message });
+    res.json({ massage: `controller with id ${controller.path} deleted` });
+  } catch (err) {
+    console.error(err);
+    res.json({ message: err });
   }
 }
 
 module.exports = {
   getControllers,
   getControllerById,
-  getRegGroupsRegisters,
+  getRegGroupsRegistersValues,
   createController,
   updateController,
-  deleteController
+  deleteController,
 };

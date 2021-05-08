@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = app => {
+module.exports = (app) => {
   const express = require("express");
   const router = require("express").Router();
   const commCenters = require("../controllers/commCenters_controller");
@@ -15,26 +15,23 @@ module.exports = app => {
   const users = require("../controllers/user_controller");
   const auth = require("../controllers/auth_controller");
 
-  router.get("/", function(req, res) {
+  router.get("/", function (req, res) {
     res.json({
-      message: "RESTapi service"
+      message: "RESTapi service",
     });
   });
 
-  // if query ?controller=include then will get with controller
   router.get("/commCenters", commCenters.getCommCenters);
   router.get("/commCenters/:id", commCenters.getCommCenterById);
   router.post("/commCenters", commCenters.createCommCenter);
   router.put("/commCenters/:id", commCenters.updateCommCenter);
   router.delete("/commCenters/:id", commCenters.deleteCommCenter);
 
-  // if query ?commCenter=include then will get with commCenter
-  // if query ?registersGroups=include then will get with registersGroups
   router.get("/controllers", controllers.getControllers);
   router.get("/controllers/:id", controllers.getControllerById);
   router.get(
-    "/controllers/getRegGroupsRegisters/:id",
-    controllers.getRegGroupsRegisters
+    "/controllers/getRegGroupsRegistersValues/:commCenterPath",
+    controllers.getRegGroupsRegistersValues
   );
   router.post("/controllers", controllers.createController);
   router.put("/controllers/:id", controllers.updateController);

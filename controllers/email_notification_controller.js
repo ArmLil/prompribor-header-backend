@@ -47,7 +47,7 @@ module.exports = function emailSender(user, host, token, cb) {
 
   transporter.sendMail(mailOptions, function(err, info) {
     if (err) {
-      return cb({ errorMessage: err.message });
+      return cb({ message: err });
     } else {
       console.log("info = ", info);
       return cb({

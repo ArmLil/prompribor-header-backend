@@ -3,11 +3,9 @@ module.exports = (sequelize, DataTypes) => {
   const CommunicationCenters = sequelize.define(
     "CommunicationCenters",
     {
-      id: {
-        type: DataTypes.UUID,
-        autoIncrement: false,
+      path: {
+        type: DataTypes.STRING,
         primaryKey: true,
-        defaultValue: DataTypes.UUIDV4,
       },
       name: DataTypes.STRING,
       index: DataTypes.INTEGER,
@@ -29,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     CommunicationCenters.hasOne(models.Controllers, {
       as: "controller",
-      foreignKey: "communicationCenterId",
+      foreignKey: "commCenterPath",
     });
   };
   return CommunicationCenters;

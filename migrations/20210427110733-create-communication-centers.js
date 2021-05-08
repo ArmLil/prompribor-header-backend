@@ -2,11 +2,10 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable("CommunicationCenters", {
-      id: {
+      path: {
         allowNull: false,
-        type: Sequelize.UUID,
+        type: Sequelize.STRING,
         primaryKey: true,
-        autoIncrement: false,
       },
       name: {
         type: Sequelize.STRING,

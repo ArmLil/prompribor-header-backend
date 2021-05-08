@@ -7,25 +7,31 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         autoIncrement: false,
         primaryKey: true,
-        defaultValue: DataTypes.UUIDV4
+        defaultValue: DataTypes.UUIDV4,
       },
       name: DataTypes.STRING,
-      description: DataTypes.TEXT
+      description: DataTypes.TEXT,
     },
     {
       timestamps: true,
       paranoid: true,
       underscored: false,
-      tableName: "RegistersGroups"
+      tableName: "RegistersGroups",
     }
   );
-  RegistersGroups.associate = function(models) {
+  RegistersGroups.associate = function (models) {
     RegistersGroups.belongsToMany(models.Registers, {
       as: "registers",
       through: models.RegistersGroups_Registers,
       foreignKey: "registersGroupId",
-      otherKey: "registerAddress"
+      otherKey: "registerAddress",
     });
+    // Controllers.belongsToMany(models.RegistersGroups, {
+    //   as: "registersGroups",
+    //   through: models.Controller_RegistersGroups,
+    //   foreignKey: "controllerModbusId",
+    //   otherKey: "registersGroupId",
+    // });
   };
   return RegistersGroups;
 };

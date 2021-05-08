@@ -9,8 +9,20 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4,
       },
-      registerAddress: DataTypes.STRING,
-      registersGroupId: DataTypes.UUID,
+      registerAddress: {
+        type: DataTypes.STRING,
+        references: {
+          model: "Registers",
+          key: "address",
+        },
+      },
+      registersGroupId: {
+        type: DataTypes.UUID,
+        references: {
+          model: "RegistersGroups",
+          key: "id",
+        },
+      },
       isMonitored: DataTypes.BOOLEAN,
       createHistory: DataTypes.BOOLEAN,
     },
