@@ -28,7 +28,11 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   Registers_Controllers_values.associate = function (models) {
-    // associations can be defined here
+    Registers_Controllers_values.belongsTo(models.Registers, {
+      as: "register",
+      targetKey: "address",
+      foreignKey: "registerAddress",
+    });
   };
   return Registers_Controllers_values;
 };

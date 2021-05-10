@@ -85,34 +85,26 @@ async function getRegGroupsRegistersValues(req, res) {
         message: `Controller by commCenterPath ${req.params.commCenterPath} not found`,
       });
     }
-    // console.log({ _controller });
 
     let options = {
       where: {
         commCenterPath: req.params.commCenterPath,
       },
-      include: [{ model: db.CommunicationCenters, as: "commCenter" }],
-    };
-
-    let addOption = {
-      model: db.RegistersGroups,
-      as: "registersGroups",
       include: [
+        { model: db.CommunicationCenters, as: "commCenter" },
+        { model: db.Registers_Controllers_values, as: "values" },
         {
-          model: db.Registers,
-          as: "registers",
-          // include: [
-          //   {
-          //     model: db.Registers_Controllers_values,
-          //     as: "values",
-          //     where: { controllerModbusId: _controller.modbusId },
-          //   },
-          // ],
+          model: db.RegistersGroups,
+          as: "registersGroups",
+          include: [
+            {
+              model: db.Registers,
+              as: "registers",
+            },
+          ],
         },
       ],
     };
-
-    options.include.push(addOption);
 
     const controller = await db.Controllers.findOne(options);
     if (controller == null) {
@@ -120,6 +112,19 @@ async function getRegGroupsRegistersValues(req, res) {
         .status(400)
         .send({ message: "Controller by this param not found" });
     }
+    let { values, registersGroups } = controller;
+
+    registersGroups = registersGroups.map((gr, i) => {
+      gr.registers.forEach((reg) => {
+        values.forEach((val, i) => {
+          if (reg.address == val.registerAddress) {
+            reg.dataValues.value = val.value;
+          }
+        });
+      });
+      return gr;
+    });
+    controller.registersGroup = registersGroups;
     res.json(controller);
   } catch (err) {
     console.error(err);

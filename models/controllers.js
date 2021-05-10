@@ -39,6 +39,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "controllerModbusId",
       otherKey: "registerAddress",
     });
+    Controllers.hasMany(models.Registers_Controllers_values, {
+      as: "values",
+      foreignKey: "controllerModbusId",
+    });
   };
   return Controllers;
 };
