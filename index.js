@@ -4,7 +4,13 @@ var express = require("express");
 var app = express();
 
 var server = require("http").Server(app);
-var io = require("socket.io")(server);
+var io = require("socket.io")(server, {
+  cors: {
+    origin: "http://localhost:8081",
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+});
 
 require("dotenv").config();
 var exphbs = require("express-handlebars");
@@ -18,7 +24,7 @@ var cors = require("cors");
 app.use(cors());
 
 // Log requests to the console.
-logger.token("body", function(req, res) {
+logger.token("body", function (req, res) {
   return JSON.stringify(req.body);
 });
 app.use(
@@ -30,12 +36,13 @@ app.use(
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get("/", function(req, res) {
-  console.log("app.get(/)");
-  res.sendFile(__dirname + "/index.html");
-});
+// app.use(express.static(__dirname));
+// app.get("/", function (req, res) {
+//   console.log("app.get(/)");
+//   res.sendFile(__dirname + "/index.html");
+// });
 
-app.get("/api/v1/", function(req, res) {
+app.get("/api/v1/", function (req, res) {
   res.send("Система мониторинга нефтепроводов");
 });
 
@@ -46,22 +53,22 @@ app.set("view engine", "handlebars");
 app.set("views", "public/views");
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   let err = new Error("Not Found!");
   err.status = 404;
   next(err);
 });
 
-// io.on("connection", function(socket) {
-//   console.log("user connected...");
-//   socket.emit("news", { hello: "world" });
-//   socket.on("my other event", function(data) {
-//     console.log("this is on server side", data);
-//   });
-//   socket.on("disconnect", () => {
-//     console.log("Disconnected");
-//   });
-// });
+io.on("connection", function (socket) {
+  console.log("user connected...");
+  socket.emit("news", { hello: "world" });
+  socket.on("my other event", function (data) {
+    console.log("this is on server side", data);
+  });
+  socket.on("disconnect", () => {
+    console.log("Disconnected");
+  });
+});
 
 const port = process.env.PORT || 3002;
 const host = process.env.HOST || "127.0.0.1";
@@ -71,7 +78,7 @@ const host = process.env.HOST || "127.0.0.1";
 //   // db.sequelize.sync();
 // });
 
-server.listen(port, host, function() {
+server.listen(port, host, function () {
   console.log(`server listening on port ${port}`);
   // db.sequelize.sync();
 });
