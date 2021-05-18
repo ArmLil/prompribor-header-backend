@@ -25,7 +25,7 @@ DB_NAME= 'conroller_header'
        $ sequelize db:migrate
     seed
        $ sequelize db:seed:all
-       sequelize db:seed --seed my_seeder_file.js
+       sequelize db:seed --seed 20210517140506-controller_registersgroups.js
 
 #### setup datasource
 
