@@ -111,7 +111,7 @@ async function updateRegister(req, res) {
     res.json(register);
   } catch (err) {
     console.error(err);
-    res.json({ message: err });
+    res.json({ message: err.toString() });
   }
 }
 
@@ -130,7 +130,7 @@ async function deleteRegister(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res.json({ message: err });
+    res.json({ message: err.toString() });
   }
 }
 

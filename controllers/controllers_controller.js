@@ -232,7 +232,7 @@ async function updateController(req, res) {
     res.json(controller);
   } catch (err) {
     console.error(err);
-    res.json({ message: err });
+    res.json({ message: err.toString() });
   }
 }
 
@@ -249,7 +249,7 @@ async function deleteController(req, res) {
     res.json({ massage: `controller with id ${controller.path} deleted` });
   } catch (err) {
     console.error(err);
-    res.json({ message: err });
+    res.json({ message: err.toString() });
   }
 }
 

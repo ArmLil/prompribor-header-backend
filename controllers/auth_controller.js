@@ -269,7 +269,7 @@ function emailConfirmation(req, res, next) {
         })
         .catch((err) => {
           console.error("Opps", error);
-          res.json({ message: err });
+          res.json({ message: err.toString() });
         });
     }
   });

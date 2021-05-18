@@ -4,10 +4,10 @@ module.exports = (sequelize, DataTypes) => {
     "RegistersGroups",
     {
       id: {
-        type: DataTypes.UUID,
-        autoIncrement: false,
+        allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
-        defaultValue: DataTypes.UUIDV4,
+        type: DataTypes.INTEGER,
       },
       name: DataTypes.STRING,
       description: DataTypes.TEXT,

@@ -162,7 +162,7 @@ async function updateRegistersGroup_Register(req, res) {
     res.json(registersGroup_Register);
   } catch (err) {
     console.error(err);
-    res.json({ message: err });
+    res.json({ message: err.toString() });
   }
 }
 
@@ -183,7 +183,7 @@ async function deleteRegistersGroup_Register(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res.json({ message: err });
+    res.json({ message: err.toString() });
   }
 }
 

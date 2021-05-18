@@ -148,7 +148,7 @@ async function updateRegistersHistory_full(req, res) {
     res.json(registersHistory_full);
   } catch (err) {
     console.error(err);
-    res.json({ message: err });
+    res.json({ message: err.toString() });
   }
 }
 
@@ -169,7 +169,7 @@ async function deleteRegistersHistory_full(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res.json({ message: err });
+    res.json({ message: err.toString() });
   }
 }
 

@@ -7,41 +7,41 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         autoIncrement: false,
         primaryKey: true,
-        defaultValue: DataTypes.UUIDV4
+        defaultValue: DataTypes.UUIDV4,
       },
       username: DataTypes.STRING,
       name: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       secondName: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       fatherName: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       roleAdmin: {
-        type: DataTypes.BOOLEAN
+        type: DataTypes.BOOLEAN,
       },
       email: {
         type: DataTypes.STRING,
         validate: {
-          isEmail: true
+          isEmail: true,
         },
         unique: {
           args: true,
-          msg: "Email address already in use!"
-        }
+          msg: "Email address already in use!",
+        },
       },
       password: DataTypes.TEXT,
-      email_confirmed: DataTypes.BOOLEAN
+      email_confirmed: DataTypes.BOOLEAN,
     },
     {
       timestamps: true,
       paranoid: true,
       underscored: false,
-      tableName: "users"
+      tableName: "users",
     }
   );
-  Users.associate = function(models) {};
+  Users.associate = function (models) {};
   return Users;
 };

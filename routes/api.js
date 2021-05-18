@@ -140,7 +140,7 @@ module.exports = (app) => {
     registers_Controllers_values.createRegisters_Controllers_values
   );
   router.put(
-    "/registers_Controllers_values/:id",
+    "/registers_Controllers_values",
     registers_Controllers_values.updateRegisters_Controllers_values
   );
   router.delete(

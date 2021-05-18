@@ -13,7 +13,7 @@ module.exports = {
         allowNull: false,
       },
       registersGroupId: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         allowNull: false,
       },
       createdAt: {

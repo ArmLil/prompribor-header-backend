@@ -165,7 +165,7 @@ async function updateController_RegistersGroup(req, res) {
     res.json(controller_RegistersGroup);
   } catch (err) {
     console.error(err);
-    res.json({ message: err });
+    res.json({ message: err.toString() });
   }
 }
 
@@ -186,7 +186,7 @@ async function deleteController_RegistersGroup(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res.json({ message: err });
+    res.json({ message: err.toString() });
   }
 }
 

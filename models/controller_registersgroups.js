@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       registersGroupId: {
-        type: DataTypes.UUID,
+        type: DataTypes.INTEGER,
         references: {
           model: "RegistersGroups",
           key: "id",

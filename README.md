@@ -23,6 +23,9 @@ DB_NAME= 'conroller_header'
 
     create tables in db via migrations
        $ sequelize db:migrate
+    seed
+       $ sequelize db:seed:all
+       sequelize db:seed --seed my_seeder_file.js
 
 #### setup datasource
 

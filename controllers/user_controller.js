@@ -113,7 +113,7 @@ async function getUsersById(req, res) {
 //     res.json({ user });
 //   } catch (err) {
 //     console.error(err);
-//     res.json({ message: err });
+//     res.json({ message: err.toString() });
 //   }
 // }
 
@@ -134,7 +134,7 @@ async function getUsersById(req, res) {
 //     });
 //   } catch (err) {
 //     console.error(err);
-//     res.json({ message: err });
+//     res.json({ message: err.toString() });
 //   }
 // }
 

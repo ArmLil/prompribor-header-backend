@@ -108,7 +108,7 @@ async function createCommCenter(req, res) {
     res.json(commCenter);
   } catch (err) {
     console.error(JSON.stringify(err));
-    res.json({ message: err });
+    res.json({ message: err.toString() });
   }
 }
 
@@ -166,7 +166,7 @@ async function updateCommCenter(req, res) {
     res.json(commCenter);
   } catch (err) {
     console.error(err);
-    res.json({ message: err });
+    res.json({ message: err.toString() });
   }
 }
 
@@ -183,7 +183,7 @@ async function deleteCommCenter(req, res) {
     res.json({ massage: `commCenter with id ${commCenter.path} deleted` });
   } catch (err) {
     console.error(err);
-    res.json({ message: err });
+    res.json({ message: err.toString() });
   }
 }
 

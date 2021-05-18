@@ -11,6 +11,7 @@ var io = require("socket.io")(server, {
     credentials: true,
   },
 });
+app.set("socketio", io);
 
 require("dotenv").config();
 var exphbs = require("express-handlebars");
@@ -61,7 +62,7 @@ app.use(function (req, res, next) {
 
 io.on("connection", function (socket) {
   console.log("user connected...");
-  socket.emit("news", { hello: "world" });
+  socket.emit("connection", { hello: "connected" });
   socket.on("my other event", function (data) {
     console.log("this is on server side", data);
   });
