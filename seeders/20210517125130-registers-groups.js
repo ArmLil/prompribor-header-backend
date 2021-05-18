@@ -23,7 +23,7 @@ module.exports = {
       },
       {
         id: 4,
-        name: "Чтениезапись даты и времени",
+        name: "Чтение|запись даты и времени",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
