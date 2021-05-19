@@ -154,7 +154,7 @@ async function updateRegisters_Controllers_values(req, res) {
       });
       if (register == null) {
         return res.status(400).send({
-          message: `RegistersGroup by address ${req.body.registerAddress} not found`,
+          message: `Register by address ${req.body.registerAddress} not found`,
         });
       }
     } else {

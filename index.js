@@ -37,11 +37,11 @@ app.use(
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// app.use(express.static(__dirname));
-// app.get("/", function (req, res) {
-//   console.log("app.get(/)");
-//   res.sendFile(__dirname + "/index.html");
-// });
+app.use(express.static(__dirname));
+app.get("/", function (req, res) {
+  console.log("app.get(/)");
+  res.sendFile(__dirname + "/index.html");
+});
 
 app.get("/api/v1/", function (req, res) {
   res.send("Система мониторинга нефтепроводов");
@@ -69,6 +69,14 @@ io.on("connection", function (socket) {
   socket.on("disconnect", () => {
     console.log("Disconnected");
   });
+  // const positions = [
+  //   { latlen: [56.301768, 42.68865] },
+  //   { latlen: [56.301568, 42.68765] },
+  // ];
+  // setInterval(() => {
+  //   console.log("setInterval");
+  //   socket.emit("carPostion", { latlen: [56.301768, 42.68765] });
+  // }, 5000);
 });
 
 const port = process.env.PORT || 3002;
