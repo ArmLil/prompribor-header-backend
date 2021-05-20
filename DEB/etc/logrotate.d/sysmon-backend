@@ -1,0 +1,9 @@
+/var/log/sysmon/backend/*.log {
+    daily
+    rotate 12
+    compress
+    missingok
+    notifempty
+    copytruncate
+    create 0640 sysmon sysmon
+}

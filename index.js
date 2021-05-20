@@ -6,8 +6,8 @@ var app = express();
 var server = require("http").Server(app);
 var io = require("socket.io")(server, {
   cors: {
-    // origin: "http://localhost:8081",
-    origin: "http://172.28.1.88:8081",
+    origin: "http://localhost:8081",
+    // origin: "http://172.28.1.88:8081",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -74,9 +74,11 @@ io.on("connection", function (socket) {
 
 //temporary code for experiment
 // const positions = [
-//   { latlen: [56.301768, 42.68965] },
+//   { latlen: [56.301798, 42.6879] },
 //   { latlen: [56.301568, 42.68765] },
+//   { latlen: [56.3013, 42.6878] },
 //   { latlen: [56.301, 42.688] },
+//   { latlen: [56.3005, 42.688] },
 //   { latlen: [56.3, 42.689] },
 //   { latlen: [56.299, 42.69] },
 //   { latlen: [56.298, 42.692] },
@@ -110,8 +112,8 @@ io.on("connection", function (socket) {
 // }, 3000);
 
 const port = process.env.PORT || 3002;
-// const host = process.env.HOST || "127.0.0.1";
-const host = process.env.HOST || "172.28.1.88";
+const host = process.env.HOST || "127.0.0.1";
+// const host = process.env.HOST || "172.28.1.88";
 
 // server.listen(port, '172.28.2.35', function() {
 //   console.log(`server listening on port ${port}`);

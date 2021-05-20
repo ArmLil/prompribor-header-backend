@@ -1,0 +1,49 @@
+#!/bin/bash
+set -e
+
+if [ "$1" = "configure" ]; then
+
+    DB_USER=conroller_header_user
+    DB_PASSWORD=111111
+    DB_NAME=conroller_header
+    BACKEND_LOG_DIR=/var/log/sysmon/backend
+    BACKEND_LIB_DIR=/var/lib/sysmon/backend
+
+    if ! getent group sysmon > /dev/null 2>&1 ; then
+        addgroup --system --quiet sysmon
+    fi
+
+    if ! getent passwd sysmon > /dev/null 2>&1 ; then
+        adduser --quiet \
+            --system --disabled-login --ingroup sysmon \
+            --home /var/lib/sysmon/ --no-create-home \
+            sysmon
+    fi
+
+    psql -U postgres -tc "SELECT 1 FROM pg_database WHERE datname='${DB_NAME}';" | grep -q 1 || psql -U postgres -c "CREATE DATABASE \"${DB_NAME}\";"
+    psql -U postgres -tc "SELECT 1 FROM pg_user WHERE usename='${DB_USER}';" | grep -q 1 || psql -U postgres -c "CREATE USER ${DB_USER} WITH ENCRYPTED PASSWORD '${DB_PASSWORD}';"
+    psql -U postgres -c "ALTER USER ${DB_USER} WITH SUPERUSER;"
+    cd ${BACKEND_LIB_DIR}
+    ${BACKEND_LIB_DIR}/node_modules/.bin/sequelize db:migrate
+    ${BACKEND_LIB_DIR}/node_modules/.bin/sequelize db:seed:all
+    cd ~-
+    [ ! -d "${BACKEND_LOG_DIR}" ] && mkdir -p "${BACKEND_LOG_DIR}"
+    [ ! -d "${BACKEND_LIB_DIR}" ] && mkdir -p "${BACKEND_LIB_DIR}"
+    chown root:root /etc/logrotate.d/*
+    chown sysmon:sysmon "${BACKEND_LOG_DIR}" -R
+    chown sysmon:sysmon "${BACKEND_LIB_DIR}" -R
+    cd "${BACKEND_LIB_DIR}"
+
+    if [ -f "/lib/systemd/system/sysmon-backend.service" ]; then
+        systemctl stop sysmon-backend.service
+        systemctl daemon-reload
+        systemctl enable sysmon-backend.service
+        systemctl start sysmon-backend.service
+        systemctl -l status sysmon-backend.service
+
+        systemctl restart rsyslog
+    fi
+fi
+
+
+exit 0

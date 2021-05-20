@@ -1,0 +1,8 @@
+Package: sysmon-backend
+Version: 2.0
+Architecture: amd64
+Maintainer: Lilit Oganisyan <l.oganisyan@voentelecom.ru>
+Section: sysmon
+Priority: optional
+Homepage: http://www.voentelecom.ru/
+Description: Sysmon Backend

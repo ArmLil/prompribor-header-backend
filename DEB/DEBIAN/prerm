@@ -1,0 +1,10 @@
+#!/bin/sh
+set -e
+
+if [ -f "/lib/systemd/system/sysmon-backend.service" ]; then
+    systemctl stop sysmon-backend.service
+    systemctl disable sysmon-backend.service
+    systemctl daemon-reload
+fi
+
+exit $?
