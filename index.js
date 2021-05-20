@@ -6,8 +6,8 @@ var app = express();
 var server = require("http").Server(app);
 var io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:8081",
-    // origin: "http://172.28.1.88:8081",
+    // origin: "http://localhost:8081",
+    origin: "http://172.28.1.80",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -73,43 +73,48 @@ io.on("connection", function (socket) {
 });
 
 //temporary code for experiment
-// const positions = [
-//   { latlen: [56.301798, 42.6879] },
-//   { latlen: [56.301568, 42.68765] },
-//   { latlen: [56.3013, 42.6878] },
-//   { latlen: [56.301, 42.688] },
-//   { latlen: [56.3005, 42.688] },
-//   { latlen: [56.3, 42.689] },
-//   { latlen: [56.299, 42.69] },
-//   { latlen: [56.298, 42.692] },
-//   { latlen: [56.298, 42.693] },
-//   { latlen: [56.2978, 42.6934] },
-//   { latlen: [56.2973, 42.6937] },
-//   { latlen: [56.2973, 42.694] },
-//   { latlen: [56.297, 42.695] },
-//   ////
-//   { latlen: [56.2965, 42.696] },
-//   { latlen: [56.2965, 42.696] },
-//   { latlen: [56.2965, 42.696] },
-// ];
-//
-// let i = 0;
-// let up = true;
-//
-// setInterval(() => {
-//   if (i === positions.length - 1) {
-//     up = false;
-//   }
-//   if (i === 0) {
-//     up = true;
-//   }
-//   if (up) {
-//     i += 1;
-//   } else {
-//     i -= 1;
-//   }
-//   io.emit("carPostion", positions[i]);
-// }, 3000);
+const positions = [
+  { latlen: [56.3017, 42.6872] },
+  { latlen: [56.301568, 42.68765] },
+  { latlen: [56.3013, 42.6878] },
+  { latlen: [56.301, 42.6881] },
+  { latlen: [56.301, 42.688] },
+  { latlen: [56.3, 42.69] },
+  { latlen: [56.2995, 42.692] },
+  { latlen: [56.2992, 42.692] },
+  { latlen: [56.299, 42.6925] },
+  { latlen: [56.2986, 42.6939] },
+  { latlen: [56.2982, 42.6948] },
+  { latlen: [56.298, 42.6949] },
+  { latlen: [56.2978, 42.6959] },
+  { latlen: [56.2974, 42.6966] },
+  { latlen: [56.2972, 42.6968] },
+  { latlen: [56.2971, 42.697] },
+  { latlen: [56.2968, 42.6979] },
+  { latlen: [56.2962, 42.6999] },
+  { latlen: [56.296, 42.6999] },
+  { latlen: [56.2958, 42.7005] },
+  { latlen: [56.2955, 42.701] },
+  { latlen: [56.295, 42.7019] },
+];
+
+let i = 0;
+let up = true;
+
+setInterval(() => {
+  if (i === positions.length - 1) {
+    up = false;
+  }
+  if (i === 0) {
+    up = true;
+  }
+  if (up) {
+    i += 1;
+  } else {
+    i -= 1;
+  }
+  io.emit("carPostion", positions[i]);
+}, 2000);
 
 const port = process.env.PORT || 3002;
 const host = process.env.HOST || "127.0.0.1";
