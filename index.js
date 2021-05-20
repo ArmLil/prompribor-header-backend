@@ -6,7 +6,8 @@ var app = express();
 var server = require("http").Server(app);
 var io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:8081",
+    // origin: "http://localhost:8081",
+    origin: "http://172.28.1.88:8081",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -69,18 +70,48 @@ io.on("connection", function (socket) {
   socket.on("disconnect", () => {
     console.log("Disconnected");
   });
-  // const positions = [
-  //   { latlen: [56.301768, 42.68865] },
-  //   { latlen: [56.301568, 42.68765] },
-  // ];
-  // setInterval(() => {
-  //   console.log("setInterval");
-  //   socket.emit("carPostion", { latlen: [56.301768, 42.68765] });
-  // }, 5000);
 });
 
+//temporary code for experiment
+// const positions = [
+//   { latlen: [56.301768, 42.68965] },
+//   { latlen: [56.301568, 42.68765] },
+//   { latlen: [56.301, 42.688] },
+//   { latlen: [56.3, 42.689] },
+//   { latlen: [56.299, 42.69] },
+//   { latlen: [56.298, 42.692] },
+//   { latlen: [56.298, 42.693] },
+//   { latlen: [56.2978, 42.6934] },
+//   { latlen: [56.2973, 42.6937] },
+//   { latlen: [56.2973, 42.694] },
+//   { latlen: [56.297, 42.695] },
+//   ////
+//   { latlen: [56.2965, 42.696] },
+//   { latlen: [56.2965, 42.696] },
+//   { latlen: [56.2965, 42.696] },
+// ];
+//
+// let i = 0;
+// let up = true;
+//
+// setInterval(() => {
+//   if (i === positions.length - 1) {
+//     up = false;
+//   }
+//   if (i === 0) {
+//     up = true;
+//   }
+//   if (up) {
+//     i += 1;
+//   } else {
+//     i -= 1;
+//   }
+//   io.emit("carPostion", positions[i]);
+// }, 3000);
+
 const port = process.env.PORT || 3002;
-const host = process.env.HOST || "127.0.0.1";
+// const host = process.env.HOST || "127.0.0.1";
+const host = process.env.HOST || "172.28.1.88";
 
 // server.listen(port, '172.28.2.35', function() {
 //   console.log(`server listening on port ${port}`);
