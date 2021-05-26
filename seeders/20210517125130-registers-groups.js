@@ -29,7 +29,7 @@ module.exports = {
       },
       {
         id: 5,
-        name: "Информация о журналах",
+        name: "Инспекторы (счётчики событий)",
         createdAt: new Date(),
         updatedAt: new Date(),
       },

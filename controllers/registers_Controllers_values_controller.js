@@ -179,14 +179,17 @@ async function updateRegisters_Controllers_values(req, res) {
 
     registers_Controllers_values.value = req.body.value;
 
-    await registers_Controllers_values.save();
-
-    io.emit("registerControllerValue", registers_Controllers_values);
-
-    res.json(registers_Controllers_values);
+    await db.Registers_Controllers_values.update(
+      { value: registers_Controllers_values.value },
+      { where: { id: registers_Controllers_values.id } }
+    ).then((result) => {
+      console.log({ result });
+      io.emit("registerControllerValue", registers_Controllers_values);
+      res.json(registers_Controllers_values);
+    });
   } catch (err) {
     console.error(err);
-    res.json({ message: err.toString().toString() });
+    res.json({ message: err.toString() });
   }
 }
 
