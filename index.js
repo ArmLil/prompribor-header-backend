@@ -6,8 +6,8 @@ var app = express();
 var server = require("http").Server(app);
 var io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:8081",
-    // origin: "http://172.28.1.80",
+    // origin: "http://localhost:8081",
+    origin: "http://172.28.1.80",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -38,7 +38,6 @@ app.use(
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(express.static(__dirname));
 app.get("/", function (req, res) {
   console.log("app.get(/)");
   res.sendFile(__dirname + "/index.html");
@@ -49,6 +48,7 @@ app.get("/api/v1/", function (req, res) {
 });
 
 app.use("/api/v1/", api);
+app.use(express.static("public"));
 
 app.engine("handlebars", exphbs());
 app.set("view engine", "handlebars");
@@ -62,7 +62,7 @@ app.use(function (req, res, next) {
 });
 
 io.on("connection", function (socket) {
-  console.log("user connected...");
+  console.log("user connected...", socket.handshake.headers);
   socket.emit("connection", { hello: "connected" });
   socket.on("my other event", function (data) {
     console.log("this is on server side", data);
