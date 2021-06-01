@@ -23,7 +23,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        address: "0x001A",
+        address: "0x001a",
         sizeRegister: 6,
         recordable: false,
         dataType: "Unsigned char (array)",
@@ -223,7 +223,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        address: "0x13FB",
+        address: "0x13fb",
         sizeRegister: 4,
         recordable: false,
         dataType: "Double",
@@ -241,7 +241,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        address: "0x139D",
+        address: "0x139d",
         sizeRegister: 4,
         recordable: false,
         dataType: "Double",

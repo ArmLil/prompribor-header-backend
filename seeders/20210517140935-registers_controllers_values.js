@@ -42,7 +42,7 @@ module.exports = {
       },
       {
         id: uuidv4(),
-        registerAddress: "0x13FB",
+        registerAddress: "0x13fb",
         controllerModbusId: "1",
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -56,7 +56,7 @@ module.exports = {
       },
       {
         id: uuidv4(),
-        registerAddress: "0x139D",
+        registerAddress: "0x139d",
         controllerModbusId: "1",
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -165,7 +165,7 @@ module.exports = {
       },
       {
         id: uuidv4(),
-        registerAddress: "0x001A",
+        registerAddress: "0x001a",
         controllerModbusId: "1",
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -230,7 +230,7 @@ module.exports = {
       },
       {
         id: uuidv4(),
-        registerAddress: "0x13FB",
+        registerAddress: "0x13fb",
         controllerModbusId: "2",
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -244,7 +244,7 @@ module.exports = {
       },
       {
         id: uuidv4(),
-        registerAddress: "0x139D",
+        registerAddress: "0x139d",
         controllerModbusId: "2",
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -353,7 +353,7 @@ module.exports = {
       },
       {
         id: uuidv4(),
-        registerAddress: "0x001A",
+        registerAddress: "0x001a",
         controllerModbusId: "2",
         createdAt: new Date(),
         updatedAt: new Date(),

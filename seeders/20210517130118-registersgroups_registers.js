@@ -21,7 +21,7 @@ module.exports = {
       },
       {
         id: uuidv4(),
-        registerAddress: "0x001A",
+        registerAddress: "0x001a",
         registersGroupId: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -173,7 +173,7 @@ module.exports = {
       },
       {
         id: uuidv4(),
-        registerAddress: "0x13FB",
+        registerAddress: "0x13fb",
         registersGroupId: 6,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -187,7 +187,7 @@ module.exports = {
       },
       {
         id: uuidv4(),
-        registerAddress: "0x139D",
+        registerAddress: "0x139d",
         registersGroupId: 6,
         createdAt: new Date(),
         updatedAt: new Date(),

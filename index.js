@@ -7,7 +7,7 @@ var server = require("http").Server(app);
 var io = require("socket.io")(server, {
   cors: {
     // origin: "http://localhost:8081",
-    origin: "http://172.28.1.80",
+    origin: "http://172.28.1.88",
     methods: ["GET", "POST"],
     credentials: true,
   },
