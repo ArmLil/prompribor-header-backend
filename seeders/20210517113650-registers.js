@@ -232,7 +232,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        address: "0x1399",
+        address: "0x136c",
         sizeRegister: 4,
         recordable: false,
         dataType: "Double",
@@ -241,7 +241,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        address: "0x139d",
+        address: "0x1358",
         sizeRegister: 4,
         recordable: false,
         dataType: "Double",

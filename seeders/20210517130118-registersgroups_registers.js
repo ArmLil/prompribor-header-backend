@@ -180,14 +180,14 @@ module.exports = {
       },
       {
         id: uuidv4(),
-        registerAddress: "0x1399",
+        registerAddress: "0x136c",
         registersGroupId: 6,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id: uuidv4(),
-        registerAddress: "0x139d",
+        registerAddress: "0x1358",
         registersGroupId: 6,
         createdAt: new Date(),
         updatedAt: new Date(),
