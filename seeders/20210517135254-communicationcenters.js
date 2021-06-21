@@ -5,8 +5,8 @@ module.exports = {
     return queryInterface.bulkInsert("CommunicationCenters", [
       //Информация о журналах
       {
-        path: "GNS1",
-        name: "ГНС-1",
+        path: "GNS2",
+        name: "ГНС-2",
         index: 1,
         lat: "56.302167",
         len: "42.68865",
@@ -17,8 +17,8 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        path: "GNS2",
-        name: "ГНС-2",
+        path: "GNS1",
+        name: "ГНС-1",
         index: 2,
         lat: "56.284067",
         len: "42.73085",
