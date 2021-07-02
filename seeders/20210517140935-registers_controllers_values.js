@@ -4,7 +4,7 @@ const uuidv4 = require("uuid/v4");
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert("Registers_Controllers_values", [
-      // Учет нефтепродукта
+      // Учет нефтепродукта modbusID 2
       {
         id: uuidv4(),
         registerAddress: "0x1312",
@@ -47,7 +47,7 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      //состояние насоса
+      //состояние насоса modbusId1
       {
         id: uuidv4(),
         registerAddress: "0x1600",
@@ -69,6 +69,28 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      // состояние насосаmodbusId3
+      // {
+      //   id: uuidv4(),
+      //   registerAddress: "0x1600",
+      //   controllerModbusId: "3",
+      //   createdAt: new Date(),
+      //   updatedAt: new Date(),
+      // },
+      // {
+      //   id: uuidv4(),
+      //   registerAddress: "0x1602",
+      //   controllerModbusId: "3",
+      //   createdAt: new Date(),
+      //   updatedAt: new Date(),
+      // },
+      // {
+      //   id: uuidv4(),
+      //   registerAddress: "0x1604",
+      //   controllerModbusId: "3",
+      //   createdAt: new Date(),
+      //   updatedAt: new Date(),
+      // },
     ]);
   },
   down: (queryInterface, Sequelize) => {

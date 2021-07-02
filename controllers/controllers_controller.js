@@ -106,26 +106,43 @@ async function getRegGroupsRegistersValues(req, res) {
       ],
     };
 
-    const controller = await db.Controllers.findOne(options);
-    if (controller == null) {
-      return res
-        .status(400)
-        .send({ message: "Controller by this param not found" });
-    }
-    let { values, registersGroups } = controller;
+    const controllers = await db.Controllers.findAll(options);
 
-    registersGroups = registersGroups.map((gr, i) => {
-      gr.registers.forEach((reg) => {
-        values.forEach((val, i) => {
-          if (reg.address == val.registerAddress) {
-            reg.dataValues.value = val.value;
-          }
+    let response = [];
+    controllers.forEach((contr, i) => {
+      let { values, registersGroups } = contr;
+      if (registersGroups)
+        registersGroups = registersGroups.map((gr, i) => {
+          if (gr.registers)
+            gr.registers.forEach((reg) => {
+              if (values)
+                values.forEach((val, i) => {
+                  if (reg.address == val.registerAddress) {
+                    reg.dataValues.value = val.value;
+                  }
+                });
+            });
+          return gr;
         });
-      });
-      return gr;
+      contr.registersGroup = registersGroups;
+      response.push(contr);
     });
-    controller.registersGroup = registersGroups;
-    res.json(controller);
+
+    // let { values, registersGroups } = controller;
+    //
+    // registersGroups = registersGroups.map((gr, i) => {
+    //   gr.registers.forEach((reg) => {
+    //     values.forEach((val, i) => {
+    //       if (reg.address == val.registerAddress) {
+    //         reg.dataValues.value = val.value;
+    //       }
+    //     });
+    //   });
+    //   return gr;
+    // });
+    // controller.registersGroup = registersGroups;
+    // res.json(controller);
+    res.json(response);
   } catch (err) {
     console.error(err);
     res.json({

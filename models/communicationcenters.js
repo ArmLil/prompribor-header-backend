@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   CommunicationCenters.associate = function (models) {
     // associations can be defined here
-    CommunicationCenters.hasOne(models.Controllers, {
+    CommunicationCenters.hasMany(models.Controllers, {
       as: "controller",
       foreignKey: "commCenterPath",
     });
