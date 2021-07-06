@@ -12,6 +12,7 @@ module.exports = (app) => {
   const registersHistory = require("../controllers/registersHistory_controller");
   const registersHistory_full = require("../controllers/registersHistory_full_controller");
   const registers_Controllers_values = require("../controllers/registers_Controllers_values_controller");
+  const avarii_journal = require("../controllers/avarii_journal_controller");
   const users = require("../controllers/user_controller");
   const auth = require("../controllers/auth_controller");
 
@@ -148,8 +149,21 @@ module.exports = (app) => {
     registers_Controllers_values.deleteRegisters_Controllers_values
   );
 
+  // registers_Controllers_values
+  router.get("/avarii_journals_data", avarii_journal.getAvarii_JournalData);
+  router.get(
+    "/avarii_journals_data/:id",
+    avarii_journal.getAvarii_JournalDataById
+  );
+  router.post("/avarii_journals_data", avarii_journal.createAvarii_JournalData);
+  router.put("/avarii_journals_data/:id", avarii_journal.updateAvarii_Journal);
+  router.delete(
+    "/avarii_journals_data/:id",
+    avarii_journal.deleteAvarii_Journal
+  );
+
   // users
-  router.get("/users", auth.checkauth, users.getUserss);
+  router.get("/users", auth.checkauth, users.getUsers);
   router.get("/userById/:id", auth.checkauth, users.getUsersById);
   // router.post("/users", auth.checkauth, users.createUsers);
   // router.put("/users/:id", auth.checkauth, users.updateUsers);

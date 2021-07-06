@@ -19,7 +19,7 @@ async function getRegistersHistory_full(req, res) {
   } catch (err) {
     console.error(err);
     res.json({
-      message: err,
+      message: err.toString(),
     });
   }
 }
@@ -37,14 +37,14 @@ async function getRegistersHistory_full_ById(req, res) {
     );
     if (registersHistory_full == null) {
       return res.status(400).send({
-        "message": "registersHistory_full by this id not found",
+        message: "registersHistory_full by this id not found",
       });
     }
     res.json(registersHistory_full);
   } catch (err) {
     console.error(err);
     res.json({
-      message: err,
+      message: err.toString(),
     });
   }
 }
@@ -64,7 +64,7 @@ async function createRegistersHistory_full(req, res) {
       });
       if (controller == null) {
         return res.status(400).send({
-          "message": `controller by modbusId ${req.body.controllerModbusId} not found`,
+          message: `controller by modbusId ${req.body.controllerModbusId} not found`,
         });
       }
 
@@ -73,7 +73,7 @@ async function createRegistersHistory_full(req, res) {
       });
       if (register == null) {
         return res.status(400).send({
-          "message": `register by address ${req.body.registerAddress} not found`,
+          message: `register by address ${req.body.registerAddress} not found`,
         });
       }
 
@@ -82,7 +82,7 @@ async function createRegistersHistory_full(req, res) {
       options.value = req.body.value;
     } else {
       return res.status(400).send({
-        "message": ` controllerModbusId, registerAddress, value required in body`,
+        message: ` controllerModbusId, registerAddress, value required in body`,
       });
     }
 
@@ -94,7 +94,7 @@ async function createRegistersHistory_full(req, res) {
   } catch (err) {
     console.error(err);
     res.json({
-      message: err,
+      message: err.toString(),
     });
   }
 }
@@ -107,12 +107,12 @@ async function updateRegistersHistory_full(req, res) {
     );
     if (registersHistory_full == null) {
       return res.status(400).send({
-        "message": `RegistersHistory_full by ${req.params.id} id not found`,
+        message: `RegistersHistory_full by ${req.params.id} id not found`,
       });
     }
     if (req.body.value == undefined) {
       return res.status(400).send({
-        "message": ` value required`,
+        message: ` value required`,
       });
     }
     let _controllerModbusId = registersHistory_full.controllerModbusId;
@@ -123,7 +123,7 @@ async function updateRegistersHistory_full(req, res) {
       });
       if (controller == null) {
         return res.status(400).send({
-          "message": `Controller by modbusId ${req.body.controllerModbusId} not found`,
+          message: `Controller by modbusId ${req.body.controllerModbusId} not found`,
         });
       }
       _controllerModbusId = req.body.controllerModbusId;
@@ -134,7 +134,7 @@ async function updateRegistersHistory_full(req, res) {
       });
       if (register == null) {
         return res.status(400).send({
-          "message": `RegistersGroup by address ${req.body.registerAddress} not found`,
+          message: `RegistersGroup by address ${req.body.registerAddress} not found`,
         });
       }
       _registerAddress = req.body.registerAddress;
@@ -160,7 +160,7 @@ async function deleteRegistersHistory_full(req, res) {
     );
     if (registersHistory_full == null) {
       return res.status(400).send({
-        "message": "RegistersHistory_full by this id not found",
+        message: "RegistersHistory_full by this id not found",
       });
     }
     await registersHistory_full.destroy();

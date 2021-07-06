@@ -18,7 +18,7 @@ async function getController_RegistersGroups(req, res) {
   } catch (err) {
     console.error(err);
     res.json({
-      message: err,
+      message: err.toString(),
     });
   }
 }
@@ -43,7 +43,7 @@ async function getController_RegistersGroupById(req, res) {
   } catch (err) {
     console.error(err);
     res.json({
-      message: err,
+      message: err.toString(),
     });
   }
 }
@@ -91,7 +91,7 @@ async function createController_RegistersGroup(req, res) {
   } catch (err) {
     console.error(err);
     res.json({
-      message: err,
+      message: err.toString(),
     });
   }
 }

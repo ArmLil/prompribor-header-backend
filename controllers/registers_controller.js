@@ -15,7 +15,7 @@ async function getRegisters(req, res) {
   } catch (err) {
     console.error(err);
     res.json({
-      message: err,
+      message: err.toString(),
     });
   }
 }
@@ -38,7 +38,7 @@ async function getRegisterById(req, res) {
   } catch (err) {
     console.error(err);
     res.json({
-      message: err,
+      message: err.toString(),
     });
   }
 }
@@ -74,7 +74,7 @@ async function createRegister(req, res) {
   } catch (err) {
     console.error(err);
     res.json({
-      message: err,
+      message: err.toString(),
     });
   }
 }

@@ -17,7 +17,7 @@ async function getRegistersHistory(req, res) {
   } catch (err) {
     console.error(err);
     res.json({
-      message: err,
+      message: err.toString(),
     });
   }
 }
@@ -33,14 +33,14 @@ async function getRegistersHistoryById(req, res) {
     const registersHistory = await db.RegistersHistory.findOne(options);
     if (registersHistory == null) {
       return res.status(400).send({
-        "message": "registersHistory by this id not found",
+        message: "registersHistory by this id not found",
       });
     }
     res.json(registersHistory);
   } catch (err) {
     console.error(err);
     res.json({
-      message: err,
+      message: err.toString(),
     });
   }
 }
@@ -60,7 +60,7 @@ async function createRegistersHistory(req, res) {
       });
       if (controller == null) {
         return res.status(400).send({
-          "message": `controller by modbusId ${req.body.controllerModbusId} not found`,
+          message: `controller by modbusId ${req.body.controllerModbusId} not found`,
         });
       }
 
@@ -69,7 +69,7 @@ async function createRegistersHistory(req, res) {
       });
       if (register == null) {
         return res.status(400).send({
-          "message": `register by address ${req.body.registerAddress} not found`,
+          message: `register by address ${req.body.registerAddress} not found`,
         });
       }
 
@@ -78,7 +78,7 @@ async function createRegistersHistory(req, res) {
       options.value = req.body.value;
     } else {
       return res.status(400).send({
-        "message": ` controllerModbusId, registerAddress, value required in body`,
+        message: ` controllerModbusId, registerAddress, value required in body`,
       });
     }
 
@@ -89,7 +89,7 @@ async function createRegistersHistory(req, res) {
   } catch (err) {
     console.error(err);
     res.json({
-      message: err,
+      message: err.toString(),
     });
   }
 }
@@ -100,12 +100,12 @@ async function updateRegistersHistory(req, res) {
     const registersHistory = await db.RegistersHistory.findByPk(req.params.id);
     if (registersHistory == null) {
       return res.status(400).send({
-        "message": `RegistersHistory by ${req.params.id} id not found`,
+        message: `RegistersHistory by ${req.params.id} id not found`,
       });
     }
     if (req.body.value == undefined) {
       return res.status(400).send({
-        "message": ` value required`,
+        message: ` value required`,
       });
     }
     let _controllerModbusId = registersHistory.controllerModbusId;
@@ -116,7 +116,7 @@ async function updateRegistersHistory(req, res) {
       });
       if (controller == null) {
         return res.status(400).send({
-          "message": `Controller by modbusId ${req.body.controllerModbusId} not found`,
+          message: `Controller by modbusId ${req.body.controllerModbusId} not found`,
         });
       }
       _controllerModbusId = req.body.controllerModbusId;
@@ -127,7 +127,7 @@ async function updateRegistersHistory(req, res) {
       });
       if (register == null) {
         return res.status(400).send({
-          "message": `RegistersGroup by address ${req.body.registerAddress} not found`,
+          message: `RegistersGroup by address ${req.body.registerAddress} not found`,
         });
       }
       _registerAddress = req.body.registerAddress;
@@ -151,7 +151,7 @@ async function deleteRegistersHistory(req, res) {
     const registersHistory = await db.RegistersHistory.findByPk(req.params.id);
     if (registersHistory == null) {
       return res.status(400).send({
-        "message": "RegistersHistory by this id not found",
+        message: "RegistersHistory by this id not found",
       });
     }
     await registersHistory.destroy();

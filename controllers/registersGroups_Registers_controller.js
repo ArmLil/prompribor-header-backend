@@ -18,7 +18,7 @@ async function getRegistersGroups_Registers(req, res) {
   } catch (err) {
     console.error(err);
     res.json({
-      message: err,
+      message: err.toString(),
     });
   }
 }
@@ -37,14 +37,14 @@ async function getRegistersGroup_RegisterById(req, res) {
     );
     if (registersGroup_Registers == null) {
       return res.status(400).send({
-        "message": "registersGroup_Register by this id not found",
+        message: "registersGroup_Register by this id not found",
       });
     }
     res.json(registersGroup_Registers);
   } catch (err) {
     console.error(err);
     res.json({
-      message: err,
+      message: err.toString(),
     });
   }
 }
@@ -60,7 +60,7 @@ async function createRegistersGroup_Register(req, res) {
       });
       if (register == null) {
         return res.status(400).send({
-          "message": `register by address ${req.body.registerAddress} not found`,
+          message: `register by address ${req.body.registerAddress} not found`,
         });
       }
 
@@ -69,14 +69,14 @@ async function createRegistersGroup_Register(req, res) {
       );
       if (registersGroup == null) {
         return res.status(400).send({
-          "message": `registersGroup by id ${req.body.registersGroupId} not found`,
+          message: `registersGroup by id ${req.body.registersGroupId} not found`,
         });
       }
       options.registerAddress = req.body.registerAddress;
       options.registersGroupId = req.body.registersGroupId;
     } else {
       return res.status(400).send({
-        "message": ` registerAddress and registersGroupId required`,
+        message: ` registerAddress and registersGroupId required`,
       });
     }
 
@@ -90,7 +90,7 @@ async function createRegistersGroup_Register(req, res) {
   } catch (err) {
     console.error(err);
     res.json({
-      message: err,
+      message: err.toString(),
     });
   }
 }
@@ -103,7 +103,7 @@ async function updateRegistersGroup_Register(req, res) {
     );
     if (registersGroup_Register == null) {
       return res.status(400).send({
-        "message": "RegistersGroup_Register by this id not found",
+        message: "RegistersGroup_Register by this id not found",
       });
     }
     if (
@@ -111,7 +111,7 @@ async function updateRegistersGroup_Register(req, res) {
       req.body.registersGroupId == undefined
     ) {
       return res.status(400).send({
-        "message": ` registerAddress AND registersGroupId required`,
+        message: ` registerAddress AND registersGroupId required`,
       });
     }
     let _registerAddress = registersGroup_Register.registerAddress;
@@ -122,7 +122,7 @@ async function updateRegistersGroup_Register(req, res) {
       });
       if (register == null) {
         return res.status(400).send({
-          "message": `Register by id ${req.body.registerAddress} not found`,
+          message: `Register by id ${req.body.registerAddress} not found`,
         });
       }
       _registerAddress = req.body.registerAddress;
@@ -133,7 +133,7 @@ async function updateRegistersGroup_Register(req, res) {
       );
       if (registersGroup == null) {
         return res.status(400).send({
-          "message": `RegistersGroup by id ${req.body.registersGroupId} not found`,
+          message: `RegistersGroup by id ${req.body.registersGroupId} not found`,
         });
       }
       _registersGroupId = req.body.registersGroupId;
@@ -152,7 +152,7 @@ async function updateRegistersGroup_Register(req, res) {
       registersGroup_Register_duplicate.id !== registersGroup_Register.id
     ) {
       return res.status(400).send({
-        "message": `RegistersGroups_Registers already exists`,
+        message: `RegistersGroups_Registers already exists`,
       });
     }
     registersGroup_Register.registerAddress = _registerAddress;
@@ -174,7 +174,7 @@ async function deleteRegistersGroup_Register(req, res) {
     );
     if (registersGroup_Register == null) {
       return res.status(400).send({
-        "message": "RegistersGroups_Registers by this id not found",
+        message: "RegistersGroups_Registers by this id not found",
       });
     }
     await registersGroup_Register.destroy();

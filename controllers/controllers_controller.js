@@ -31,7 +31,7 @@ async function getControllers(req, res) {
   } catch (err) {
     console.error(err);
     res.json({
-      message: err,
+      message: err.toString(),
     });
   }
 }
@@ -69,7 +69,7 @@ async function getControllerById(req, res) {
   } catch (err) {
     console.error(err);
     res.json({
-      message: err,
+      message: err.toString(),
     });
   }
 }
@@ -146,7 +146,7 @@ async function getRegGroupsRegistersValues(req, res) {
   } catch (err) {
     console.error(err);
     res.json({
-      message: err.message,
+      message: err.toString(),
     });
   }
 }
@@ -195,7 +195,7 @@ async function createController(req, res) {
   } catch (err) {
     console.error(err);
     res.json({
-      message: err,
+      message: err.toString(),
     });
   }
 }

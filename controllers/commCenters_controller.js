@@ -19,7 +19,7 @@ async function getCommCenters(req, res) {
   } catch (err) {
     console.error(err);
     res.json({
-      message: err,
+      message: err.toString(),
     });
   }
 }
@@ -44,7 +44,7 @@ async function getCommCenterById(req, res) {
   } catch (err) {
     console.error(err);
     res.json({
-      message: err,
+      message: err.toString(),
     });
   }
 }
@@ -107,7 +107,7 @@ async function createCommCenter(req, res) {
 
     res.json(commCenter);
   } catch (err) {
-    console.error(JSON.stringify(err));
+    console.error(err);
     res.json({ message: err.toString() });
   }
 }

@@ -5,21 +5,21 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
-async function getUserss(req, res) {
-  console.log("function getUserss");
+async function getUsers(req, res) {
+  console.log("function getUsers");
   try {
     let users = await db.Users.findAndCountAll({
-      attributes: { exclude: ["password"] }
+      attributes: { exclude: ["password"] },
     });
 
     res.json({
       users: users,
-      count: users.count
+      count: users.count,
     });
   } catch (err) {
     console.error(err);
     res.json({
-      message: err
+      message: err.toString(),
     });
   }
 }
@@ -28,14 +28,14 @@ async function getUsersById(req, res) {
   console.log("function getUsersById");
   try {
     let user = await db.Users.findByPk(req.params.id, {
-      attributes: { exclude: ["password"] }
+      attributes: { exclude: ["password"] },
     });
 
     res.json({ user });
   } catch (err) {
     console.error(err);
     res.json({
-      message: err
+      message: err.toString(),
     });
   }
 }
@@ -139,8 +139,8 @@ async function getUsersById(req, res) {
 // }
 
 module.exports = {
-  getUserss,
-  getUsersById
+  getUsers,
+  getUsersById,
   // createUsers,
   // updateUsers,
   // deleteUsers

@@ -9,6 +9,7 @@ module.exports = {
     port: 5432,
     dialect: "postgres",
     operatorsAliases: 0,
+    logging: false,
   },
   test: {
     username: process.env.DB_USER,
@@ -27,6 +28,7 @@ module.exports = {
     port: 5432,
     dialect: "postgres",
     operatorsAliases: 0,
+    logging: false,
   },
   socketDomains: [],
 };
