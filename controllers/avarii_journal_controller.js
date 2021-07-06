@@ -81,7 +81,6 @@ async function createAvarii_JournalData(req, res) {
     } else {
       return res.status(400).send({ message: "commCenterPath required" });
     }
-    console.log(options);
     const avarii_JournalData = await db.Avarii_Journals.create(options);
 
     res.json(avarii_JournalData);
@@ -138,7 +137,6 @@ async function deleteAvarii_Journal(req, res) {
         message: `Avarii_Journal by address ${req.params.id} not found`,
       });
     }
-    console.log({ avarii_JournalData });
     await avarii_JournalData.destroy();
     res.json({
       massage: `avarii_JournalData with id ${avarii_JournalData.id} deleted`,

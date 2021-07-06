@@ -13,6 +13,7 @@ module.exports = (app) => {
   const registersHistory_full = require("../controllers/registersHistory_full_controller");
   const registers_Controllers_values = require("../controllers/registers_Controllers_values_controller");
   const avarii_journal = require("../controllers/avarii_journal_controller");
+  const donesenii_journal = require("../controllers/donesenii_journal_controller");
   const users = require("../controllers/user_controller");
   const auth = require("../controllers/auth_controller");
 
@@ -149,7 +150,7 @@ module.exports = (app) => {
     registers_Controllers_values.deleteRegisters_Controllers_values
   );
 
-  // registers_Controllers_values
+  // avarii_journals_data
   router.get("/avarii_journals_data", avarii_journal.getAvarii_JournalData);
   router.get(
     "/avarii_journals_data/:id",
@@ -160,6 +161,28 @@ module.exports = (app) => {
   router.delete(
     "/avarii_journals_data/:id",
     avarii_journal.deleteAvarii_Journal
+  );
+
+  // donesenii_journals_data
+  router.get(
+    "/donesenii_journals_data",
+    donesenii_journal.getDonesenii_JournalData
+  );
+  router.get(
+    "/donesenii_journals_data/:id",
+    donesenii_journal.getDonesenii_JournalDataById
+  );
+  router.post(
+    "/donesenii_journals_data",
+    donesenii_journal.createDonesenii_JournalData
+  );
+  router.put(
+    "/donesenii_journals_data/:id",
+    donesenii_journal.updateDonesenii_Journal
+  );
+  router.delete(
+    "/donesenii_journals_data/:id",
+    donesenii_journal.deleteDonesenii_Journal
   );
 
   // users
