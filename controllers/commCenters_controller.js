@@ -7,7 +7,12 @@ async function getCommCenters(req, res) {
   try {
     let options = {};
     if (req.query.controller && req.query.controller == "include") {
-      options.include = [{ model: db.Controllers, as: "controller" }];
+      options.include = [
+        { model: db.Controllers, as: "controllers" },
+        { model: db.Avarii_Journals, as: "avarii_journal_data" },
+        { model: db.Donesenii_Journals, as: "donesenii_journal_data" },
+        { model: db.Nasosi_Journals, as: "nasosi_journal_data" },
+      ];
     }
     let commCenters = await db.CommunicationCenters.findAndCountAll(options);
     let count = commCenters.count;
@@ -18,7 +23,7 @@ async function getCommCenters(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res.json({
+    res.status(502).json({
       message: err.toString(),
     });
   }
@@ -31,7 +36,7 @@ async function getCommCenterById(req, res) {
       where: {
         path: req.params.id,
       },
-      include: [{ model: db.Controllers, as: "controller" }],
+      include: [{ model: db.Controllers, as: "controllers" }],
     };
 
     let commCenter = await db.CommunicationCenters.findOne(options);
@@ -43,7 +48,7 @@ async function getCommCenterById(req, res) {
     res.json(commCenter);
   } catch (err) {
     console.error(err);
-    res.json({
+    res.status(502).json({
       message: err.toString(),
     });
   }
@@ -108,7 +113,7 @@ async function createCommCenter(req, res) {
     res.json(commCenter);
   } catch (err) {
     console.error(err);
-    res.json({ message: err.toString() });
+    res.status(502).json({ message: err.toString() });
   }
 }
 
@@ -166,7 +171,7 @@ async function updateCommCenter(req, res) {
     res.json(commCenter);
   } catch (err) {
     console.error(err);
-    res.json({ message: err.toString() });
+    res.status(502).json({ message: err.toString() });
   }
 }
 
@@ -183,7 +188,7 @@ async function deleteCommCenter(req, res) {
     res.json({ massage: `commCenter with id ${commCenter.path} deleted` });
   } catch (err) {
     console.error(err);
-    res.json({ message: err.toString() });
+    res.status(502).json({ message: err.toString() });
   }
 }
 

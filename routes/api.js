@@ -14,6 +14,7 @@ module.exports = (app) => {
   const registers_Controllers_values = require("../controllers/registers_Controllers_values_controller");
   const avarii_journal = require("../controllers/avarii_journal_controller");
   const donesenii_journal = require("../controllers/donesenii_journal_controller");
+  const nasosi_journal = require("../controllers/nasosi_journal_controller");
   const users = require("../controllers/user_controller");
   const auth = require("../controllers/auth_controller");
 
@@ -183,6 +184,19 @@ module.exports = (app) => {
   router.delete(
     "/donesenii_journals_data/:id",
     donesenii_journal.deleteDonesenii_Journal
+  );
+
+  // nasosi_journals_data
+  router.get("/nasosi_journals_data", nasosi_journal.getNasosi_JournalData);
+  router.get(
+    "/nasosi_journals_data/:id",
+    nasosi_journal.getNasosi_JournalDataById
+  );
+  router.post("/nasosi_journals_data", nasosi_journal.createNasosi_JournalData);
+  router.put("/nasosi_journals_data/:id", nasosi_journal.updateNasosi_Journal);
+  router.delete(
+    "/nasosi_journals_data/:id",
+    nasosi_journal.deleteNasosi_Journal
   );
 
   // users

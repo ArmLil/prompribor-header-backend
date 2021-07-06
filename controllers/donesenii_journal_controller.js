@@ -12,7 +12,7 @@ async function getDonesenii_JournalData(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res.json({ message: err.toString() });
+    res.status(502).json({ message: err.toString() });
   }
 }
 
@@ -33,7 +33,7 @@ async function getDonesenii_JournalDataById(req, res) {
     res.json(donesenii_JournalData);
   } catch (err) {
     console.error(err);
-    res.json({
+    res.status(502).json({
       message: err.toString(),
     });
   }
@@ -86,7 +86,7 @@ async function createDonesenii_JournalData(req, res) {
     res.json(donesenii_JournalData);
   } catch (err) {
     console.error(err);
-    res.json({
+    res.status(502).json({
       message: err.toString(),
     });
   }
@@ -126,7 +126,7 @@ async function updateDonesenii_Journal(req, res) {
     res.json(donesenii_JournalData);
   } catch (err) {
     console.error(err);
-    res.json({ message: err.toString() });
+    res.status(502).json({ message: err.toString() });
   }
 }
 
@@ -147,7 +147,7 @@ async function deleteDonesenii_Journal(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res.json({ message: err.toString() });
+    res.status(502).json({ message: err.toString() });
   }
 }
 

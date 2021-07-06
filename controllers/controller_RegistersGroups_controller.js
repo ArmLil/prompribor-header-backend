@@ -11,13 +11,13 @@ async function getController_RegistersGroups(req, res) {
     );
     let count = controller_RegistersGroups.count;
 
-    res.json({
+    res.status(502).json({
       controller_RegistersGroups,
       count,
     });
   } catch (err) {
     console.error(err);
-    res.json({
+    res.status(502).json({
       message: err.toString(),
     });
   }
@@ -42,7 +42,7 @@ async function getController_RegistersGroupById(req, res) {
     res.json(controller_RegistersGroup);
   } catch (err) {
     console.error(err);
-    res.json({
+    res.status(502).json({
       message: err.toString(),
     });
   }
@@ -90,7 +90,7 @@ async function createController_RegistersGroup(req, res) {
     res.json(controller_RegistersGroup);
   } catch (err) {
     console.error(err);
-    res.json({
+    res.status(502).json({
       message: err.toString(),
     });
   }
@@ -165,7 +165,7 @@ async function updateController_RegistersGroup(req, res) {
     res.json(controller_RegistersGroup);
   } catch (err) {
     console.error(err);
-    res.json({ message: err.toString() });
+    res.status(502).json({ message: err.toString() });
   }
 }
 
@@ -186,7 +186,7 @@ async function deleteController_RegistersGroup(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res.json({ message: err.toString() });
+    res.status(502).json({ message: err.toString() });
   }
 }
 

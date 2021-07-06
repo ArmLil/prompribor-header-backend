@@ -11,13 +11,13 @@ async function getRegistersGroups_Registers(req, res) {
     );
     let count = registersGroup_Registers.count;
 
-    res.json({
+    res.status(502).json({
       registersGroup_Registers,
       count,
     });
   } catch (err) {
     console.error(err);
-    res.json({
+    res.status(502).json({
       message: err.toString(),
     });
   }
@@ -43,7 +43,7 @@ async function getRegistersGroup_RegisterById(req, res) {
     res.json(registersGroup_Registers);
   } catch (err) {
     console.error(err);
-    res.json({
+    res.status(502).json({
       message: err.toString(),
     });
   }
@@ -89,7 +89,7 @@ async function createRegistersGroup_Register(req, res) {
     res.json(registersGroup_Register);
   } catch (err) {
     console.error(err);
-    res.json({
+    res.status(502).json({
       message: err.toString(),
     });
   }
@@ -162,7 +162,7 @@ async function updateRegistersGroup_Register(req, res) {
     res.json(registersGroup_Register);
   } catch (err) {
     console.error(err);
-    res.json({ message: err.toString() });
+    res.status(502).json({ message: err.toString() });
   }
 }
 
@@ -183,7 +183,7 @@ async function deleteRegistersGroup_Register(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res.json({ message: err.toString() });
+    res.status(502).json({ message: err.toString() });
   }
 }
 

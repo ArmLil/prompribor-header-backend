@@ -14,7 +14,7 @@ async function getRegisters(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res.json({
+    res.status(502).json({
       message: err.toString(),
     });
   }
@@ -37,7 +37,7 @@ async function getRegisterById(req, res) {
     res.json(register);
   } catch (err) {
     console.error(err);
-    res.json({
+    res.status(502).json({
       message: err.toString(),
     });
   }
@@ -73,7 +73,7 @@ async function createRegister(req, res) {
     res.json(register);
   } catch (err) {
     console.error(err);
-    res.json({
+    res.status(502).json({
       message: err.toString(),
     });
   }
@@ -111,7 +111,7 @@ async function updateRegister(req, res) {
     res.json(register);
   } catch (err) {
     console.error(err);
-    res.json({ message: err.toString() });
+    res.status(502).json({ message: err.toString() });
   }
 }
 
@@ -130,7 +130,7 @@ async function deleteRegister(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res.json({ message: err.toString() });
+    res.status(502).json({ message: err.toString() });
   }
 }
 

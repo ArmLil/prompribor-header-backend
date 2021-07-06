@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       date: DataTypes.STRING,
       time: DataTypes.STRING,
+      line: DataTypes.STRING,
       P_in: DataTypes.STRING,
       P_out: DataTypes.STRING,
       revs: DataTypes.STRING,

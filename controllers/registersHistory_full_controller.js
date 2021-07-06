@@ -18,7 +18,7 @@ async function getRegistersHistory_full(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res.json({
+    res.status(502).json({
       message: err.toString(),
     });
   }
@@ -43,7 +43,7 @@ async function getRegistersHistory_full_ById(req, res) {
     res.json(registersHistory_full);
   } catch (err) {
     console.error(err);
-    res.json({
+    res.status(502).json({
       message: err.toString(),
     });
   }
@@ -93,7 +93,7 @@ async function createRegistersHistory_full(req, res) {
     res.json(registersHistory_full);
   } catch (err) {
     console.error(err);
-    res.json({
+    res.status(502).json({
       message: err.toString(),
     });
   }
@@ -148,7 +148,7 @@ async function updateRegistersHistory_full(req, res) {
     res.json(registersHistory_full);
   } catch (err) {
     console.error(err);
-    res.json({ message: err.toString() });
+    res.status(502).json({ message: err.toString() });
   }
 }
 
@@ -169,7 +169,7 @@ async function deleteRegistersHistory_full(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res.json({ message: err.toString() });
+    res.status(502).json({ message: err.toString() });
   }
 }
 

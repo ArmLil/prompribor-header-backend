@@ -18,7 +18,7 @@ async function getRegisters_Controllers_values(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res.json({
+    res.status(502).json({
       message: err.toString(),
     });
   }
@@ -43,7 +43,7 @@ async function getRegisters_Controllers_valuesById(req, res) {
     res.json(registers_Controllers_values);
   } catch (err) {
     console.error(err);
-    res.json({
+    res.status(502).json({
       message: err.toString(),
     });
   }
@@ -116,7 +116,7 @@ async function createRegisters_Controllers_values(req, res) {
     res.json(registers_Controllers_values);
   } catch (err) {
     console.error(err);
-    res.json({
+    res.status(502).json({
       message: err.toString(),
     });
   }
@@ -189,7 +189,7 @@ async function updateRegisters_Controllers_values(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res.json({ message: err.toString() });
+    res.status(502).json({ message: err.toString() });
   }
 }
 
@@ -210,7 +210,7 @@ async function deleteRegisters_Controllers_values(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res.json({ message: err.toString() });
+    res.status(502).json({ message: err.toString() });
   }
 }
 

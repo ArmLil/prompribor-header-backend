@@ -12,7 +12,7 @@ async function getAvarii_JournalData(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res.json({ message: err.toString() });
+    res.status(502).json({ message: err.toString() });
   }
 }
 
@@ -33,7 +33,7 @@ async function getAvarii_JournalDataById(req, res) {
     res.json(avarii_JournalData);
   } catch (err) {
     console.error(err);
-    res.json({
+    res.status(502).json({
       message: err.toString(),
     });
   }
@@ -86,7 +86,7 @@ async function createAvarii_JournalData(req, res) {
     res.json(avarii_JournalData);
   } catch (err) {
     console.error(err);
-    res.json({
+    res.status(502).json({
       message: err.toString(),
     });
   }
@@ -124,7 +124,7 @@ async function updateAvarii_Journal(req, res) {
     res.json(avarii_JournalData);
   } catch (err) {
     console.error(err);
-    res.json({ message: err.toString() });
+    res.status(502).json({ message: err.toString() });
   }
 }
 
@@ -143,7 +143,7 @@ async function deleteAvarii_Journal(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res.json({ message: err.toString() });
+    res.status(502).json({ message: err.toString() });
   }
 }
 
