@@ -52,7 +52,7 @@ async function createAvarii_JournalData(req, res) {
       const mm = String(currentdate.getMonth() + 1).padStart(2, "0"); //January is 0!
       const yyyy = currentdate.getFullYear();
 
-      let date = dd + "." + mm + "." + yyyy;
+      let date = dd + "-" + mm + "-" + yyyy;
       options.date = date;
     }
     if (req.body.time) {
@@ -63,15 +63,16 @@ async function createAvarii_JournalData(req, res) {
       // currentdate.getSeconds();
       options.time = time;
     }
-    if (req.body.line) {
-      options.line = req.body.line;
-    } else {
-      return res.status(400).send({ message: "line required" });
+    if (req.body.fromWho) {
+      options.fromWho = req.body.fromWho;
     }
     if (req.body.avarii) {
       options.avarii = req.body.avarii;
     } else {
       return res.status(400).send({ message: "avarii required" });
+    }
+    if (req.body.executor) {
+      options.executor = req.body.executor;
     }
     if (req.body.note) {
       options.note = req.body.note;
@@ -107,11 +108,14 @@ async function updateAvarii_Journal(req, res) {
     if (req.body.time) {
       avarii_JournalData.time = req.body.time;
     }
-    if (req.body.line) {
-      avarii_JournalData.line = req.body.line;
+    if (req.body.fromWho) {
+      avarii_JournalData.fromWho = req.body.fromWho;
     }
     if (req.body.avarii) {
       avarii_JournalData.avarii = req.body.avarii;
+    }
+    if (req.body.executor) {
+      avarii_JournalData.executor = req.body.executor;
     }
     if (req.body.note) {
       avarii_JournalData.note = req.body.note;

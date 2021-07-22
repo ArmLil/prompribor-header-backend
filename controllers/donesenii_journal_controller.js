@@ -58,20 +58,25 @@ async function createDonesenii_JournalData(req, res) {
     if (req.body.time) {
       options.time = req.body.time;
     } else {
+      let hh = currentdate.getHours();
+      let min = currentdate.getMinutes();
+
       let time = currentdate.getHours() + ":" + currentdate.getMinutes();
       // ":" +
       // currentdate.getSeconds();
       options.time = time;
     }
-    if (req.body.line) {
-      options.line = req.body.line;
-    } else {
-      return res.status(400).send({ message: "line required" });
+    if (req.body.fromWho) {
+      options.fromWho = req.body.fromWho;
     }
+
     if (req.body.donesenii) {
       options.donesenii = req.body.donesenii;
     } else {
       return res.status(400).send({ message: "donesenii required" });
+    }
+    if (req.body.executor) {
+      options.executor = req.body.executor;
     }
     if (req.body.note) {
       options.note = req.body.note;
@@ -109,11 +114,14 @@ async function updateDonesenii_Journal(req, res) {
     if (req.body.time) {
       donesenii_JournalData.time = req.body.time;
     }
-    if (req.body.line) {
-      donesenii_JournalData.line = req.body.line;
+    if (req.body.fromWho) {
+      donesenii_JournalData.fromWho = req.body.fromWho;
     }
     if (req.body.donesenii) {
       donesenii_JournalData.donesenii = req.body.donesenii;
+    }
+    if (req.body.executor) {
+      donesenii_JournalData.executor = req.body.executor;
     }
     if (req.body.note) {
       donesenii_JournalData.note = req.body.note;

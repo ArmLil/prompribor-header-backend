@@ -36,7 +36,12 @@ async function getCommCenterById(req, res) {
       where: {
         path: req.params.id,
       },
-      include: [{ model: db.Controllers, as: "controllers" }],
+      include: [
+        { model: db.Controllers, as: "controllers" },
+        { model: db.Avarii_Journals, as: "avarii_journal_data" },
+        { model: db.Donesenii_Journals, as: "donesenii_journal_data" },
+        { model: db.Nasosi_Journals, as: "nasosi_journal_data" },
+      ],
     };
 
     let commCenter = await db.CommunicationCenters.findOne(options);

@@ -14,10 +14,13 @@ module.exports = {
       time: {
         type: Sequelize.STRING,
       },
-      line: {
+      fromWho: {
         type: Sequelize.STRING,
       },
       avarii: {
+        type: Sequelize.STRING,
+      },
+      executor: {
         type: Sequelize.STRING,
       },
       note: {
