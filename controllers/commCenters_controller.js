@@ -12,6 +12,7 @@ async function getCommCenters(req, res) {
         { model: db.Avarii_Journals, as: "avarii_journal_data" },
         { model: db.Donesenii_Journals, as: "donesenii_journal_data" },
         { model: db.Nasosi_Journals, as: "nasosi_journal_data" },
+        { model: db.Fuel_Journals, as: "fuel_journal_data" },
       ];
     }
     let commCenters = await db.CommunicationCenters.findAndCountAll(options);
@@ -41,6 +42,7 @@ async function getCommCenterById(req, res) {
         { model: db.Avarii_Journals, as: "avarii_journal_data" },
         { model: db.Donesenii_Journals, as: "donesenii_journal_data" },
         { model: db.Nasosi_Journals, as: "nasosi_journal_data" },
+        { model: db.Fuel_Journals, as: "fuel_journal_data" },
       ],
     };
 

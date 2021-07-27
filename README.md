@@ -16,7 +16,7 @@ DB_NAME= 'conroller_header'
 
     $ sequelize model:create --name Registers --attributes address:string,dataType:string,sizeRegister:string,recordable:boolean,appointment:string,description:string
 
-    $ sequelize model:create --name Donesenii_Journals --attributes date:string,time:string,line:string,donesenii:string,note:string,commCenterPath:string
+    $ sequelize model:create --name Fuel_Journals --attributes date:string,time:string,temperature:string,density:string,current_volume:string,current_mass:string,total_volume:string,total_mass:string,commCenterPath:string
 
     $ sequelize model:create --name Registers_Controllers_values --attributes registerAddress:uuid,controllerModbusId:uuid,value:string
 

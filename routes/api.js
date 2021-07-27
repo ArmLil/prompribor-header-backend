@@ -15,6 +15,7 @@ module.exports = (app) => {
   const avarii_journal = require("../controllers/avarii_journal_controller");
   const donesenii_journal = require("../controllers/donesenii_journal_controller");
   const nasosi_journal = require("../controllers/nasosi_journal_controller");
+  const fuel_journal = require("../controllers/fuel_journal_controller");
   const users = require("../controllers/user_controller");
   const auth = require("../controllers/auth_controller");
 
@@ -198,6 +199,13 @@ module.exports = (app) => {
     "/nasosi_journals_data/:id",
     nasosi_journal.deleteNasosi_Journal
   );
+
+  // fuel_journals_data
+  router.get("/fuel_journals_data", fuel_journal.getFuel_JournalData);
+  router.get("/fuel_journals_data/:id", fuel_journal.getFuel_JournalDataById);
+  router.post("/fuel_journals_data", fuel_journal.createFuel_JournalData);
+  router.put("/fuel_journals_data/:id", fuel_journal.updateFuel_Journal);
+  router.delete("/fuel_journals_data/:id", fuel_journal.deleteFuel_Journal);
 
   // users
   router.get("/users", auth.checkauth, users.getUsers);

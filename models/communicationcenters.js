@@ -41,6 +41,10 @@ module.exports = (sequelize, DataTypes) => {
       as: "nasosi_journal_data",
       foreignKey: "commCenterPath",
     });
+    CommunicationCenters.hasMany(models.Fuel_Journals, {
+      as: "fuel_journal_data",
+      foreignKey: "commCenterPath",
+    });
   };
   return CommunicationCenters;
 };
