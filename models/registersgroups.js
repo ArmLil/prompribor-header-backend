@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
       },
       name: DataTypes.STRING,
+      relatedJournal: DataTypes.STRING,
       description: DataTypes.TEXT,
     },
     {

@@ -7,6 +7,7 @@ module.exports = {
       {
         id: 1,
         name: "Состояние насоса",
+        relatedJournal: "nasosi",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -14,6 +15,7 @@ module.exports = {
       {
         id: 2,
         name: "Учет нефтепродукта",
+        relatedJournal: "fuel",
         createdAt: new Date(),
         updatedAt: new Date(),
       },

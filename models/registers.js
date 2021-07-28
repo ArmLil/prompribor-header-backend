@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         primaryKey: true,
       },
+      name: DataTypes.STRING,
       sizeRegister: DataTypes.INTEGER,
       recordable: DataTypes.BOOLEAN,
       dataType: DataTypes.STRING,
