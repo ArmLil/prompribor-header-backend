@@ -31,4 +31,5 @@ module.exports = {
     logging: false,
   },
   socketDomains: [],
+  journals_interval: 10000, //3600000
 };

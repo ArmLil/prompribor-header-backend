@@ -21,8 +21,12 @@ const bodyParser = require("body-parser");
 //Import routes
 let api = require("./routes/api")();
 var db = require("./models");
+
+const journals_interval = require("./config/config.js")["journals_interval"];
 const fill_journals = require("./workers/autoFill_journals");
-fill_journals(io);
+setTimeout(() => fill_journals(io), 2000);
+setInterval(() => fill_journals(io), journals_interval);
+
 var cors = require("cors");
 app.use(cors());
 
