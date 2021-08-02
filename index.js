@@ -25,7 +25,7 @@ var db = require("./models");
 const journals_interval = require("./config/config.js")["journals_interval"];
 const fill_journals = require("./workers/autoFill_journals");
 setTimeout(() => fill_journals(io), 2000);
-setInterval(() => fill_journals(io), journals_interval);
+// setInterval(() => fill_journals(io), journals_interval);
 
 var cors = require("cors");
 app.use(cors());
