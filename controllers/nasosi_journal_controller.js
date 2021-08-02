@@ -46,6 +46,15 @@ async function createNasosi_JournalData(req, res) {
     let currentdate = new Date();
 
     if (req.body.date) {
+      let hh =
+        String(currentdate.getHours()).length > 1
+          ? String(currentdate.getHours())
+          : "0" + String(currentdate.getHours());
+      let min =
+        String(currentdate.getMinutes()).length > 1
+          ? String(currentdate.getMinutes())
+          : "0" + String(currentdate.getMinutes());
+      let time = hh + ":" + min;
       options.date = req.body.date;
     } else {
       const dd = String(currentdate.getDate()).padStart(2, "0");

@@ -70,27 +70,27 @@ module.exports = {
         updatedAt: new Date(),
       },
       // состояние насосаmodbusId3
-      // {
-      //   id: uuidv4(),
-      //   registerAddress: "0x1600",
-      //   controllerModbusId: "3",
-      //   createdAt: new Date(),
-      //   updatedAt: new Date(),
-      // },
-      // {
-      //   id: uuidv4(),
-      //   registerAddress: "0x1602",
-      //   controllerModbusId: "3",
-      //   createdAt: new Date(),
-      //   updatedAt: new Date(),
-      // },
-      // {
-      //   id: uuidv4(),
-      //   registerAddress: "0x1604",
-      //   controllerModbusId: "3",
-      //   createdAt: new Date(),
-      //   updatedAt: new Date(),
-      // },
+      {
+        id: uuidv4(),
+        registerAddress: "0x1600",
+        controllerModbusId: "3",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: uuidv4(),
+        registerAddress: "0x1602",
+        controllerModbusId: "3",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: uuidv4(),
+        registerAddress: "0x1604",
+        controllerModbusId: "3",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ]);
   },
   down: (queryInterface, Sequelize) => {

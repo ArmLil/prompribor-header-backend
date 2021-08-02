@@ -10,6 +10,9 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
       },
+      line: {
+        type: Sequelize.STRING,
+      },
       commCenterPath: {
         type: Sequelize.STRING,
       },

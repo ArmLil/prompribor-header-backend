@@ -21,13 +21,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       //состояние насоса
-      // {
-      //   id: uuidv4(),
-      //   controllerModbusId: "3",
-      //   registersGroupId: 1,
-      //   createdAt: new Date(),
-      //   updatedAt: new Date(),
-      // },
+      {
+        id: uuidv4(),
+        controllerModbusId: "3",
+        registersGroupId: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ]);
   },
   down: (queryInterface, Sequelize) => {

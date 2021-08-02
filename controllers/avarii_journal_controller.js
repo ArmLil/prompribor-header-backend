@@ -58,9 +58,15 @@ async function createAvarii_JournalData(req, res) {
     if (req.body.time) {
       options.time = req.body.time;
     } else {
-      let time = currentdate.getHours() + ":" + currentdate.getMinutes();
-      // ":" +
-      // currentdate.getSeconds();
+      let hh =
+        String(currentdate.getHours()).length > 1
+          ? String(currentdate.getHours())
+          : "0" + String(currentdate.getHours());
+      let min =
+        String(currentdate.getMinutes()).length > 1
+          ? String(currentdate.getMinutes())
+          : "0" + String(currentdate.getMinutes());
+      let time = hh + ":" + min;
       options.time = time;
     }
     if (req.body.fromWho) {
