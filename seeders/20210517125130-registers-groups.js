@@ -3,7 +3,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert("RegistersGroups", [
-      // возле озеро
       {
         id: 1,
         name: "Состояние насоса",
@@ -11,10 +10,9 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      // возле леса
       {
         id: 2,
-        name: "Учет нефтепродукта",
+        name: "Состояние горючего",
         relatedJournal: "fuel",
         createdAt: new Date(),
         updatedAt: new Date(),

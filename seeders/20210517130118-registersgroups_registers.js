@@ -26,7 +26,7 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      // Учет нефтепродукта
+      // Состояние горючего
       {
         id: uuidv4(),
         registerAddress: "0x1312",

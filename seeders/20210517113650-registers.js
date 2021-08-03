@@ -35,7 +35,7 @@ module.exports = {
         updatedAt: new Date(),
       },
 
-      // Учет нефтепродукта
+      // состояние горючего
       {
         address: "0x1312",
         sizeRegister: 2,
