@@ -18,6 +18,10 @@ async function getCommCenters(req, res) {
     let commCenters = await db.CommunicationCenters.findAndCountAll(options);
     let count = commCenters.count;
 
+    let mapPolylinePoints = await db.MapPolylinePoints.findAndCountAll({
+      order: [["index", "ASC"]],
+    });
+    commCenters.mapPolylinePoints = mapPolylinePoints;
     res.json({
       commCenters,
       count,

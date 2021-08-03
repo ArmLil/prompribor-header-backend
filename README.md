@@ -18,6 +18,8 @@ DB_NAME= 'conroller_header'
 
     $ sequelize model:create --name Fuel_Journals --attributes date:string,time:string,temperature:string,density:string,current_volume:string,current_mass:string,total_volume:string,total_mass:string,commCenterPath:string
 
+    $ sequelize model:create --name MapPolylinePoints --attributes index:integer,lat:string,len:string,type:string,description:string
+
     $ sequelize model:create --name Registers_Controllers_values --attributes registerAddress:uuid,controllerModbusId:uuid,value:string
 
 
@@ -25,7 +27,12 @@ DB_NAME= 'conroller_header'
        $ sequelize db:migrate
     seed
        $ sequelize db:seed:all
+
+       //if seed one model
        sequelize db:seed --seed 20210517140506-controller_registersgroups.js
+
+    seed create initializiing
+    $ npx sequelize-cli seed:generate --name MapPolylinePoints
 
 #### setup datasource
 
@@ -117,5 +124,3 @@ DB_NAME= 'conroller_header'
                     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjoiOWQ2ZjI3YWMtMzM2Ny00NDk2LWJkNTctYzU0YTk4NmU2OGU0IiwidXNlcm5hbWUiOiJ1c2VybmFtZTMiLCJlbWFpbCI6ImFybWxpbGhvdkBtYWlsLnJ1IiwiZW1haWxfY29uZmlybWVkIjp0cnVlfSwiaWF0IjoxNTc2Njc5MTU4LCJleHAiOjE1NzY3NjU1NTh9.OsfcCWB3EMSoIwMssAaznw0-5TL01UiiKyshjOctGIY"
                 }
             }
-
-for deploy recomment rows 9 and 10
