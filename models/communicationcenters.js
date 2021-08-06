@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       port: DataTypes.STRING,
       host: DataTypes.STRING,
       status: DataTypes.STRING,
+      tablePosition: DataTypes.STRING,
       description: DataTypes.TEXT,
     },
     {

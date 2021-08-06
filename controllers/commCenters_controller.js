@@ -8,7 +8,16 @@ async function getCommCenters(req, res) {
     let options = {};
     if (req.query.controller && req.query.controller == "include") {
       options.include = [
-        { model: db.Controllers, as: "controllers" },
+        {
+          model: db.Controllers,
+          as: "controllers",
+          include: [
+            {
+              model: db.Registers,
+              as: "registers",
+            },
+          ],
+        },
         { model: db.Avarii_Journals, as: "avarii_journal_data" },
         { model: db.Donesenii_Journals, as: "donesenii_journal_data" },
         { model: db.Nasosi_Journals, as: "nasosi_journal_data" },
@@ -21,10 +30,31 @@ async function getCommCenters(req, res) {
     let mapPolylinePoints = await db.MapPolylinePoints.findAndCountAll({
       order: [["index", "ASC"]],
     });
+    let bridgePolylinePoints = await db.BridgePolylinePoints.findAndCountAll();
+    function groupBy(collection, property) {
+      var i = 0,
+        val,
+        index,
+        values = [],
+        result = [];
+      for (; i < collection.length; i++) {
+        val = collection[i][property];
+        index = values.indexOf(val);
+        if (index > -1) result[index].push(collection[i]);
+        else {
+          values.push(val);
+          result.push([collection[i]]);
+        }
+      }
+      return result;
+    }
+
+    let groupType = groupBy(bridgePolylinePoints.rows, "type");
     commCenters.mapPolylinePoints = mapPolylinePoints;
     res.json({
       commCenters,
       count,
+      bridge: groupType,
     });
   } catch (err) {
     console.error(err);

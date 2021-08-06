@@ -106,20 +106,20 @@ const positions = [
 let i = 0;
 let up = true;
 
-setInterval(() => {
-  if (i === positions.length - 1) {
-    up = false;
-  }
-  if (i === 0) {
-    up = true;
-  }
-  if (up) {
-    i += 1;
-  } else {
-    i -= 1;
-  }
-  io.emit("carPostion", positions[i]);
-}, 2000);
+// setInterval(() => {
+//   if (i === positions.length - 1) {
+//     up = false;
+//   }
+//   if (i === 0) {
+//     up = true;
+//   }
+//   if (up) {
+//     i += 1;
+//   } else {
+//     i -= 1;
+//   }
+//   io.emit("carPostion", positions[i]);
+// }, 2000);
 
 const port = process.env.PORT || 3002;
 const host = process.env.HOST || "127.0.0.1";

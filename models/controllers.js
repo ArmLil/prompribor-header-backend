@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: DataTypes.STRING,
       line: DataTypes.STRING,
+      type: DataTypes.STRING,
       description: DataTypes.TEXT,
       commCenterPath: {
         type: DataTypes.STRING,

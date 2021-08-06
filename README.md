@@ -20,6 +20,8 @@ DB_NAME= 'conroller_header'
 
     $ sequelize model:create --name MapPolylinePoints --attributes index:integer,lat:string,len:string,type:string,description:string
 
+    $ sequelize model:create --name BridgePolylinePoints --attributes index:integer,lat:string,len:string,type:string,description:string
+
     $ sequelize model:create --name Registers_Controllers_values --attributes registerAddress:uuid,controllerModbusId:uuid,value:string
 
 
@@ -32,7 +34,7 @@ DB_NAME= 'conroller_header'
        sequelize db:seed --seed 20210517140506-controller_registersgroups.js
 
     seed create initializiing
-    $ npx sequelize-cli seed:generate --name MapPolylinePoints
+    $ npx sequelize-cli seed:generate --name BridgePolylinePoints
 
 #### setup datasource
 

@@ -1,17 +1,15 @@
 "use strict";
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable("CommunicationCenters", {
-      path: {
+    return queryInterface.createTable("BridgePolylinePoints", {
+      id: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.UUID,
         primaryKey: true,
-      },
-      name: {
-        type: Sequelize.STRING,
+        autoIncrement: false,
       },
       index: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       lat: {
         type: Sequelize.STRING,
@@ -19,20 +17,11 @@ module.exports = {
       len: {
         type: Sequelize.STRING,
       },
-      port: {
+      type: {
         type: Sequelize.STRING,
-      },
-      host: {
-        type: Sequelize.STRING,
-      },
-      status: {
-        type: Sequelize.STRING,
-      },
-      tablePosition: {
-        type: Sequelize.TEXT,
       },
       description: {
-        type: Sequelize.TEXT,
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
@@ -48,6 +37,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("CommunicationCenters");
+    return queryInterface.dropTable("BridgePolylinePoints");
   },
 };
