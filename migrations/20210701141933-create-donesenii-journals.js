@@ -20,7 +20,7 @@ module.exports = {
       donesenii: {
         type: Sequelize.STRING,
       },
-      executer: {
+      executor: {
         type: Sequelize.STRING,
       },
       note: {

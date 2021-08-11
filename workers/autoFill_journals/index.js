@@ -77,7 +77,11 @@ const fill_journals = async (io) => {
           options.time = time;
           options.commCenterPath = commCenter.path;
           if (reg_gr.relatedJournal === "fuel") {
+            let create = false;
             reg_gr.registers.forEach((reg, i) => {
+              if (reg.dataValues.value !== null) {
+                create = true;
+              }
               if (reg.name === "temperature") {
                 options.temperature = reg.dataValues.value;
               }
@@ -109,14 +113,20 @@ const fill_journals = async (io) => {
                 });
             });
 
-            await db.Fuel_Journals.create(options)
-              .then((fuel_data) => {
-                io.emit("fuel_data", fuel_data);
-              })
-              .catch(console.error);
+            if (create) {
+              await db.Fuel_Journals.create(options)
+                .then((fuel_data) => {
+                  io.emit("fuel_data", fuel_data);
+                })
+                .catch(console.error);
+            }
           }
           if (reg_gr.relatedJournal === "nasosi") {
+            let create = false;
             reg_gr.registers.forEach((reg, i) => {
+              if (reg.dataValues.value !== null) {
+                create = true;
+              }
               options.line = res_cont.line;
               if (reg.name === "P_in") {
                 options.P_in = reg.dataValues.value;
@@ -139,12 +149,13 @@ const fill_journals = async (io) => {
                   second: "2-digit",
                 });
             });
-
-            await db.Nasosi_Journals.create(options)
-              .then((nasosi_data) => {
-                io.emit("nasosi_data", nasosi_data);
-              })
-              .catch(console.error);
+            if (create) {
+              await db.Nasosi_Journals.create(options)
+                .then((nasosi_data) => {
+                  io.emit("nasosi_data", nasosi_data);
+                })
+                .catch(console.error);
+            }
           }
         });
       });

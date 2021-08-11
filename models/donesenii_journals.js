@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       time: DataTypes.STRING,
       fromWho: DataTypes.STRING,
       donesenii: DataTypes.STRING,
-      executer: DataTypes.STRING,
+      executor: DataTypes.STRING,
       note: DataTypes.STRING,
       commCenterPath: DataTypes.STRING,
     },
