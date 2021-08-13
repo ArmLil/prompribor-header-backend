@@ -6,8 +6,8 @@ var app = express();
 var server = require("http").Server(app);
 var io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:8081",
-    // origin: "http://172.28.1.88",
+    // origin: "http://localhost:8081",
+    origin: "http://172.28.1.88",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -25,7 +25,7 @@ var db = require("./models");
 const journals_interval = require("./config/config.js")["journals_interval"];
 const fill_journals = require("./workers/autoFill_journals");
 setTimeout(() => fill_journals(io), 2000);
-// setInterval(() => fill_journals(io), journals_interval);
+setInterval(() => fill_journals(io), journals_interval);
 
 var cors = require("cors");
 app.use(cors());

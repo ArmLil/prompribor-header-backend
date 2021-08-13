@@ -11,7 +11,6 @@ const fill_journals = async (io) => {
         { model: db.Fuel_Journals, as: "fuel_journal_data" },
       ],
     });
-    // console.log(commCenters.rows);
     commCenters.rows.forEach(async (commCenter, i) => {
       let options = {
         where: {
@@ -53,10 +52,8 @@ const fill_journals = async (io) => {
         contr.registersGroup = registersGroups;
         result_controllers.push(contr);
       });
-      // console.log({ result_controllers });
       result_controllers.forEach((res_cont, i) => {
         res_cont.registersGroups.forEach(async (reg_gr, i) => {
-          // console.log({ reg_gr });
           let options = {};
           let currentdate = new Date();
           const dd = String(currentdate.getDate()).padStart(2, "0");

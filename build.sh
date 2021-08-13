@@ -34,6 +34,7 @@ cp -r ${CURRENT_PATH}/node_modules/ \
       ${CURRENT_PATH}/models/ \
       ${CURRENT_PATH}/public/ \
       ${CURRENT_PATH}/routes/ \
+      ${CURRENT_PATH}/workers/ \
       ${CURRENT_PATH}/seeders/ \
       ${CURRENT_PATH}/README.md \
       ${CURRENT_PATH}/.env \

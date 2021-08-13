@@ -1,6 +1,7 @@
 ### Project with node.js, JWT, authentication, sequelize
 
 DB_NAME= 'conroller_header'
+node version 12.13.0
 
 ### Hints
 
