@@ -2,12 +2,13 @@
 
 var express = require("express");
 var app = express();
+const client_IP = require("./config/config.js")["client_IP"];
 
 var server = require("http").Server(app);
 var io = require("socket.io")(server, {
   cors: {
     // origin: "http://localhost:8081",
-    origin: "http://172.28.1.88",
+    origin: "http://" + "client_IP",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -122,7 +123,8 @@ let up = true;
 // }, 2000);
 
 const port = process.env.PORT || 3002;
-const host = process.env.HOST || "127.0.0.1";
+const host = process.env.HOST || client_IP;
+// const host = process.env.HOST || "127.0.0.1";
 // const host = process.env.HOST || "172.28.1.88";
 
 // server.listen(port, '172.28.2.35', function() {
@@ -131,6 +133,6 @@ const host = process.env.HOST || "127.0.0.1";
 // });
 
 server.listen(port, host, function () {
-  console.log(`server listening on port ${port}`);
+  console.log(`server listening on port ${port}, host ${host}`);
   // db.sequelize.sync();
 });

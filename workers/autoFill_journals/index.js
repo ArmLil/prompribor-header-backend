@@ -1,6 +1,6 @@
 "use strict";
 var db = require("../../models");
-
+var line = require("../../config/config.js")["line"];
 const fill_journals = async (io) => {
   console.log("fill journals");
   //fill nasosi journals
@@ -124,7 +124,6 @@ const fill_journals = async (io) => {
               if (reg.dataValues.value !== null) {
                 create = true;
               }
-              options.line = res_cont.line;
               if (reg.name === "P_in") {
                 options.P_in = reg.dataValues.value;
               }
@@ -134,6 +133,7 @@ const fill_journals = async (io) => {
               if (reg.name === "revs") {
                 options.revs = reg.dataValues.value;
               }
+              options.line = line;
               options.note =
                 "последнее обнавление " +
                 reg.dataValues.updatedAt.toLocaleDateString("ru-RU", {
