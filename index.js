@@ -3,12 +3,11 @@
 var express = require("express");
 var app = express();
 const client_IP = require("./config/config.js")["client_IP"];
-
 var server = require("http").Server(app);
 var io = require("socket.io")(server, {
   cors: {
     // origin: "http://localhost:8081",
-    origin: "http://" + "client_IP",
+    origin: "http://" + client_IP,
     methods: ["GET", "POST"],
     credentials: true,
   },

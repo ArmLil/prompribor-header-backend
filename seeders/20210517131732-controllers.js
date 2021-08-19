@@ -7,7 +7,7 @@ module.exports = {
       //*.2 Состояние горючего
       {
         modbusId: "1.1",
-        name: "ГНС-1 контролер-1.1",
+        name: "НС-1 контролер-1.1",
         line: "",
         type: "nasosi",
         description: "Состояние насоса",
@@ -17,7 +17,7 @@ module.exports = {
       },
       {
         modbusId: "1.2",
-        name: "ГНС-1 контролер-1.2",
+        name: "НС-1 контролер-1.2",
         line: "",
         type: "fuel",
         description: "Состояние горючего",
@@ -27,7 +27,7 @@ module.exports = {
       },
       {
         modbusId: "2.1",
-        name: "ГНС-2 контролер-2.1",
+        name: "НС-2 контролер-2.1",
         line: "",
         type: "nasosi",
         description: "Состояние насоса",
@@ -37,7 +37,7 @@ module.exports = {
       },
       {
         modbusId: "2.2",
-        name: "ГНС-2 контролер-2.2",
+        name: "НС-2 контролер-2.2",
         line: "",
         type: "fuel",
         description: "Состояние горючего",
@@ -47,7 +47,7 @@ module.exports = {
       },
       {
         modbusId: "3.1",
-        name: "ГНС-3 контролер-3.1",
+        name: "НС-3 контролер-3.1",
         line: "",
         type: "nasosi",
         description: "Состояние насоса",
@@ -57,7 +57,7 @@ module.exports = {
       },
       {
         modbusId: "3.2",
-        name: "ГНС-3 контролер-3.2",
+        name: "НС-3 контролер-3.2",
         line: "",
         type: "fuel",
         description: "Состояние горючего",
@@ -67,7 +67,7 @@ module.exports = {
       },
       {
         modbusId: "4.1",
-        name: "ГНС-4 контролер-4.1",
+        name: "НС-4 контролер-4.1",
         line: "",
         type: "nasosi",
         description: "Состояние насоса",
@@ -77,7 +77,7 @@ module.exports = {
       },
       {
         modbusId: "4.2",
-        name: "ГНС-4 контролер-4.2",
+        name: "НС-4 контролер-4.2",
         line: "",
         type: "fuel",
         description: "Состояние горючего",
@@ -87,7 +87,7 @@ module.exports = {
       },
       {
         modbusId: "5.1",
-        name: "ГНС-5 контролер-5.1",
+        name: "НС-5 контролер-5.1",
         line: "",
         type: "nasosi",
         description: "Состояние насоса",
@@ -97,7 +97,7 @@ module.exports = {
       },
       {
         modbusId: "5.2",
-        name: "ГНС-5 контролер-5.2",
+        name: "НС-5 контролер-5.2",
         line: "",
         type: "fuel",
         description: "Состояние горючего",
@@ -107,7 +107,7 @@ module.exports = {
       },
       {
         modbusId: "6.1",
-        name: "ГНС-6 контролер-6.1",
+        name: "НС-6 контролер-6.1",
         line: "",
         type: "nasosi",
         description: "Состояние насоса",
@@ -117,7 +117,7 @@ module.exports = {
       },
       {
         modbusId: "6.2",
-        name: "ГНС-6 контролер-6.2",
+        name: "НС-6 контролер-6.2",
         line: "",
         type: "fuel",
         description: "Состояние горючего",
@@ -127,7 +127,7 @@ module.exports = {
       },
       {
         modbusId: "7.1",
-        name: "ГНС-7 контролер-7.1",
+        name: "НС-7 контролер-7.1",
         line: "",
         type: "nasosi",
         description: "Состояние насоса",
@@ -137,7 +137,7 @@ module.exports = {
       },
       {
         modbusId: "7.2",
-        name: "ГНС-7 контролер-7.2",
+        name: "НС-7 контролер-7.2",
         line: "",
         type: "fuel",
         description: "Состояние горючего",
