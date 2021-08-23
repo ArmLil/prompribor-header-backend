@@ -183,7 +183,7 @@ async function updateRegisters_Controllers_values(req, res) {
       { value: registers_Controllers_values.value },
       { where: { id: registers_Controllers_values.id } }
     ).then((result) => {
-      console.log({ result });
+      // console.log({ result });
       io.emit("registerControllerValue", registers_Controllers_values);
       res.json(registers_Controllers_values);
     });

@@ -49,7 +49,7 @@ app.get("/", function (req, res) {
 });
 
 app.get("/api/v1/", function (req, res) {
-  res.send("Система мониторинга нефтепроводов");
+  res.send(["СМТ", "тпр-1"]);
 });
 
 app.use("/api/v1/", api);
