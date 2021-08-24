@@ -21,10 +21,31 @@ async function getCommCenters(req, res) {
         { model: db.Avarii_Journals, as: "avarii_journal_data" },
         { model: db.Donesenii_Journals, as: "donesenii_journal_data" },
         { model: db.Nasosi_Journals, as: "nasosi_journal_data" },
-        { model: db.Fuel_Journals, as: "fuel_journal_data" },
+        {
+          model: db.Fuel_Journals,
+          as: "fuel_journal_data",
+          // order: "date ASC",  order doese not work
+        },
       ];
     }
     let commCenters = await db.CommunicationCenters.findAndCountAll(options);
+
+    let _commCenters = Object.assign({}, commCenters);
+    commCenters.rows.forEach((row, ind) => {
+      row.fuel_journal_data.sort(function (a, b) {
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      });
+      row.nasosi_journal_data.sort(function (a, b) {
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      });
+      row.donesenii_journal_data.sort(function (a, b) {
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      });
+      row.avarii_journal_data.sort(function (a, b) {
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      });
+    });
+
     let count = commCenters.count;
 
     let mapPolylinePoints = await db.MapPolylinePoints.findAndCountAll({
