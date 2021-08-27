@@ -27,6 +27,13 @@ const fill_journals = require("./workers/autoFill_journals");
 setTimeout(() => fill_journals(io), 2000);
 setInterval(() => fill_journals(io), journals_interval);
 
+const update_commCenters_interval = require("./config/config.js")[
+  "update_commCenters_interval"
+];
+const update_commCenters = require("./workers/update_CommCenters");
+// setTimeout(() => update_commCenters(io), 2000);
+setInterval(() => update_commCenters(io), update_commCenters_interval);
+
 var cors = require("cors");
 app.use(cors());
 

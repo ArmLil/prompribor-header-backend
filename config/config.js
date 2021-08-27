@@ -36,4 +36,5 @@ module.exports = {
   line: "150",
   client_IP: "172.28.1.88",
   // client_IP: "localhost:8081",
+  update_commCenters_interval: 3000,
 };

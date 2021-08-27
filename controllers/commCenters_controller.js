@@ -2,6 +2,65 @@
 
 let db = require("../models");
 
+async function getMapCommCenters(req, res) {
+  console.log("function getCommCenters");
+  try {
+    let options = {};
+
+    options.include = [
+      {
+        model: db.Controllers,
+        as: "controllers",
+        include: [
+          {
+            model: db.Registers,
+            as: "registers",
+          },
+        ],
+      },
+    ];
+
+    let commCenters = await db.CommunicationCenters.findAndCountAll(options);
+
+    let count = commCenters.count;
+
+    let mapPolylinePoints = await db.MapPolylinePoints.findAndCountAll({
+      order: [["index", "ASC"]],
+    });
+    let bridgePolylinePoints = await db.BridgePolylinePoints.findAndCountAll();
+    function groupBy(collection, property) {
+      var i = 0,
+        val,
+        index,
+        values = [],
+        result = [];
+      for (; i < collection.length; i++) {
+        val = collection[i][property];
+        index = values.indexOf(val);
+        if (index > -1) result[index].push(collection[i]);
+        else {
+          values.push(val);
+          result.push([collection[i]]);
+        }
+      }
+      return result;
+    }
+
+    let groupType = groupBy(bridgePolylinePoints.rows, "type");
+    commCenters.mapPolylinePoints = mapPolylinePoints;
+    res.json({
+      commCenters,
+      count,
+      bridge: groupType,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(502).json({
+      message: err.toString(),
+    });
+  }
+}
+
 async function getCommCenters(req, res) {
   console.log("function getCommCenters");
   try {
@@ -30,7 +89,6 @@ async function getCommCenters(req, res) {
     }
     let commCenters = await db.CommunicationCenters.findAndCountAll(options);
 
-    let _commCenters = Object.assign({}, commCenters);
     commCenters.rows.forEach((row, ind) => {
       row.fuel_journal_data.sort(function (a, b) {
         return new Date(a.createdAt) - new Date(b.createdAt);
@@ -93,21 +151,59 @@ async function getCommCenterById(req, res) {
         path: req.params.id,
       },
       include: [
-        { model: db.Controllers, as: "controllers" },
-        { model: db.Avarii_Journals, as: "avarii_journal_data" },
-        { model: db.Donesenii_Journals, as: "donesenii_journal_data" },
-        { model: db.Nasosi_Journals, as: "nasosi_journal_data" },
-        { model: db.Fuel_Journals, as: "fuel_journal_data" },
+        {
+          model: db.Controllers,
+          as: "controllers",
+        },
       ],
     };
 
+    let fuel_journal_data = await db.Fuel_Journals.findAndCountAll({
+      where: { commCenterPath: req.params.id },
+      order: [["createdAt", "ASC"]],
+    });
+    let avarii_journal_data = await db.Avarii_Journals.findAndCountAll({
+      where: { commCenterPath: req.params.id },
+      order: [["createdAt", "ASC"]],
+    });
+    let donesenii_journal_data = await db.Donesenii_Journals.findAndCountAll({
+      where: { commCenterPath: req.params.id },
+      order: [["createdAt", "ASC"]],
+    });
+    let nasosi_journal_data = await db.Nasosi_Journals.findAndCountAll({
+      where: { commCenterPath: req.params.id },
+      order: [["createdAt", "ASC"]],
+    });
     let commCenter = await db.CommunicationCenters.findOne(options);
     if (commCenter == null) {
       return res
         .status(400)
         .send({ message: "CommunicationCenter with this id not found" });
     }
-    res.json(commCenter);
+    let _commCenter = Object.assign(
+      {},
+      commCenter.dataValues,
+      {
+        nasosi_journal_data: nasosi_journal_data.rows,
+      },
+      {
+        donesenii_journal_data: donesenii_journal_data.rows,
+      },
+      {
+        avarii_journal_data: avarii_journal_data.rows,
+      },
+      {
+        fuel_journal_data: fuel_journal_data.rows,
+      }
+    );
+    // commCenter.fuel_journal_data = fuel_journal_data.rows;
+    // await commCenter.avarii_journal_data = avarii_journal_data;
+    // await commCenter.donesenii_journal_data = donesenii_journal_data;
+    // await commCenter.nasosi_journal_data = nasosi_journal_data;
+
+    await console.log("row195");
+
+    res.json(_commCenter);
   } catch (err) {
     console.error(err);
     res.status(502).json({
@@ -255,6 +351,7 @@ async function deleteCommCenter(req, res) {
 }
 
 module.exports = {
+  getMapCommCenters,
   getCommCenters,
   getCommCenterById,
   createCommCenter,

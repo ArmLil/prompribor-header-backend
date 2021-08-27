@@ -25,6 +25,7 @@ module.exports = (app) => {
     });
   });
 
+  router.get("/mapCommCenters", commCenters.getMapCommCenters);
   router.get("/commCenters", commCenters.getCommCenters);
   router.get("/commCenters/:id", commCenters.getCommCenterById);
   router.post("/commCenters", commCenters.createCommCenter);
