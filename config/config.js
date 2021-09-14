@@ -34,7 +34,7 @@ module.exports = {
   // journals_interval: 10000, //3600000
   journals_interval: 3600000,
   line: "150",
-  client_IP: "172.28.1.88",
-  // client_IP: "localhost:8081",
+  // client_IP: "172.28.1.88",
+  client_IP: "localhost:8081",
   update_commCenters_interval: 3000,
 };

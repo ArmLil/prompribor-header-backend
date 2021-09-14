@@ -28,6 +28,10 @@ module.exports = (app) => {
   router.get("/mapCommCenters", commCenters.getMapCommCenters);
   router.get("/commCenters", commCenters.getCommCenters);
   router.get("/commCenters/:id", commCenters.getCommCenterById);
+  router.get(
+    "/commCenterControllersRegs/:id",
+    commCenters.getCommCenterControllersRegs
+  );
   router.post("/commCenters", commCenters.createCommCenter);
   router.put("/commCenters/:id", commCenters.updateCommCenter);
   router.delete("/commCenters/:id", commCenters.deleteCommCenter);

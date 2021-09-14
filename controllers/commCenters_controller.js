@@ -211,6 +211,41 @@ async function getCommCenterById(req, res) {
     });
   }
 }
+async function getCommCenterControllersRegs(req, res) {
+  console.log("function getCommCenterControllersRegs");
+  try {
+    let options = {
+      where: {
+        path: req.params.id,
+      },
+      include: [
+        {
+          model: db.Controllers,
+          as: "controllers",
+          include: [
+            {
+              model: db.Registers,
+              as: "registers",
+            },
+          ],
+        },
+      ],
+    };
+
+    let commCenter = await db.CommunicationCenters.findOne(options);
+    if (commCenter == null) {
+      return res
+        .status(400)
+        .send({ message: "CommunicationCenter with this id not found" });
+    }
+    res.json(commCenter);
+  } catch (err) {
+    console.error(err);
+    res.status(502).json({
+      message: err.toString(),
+    });
+  }
+}
 
 async function createCommCenter(req, res) {
   console.log("function CommCenter");
@@ -357,4 +392,5 @@ module.exports = {
   createCommCenter,
   updateCommCenter,
   deleteCommCenter,
+  getCommCenterControllersRegs,
 };

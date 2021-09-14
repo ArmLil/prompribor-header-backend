@@ -24,8 +24,8 @@ var db = require("./models");
 
 const journals_interval = require("./config/config.js")["journals_interval"];
 const fill_journals = require("./workers/autoFill_journals");
-setTimeout(() => fill_journals(io), 2000);
-setInterval(() => fill_journals(io), journals_interval);
+// setTimeout(() => fill_journals(io), 2000);
+// setInterval(() => fill_journals(io), journals_interval);
 
 const update_commCenters_interval = require("./config/config.js")[
   "update_commCenters_interval"
@@ -83,50 +83,6 @@ io.on("connection", function (socket) {
     console.log("Disconnected");
   });
 });
-
-//temporary code for experiment
-const positions = [
-  { latlen: [56.3017, 42.6872] },
-  { latlen: [56.301568, 42.68765] },
-  { latlen: [56.3013, 42.6878] },
-  { latlen: [56.301, 42.6881] },
-  { latlen: [56.301, 42.688] },
-  { latlen: [56.3, 42.69] },
-  { latlen: [56.2995, 42.692] },
-  { latlen: [56.2992, 42.692] },
-  { latlen: [56.299, 42.6925] },
-  { latlen: [56.2986, 42.6939] },
-  { latlen: [56.2982, 42.6948] },
-  { latlen: [56.298, 42.6949] },
-  { latlen: [56.2978, 42.6959] },
-  { latlen: [56.2974, 42.6966] },
-  { latlen: [56.2972, 42.6968] },
-  { latlen: [56.2971, 42.697] },
-  { latlen: [56.2968, 42.6979] },
-  { latlen: [56.2962, 42.6999] },
-  { latlen: [56.296, 42.6999] },
-  { latlen: [56.2958, 42.7005] },
-  { latlen: [56.2955, 42.701] },
-  { latlen: [56.295, 42.7019] },
-];
-
-let i = 0;
-let up = true;
-
-// setInterval(() => {
-//   if (i === positions.length - 1) {
-//     up = false;
-//   }
-//   if (i === 0) {
-//     up = true;
-//   }
-//   if (up) {
-//     i += 1;
-//   } else {
-//     i -= 1;
-//   }
-//   io.emit("carPostion", positions[i]);
-// }, 2000);
 
 const port = process.env.PORT || 3002;
 const host = process.env.HOST || client_IP;
