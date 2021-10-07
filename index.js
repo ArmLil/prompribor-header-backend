@@ -32,7 +32,7 @@ const update_commCenters_interval = require("./config/config.js")[
 ];
 const update_commCenters = require("./workers/update_CommCenters");
 // setTimeout(() => update_commCenters(io), 2000);
-setInterval(() => update_commCenters(io), update_commCenters_interval);
+// setInterval(() => update_commCenters(io), update_commCenters_interval);
 
 var cors = require("cors");
 app.use(cors());
