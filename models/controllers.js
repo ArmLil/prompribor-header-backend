@@ -11,6 +11,8 @@ module.exports = (sequelize, DataTypes) => {
       line: DataTypes.STRING,
       type: DataTypes.STRING,
       description: DataTypes.TEXT,
+      status: DataTypes.STRING,
+      programmStatus: DataTypes.STRING,
       commCenterPath: {
         type: DataTypes.STRING,
       },
@@ -28,12 +30,6 @@ module.exports = (sequelize, DataTypes) => {
       as: "commCenter",
       targetKey: "path",
       foreignKey: "commCenterPath",
-    });
-    Controllers.belongsToMany(models.RegistersGroups, {
-      as: "registersGroups",
-      through: models.Controller_RegistersGroups,
-      foreignKey: "controllerModbusId",
-      otherKey: "registersGroupId",
     });
     Controllers.belongsToMany(models.Registers, {
       as: "registers",

@@ -9,18 +9,7 @@ async function getControllers(req, res) {
     if (req.query.commCenter && req.query.commCenter == "include") {
       options.include = [{ model: db.CommunicationCenters, as: "commCenter" }];
     }
-    if (req.query.registersGroups && req.query.registersGroups == "include") {
-      if (options.include) {
-        options.include.push({
-          model: db.RegistersGroups,
-          as: "registersGroups",
-        });
-      } else {
-        options.include = [
-          { model: db.RegistersGroups, as: "registersGroups" },
-        ];
-      }
-    }
+
     let controllers = await db.Controllers.findAndCountAll(options);
     let count = controllers.count;
 
@@ -47,18 +36,6 @@ async function getControllerById(req, res) {
     if (req.query.commCenter && req.query.commCenter == "include") {
       options.include = [{ model: db.CommunicationCenters, as: "commCenter" }];
     }
-    if (req.query.registersGroups && req.query.registersGroups == "include") {
-      if (options.include) {
-        options.include.push({
-          model: db.RegistersGroups,
-          as: "registersGroups",
-        });
-      } else {
-        options.include = [
-          { model: db.RegistersGroups, as: "registersGroups" },
-        ];
-      }
-    }
     const controller = await db.Controllers.findOne(options);
     if (controller == null) {
       return res
@@ -66,83 +43,6 @@ async function getControllerById(req, res) {
         .send({ message: "Controller by this id not found" });
     }
     res.json(controller);
-  } catch (err) {
-    console.error(err);
-    res.status(502).json({
-      message: err.toString(),
-    });
-  }
-}
-
-async function getRegGroupsRegistersValues(req, res) {
-  console.log("function getRegGroupsRegistersValues", req.params);
-  try {
-    const _controller = await db.Controllers.findOne({
-      where: { commCenterPath: req.params.commCenterPath },
-    });
-    if (_controller == null) {
-      return res.status(400).send({
-        message: `Controller by commCenterPath ${req.params.commCenterPath} not found`,
-      });
-    }
-
-    let options = {
-      where: {
-        commCenterPath: req.params.commCenterPath,
-      },
-      include: [
-        { model: db.CommunicationCenters, as: "commCenter" },
-        { model: db.Registers_Controllers_values, as: "values" },
-        {
-          model: db.RegistersGroups,
-          as: "registersGroups",
-          include: [
-            {
-              model: db.Registers,
-              as: "registers",
-            },
-          ],
-        },
-      ],
-    };
-
-    const controllers = await db.Controllers.findAll(options);
-
-    let response = [];
-    controllers.forEach((contr, i) => {
-      let { values, registersGroups } = contr;
-      if (registersGroups)
-        registersGroups = registersGroups.map((gr, i) => {
-          if (gr.registers)
-            gr.registers.forEach((reg) => {
-              if (values)
-                values.forEach((val, i) => {
-                  if (reg.address == val.registerAddress) {
-                    reg.dataValues.value = val.value;
-                  }
-                });
-            });
-          return gr;
-        });
-      contr.registersGroup = registersGroups;
-      response.push(contr);
-    });
-
-    // let { values, registersGroups } = controller;
-    //
-    // registersGroups = registersGroups.map((gr, i) => {
-    //   gr.registers.forEach((reg) => {
-    //     values.forEach((val, i) => {
-    //       if (reg.address == val.registerAddress) {
-    //         reg.dataValues.value = val.value;
-    //       }
-    //     });
-    //   });
-    //   return gr;
-    // });
-    // controller.registersGroup = registersGroups;
-    // res.json(controller);
-    res.json(response);
   } catch (err) {
     console.error(err);
     res.status(502).json({
@@ -165,6 +65,12 @@ async function createController(req, res) {
 
     if (req.body.description) {
       options.description = req.body.description;
+    }
+    if (req.body.status) {
+      options.status = req.body.status;
+    }
+    if (req.body.programmStatus) {
+      options.programmStatus = req.body.programmStatus;
     }
 
     if (req.body.commCenterPath) {
@@ -221,6 +127,12 @@ async function updateController(req, res) {
     if (req.body.description) {
       controller.description = req.body.description;
     }
+    if (req.body.status) {
+      controller.status = req.body.status;
+    }
+    if (req.body.programmStatus) {
+      controller.programmStatus = req.body.programmStatus;
+    }
 
     if (
       req.body.commCenterPath &&
@@ -273,7 +185,6 @@ async function deleteController(req, res) {
 module.exports = {
   getControllers,
   getControllerById,
-  getRegGroupsRegistersValues,
   createController,
   updateController,
   deleteController,

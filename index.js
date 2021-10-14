@@ -73,14 +73,56 @@ app.use(function (req, res, next) {
   next(err);
 });
 
+//set initial statuses for controllers offline
+db.Controllers.update(
+  { programmStatus: "offline" },
+  {
+    where: {
+      programmStatus: "online",
+    },
+  }
+);
+db.Controllers.update(
+  { status: "offline" },
+  {
+    where: {
+      status: "online",
+    },
+  }
+);
+
 io.on("connection", function (socket) {
+  let _controller;
   console.log("user connected...", socket.handshake.headers);
   socket.emit("connection", { hello: "connected" });
-  socket.on("my other event", function (data) {
-    console.log("this is on server side", data);
+  socket.on("newController", async function (data) {
+    console.log("this is new controller", data);
+    _controller = data;
+    const controller = await db.Controllers.findByPk(data.controllerId);
+    controller.programmStatus = "online";
+    await controller.save();
+
+    io.emit("programmStatusChanged", controller);
   });
-  socket.on("disconnect", () => {
-    console.log("Disconnected");
+  socket.on("controllerStatus", async function (data) {
+    console.log("this is controllerStatus", data);
+    const controller = await db.Controllers.findByPk(data.controllerId);
+    controller.status = data.controllerStatus;
+    await controller.save();
+    io.emit("controllerStatusChanged", controller);
+  });
+  socket.on("disconnect", async () => {
+    if (_controller) {
+      console.log("Disconnected", _controller);
+      const controller = await db.Controllers.findByPk(
+        _controller.controllerId
+      );
+      controller.programmStatus = "offline";
+      controller.status = "offline";
+      await controller.save();
+      io.emit("programmStatusChanged", controller);
+      io.emit("controllerStatusChanged", controller);
+    }
   });
 });
 

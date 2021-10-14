@@ -22,6 +22,14 @@ module.exports = {
       description: {
         type: Sequelize.TEXT,
       },
+      status: {
+        type: Sequelize.STRING,
+        defaultValue: "offline",
+      },
+      programmStatus: {
+        type: Sequelize.STRING,
+        defaultValue: "offline",
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

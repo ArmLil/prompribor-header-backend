@@ -19,15 +19,6 @@ module.exports = {
       len: {
         type: Sequelize.STRING,
       },
-      port: {
-        type: Sequelize.STRING,
-      },
-      host: {
-        type: Sequelize.STRING,
-      },
-      status: {
-        type: Sequelize.STRING,
-      },
       tablePosition: {
         type: Sequelize.TEXT,
       },
