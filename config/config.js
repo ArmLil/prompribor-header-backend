@@ -37,4 +37,6 @@ module.exports = {
   // client_IP: "172.28.1.88",
   client_IP: "localhost:8081",
   update_commCenters_interval: 3000,
+  expireTime: 1000 * 60 * 60 * 24 * 1,
+  // expireTime: 10000,
 };

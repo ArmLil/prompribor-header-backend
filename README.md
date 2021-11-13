@@ -35,7 +35,7 @@ node version 12.13.0
        sequelize db:seed --seed 20210517140506-controller_registersgroups.js
 
     seed create initializiing
-    $ npx sequelize-cli seed:generate --name BridgePolylinePoints
+    $ npx sequelize-cli seed:generate --name users
 
 #### setup datasource
 
@@ -131,3 +131,8 @@ node version 12.13.0
 ### Tiles
 
 to get new tiles for map follow the instruction https://qna.habr.com/q/171137
+
+### Admin
+
+password - 12345678
+login - Admin

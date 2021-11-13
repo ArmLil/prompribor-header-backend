@@ -19,8 +19,9 @@ module.exports = (sequelize, DataTypes) => {
       fatherName: {
         type: DataTypes.STRING,
       },
-      roleAdmin: {
+      isAdmin: {
         type: DataTypes.BOOLEAN,
+        defaultValue: false,
       },
       email: {
         type: DataTypes.STRING,
@@ -39,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
       paranoid: true,
       underscored: false,
-      tableName: "users",
+      tableName: "Users",
     }
   );
   Users.associate = function (models) {};

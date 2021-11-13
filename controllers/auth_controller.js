@@ -4,7 +4,8 @@ const bcrypt = require("bcrypt");
 const emailSender = require("./email_notification_controller");
 const saltRounds = 10;
 // 60 * 60 * 24 = 1 day
-const expireTime = 60 * 60 * 24 * 5;
+// const expireTime = 1000 * 60 * 60 * 24 * 1;
+const expireTime = require("../config/config.js")["expireTime"];
 
 function checkauth(req, res, next) {
   let token =
@@ -109,7 +110,13 @@ async function signup(req, res) {
       },
     });
 
-    const { id, username, email, email_confirmed } = user[0].dataValues;
+    const {
+      id,
+      username,
+      email,
+      email_confirmed,
+      isAdmin,
+    } = user[0].dataValues;
     let token = jwt.sign(
       {
         data: {
@@ -117,6 +124,7 @@ async function signup(req, res) {
           username,
           email,
           email_confirmed,
+          isAdmin,
         },
       },
       process.env.TOKEN_SECRET,
@@ -135,7 +143,6 @@ async function signup(req, res) {
     //     res.json({ data: { user, token, message: result.message } });
     //   }
     // });
-
     res.json({
       user,
       token,
@@ -180,7 +187,7 @@ async function login(req, res, next) {
             username: user.username,
             email: user.email,
             email_confirmed: user.email_confirmed,
-            roleAdmin: user.roleAdmin,
+            isAdmin: user.isAdmin,
           },
         },
         process.env.TOKEN_SECRET,
@@ -197,8 +204,9 @@ async function login(req, res, next) {
           username: user.username,
           email: user.email,
           email_confirmed: user.email_confirmed,
+          isAdmin: user.isAdmin,
           token,
-          roleAdmin: user.roleAdmin,
+          ttl: expireTime,
         });
 
         // emailSender(user.dataValues, req.headers.host, token, result => {
@@ -214,8 +222,9 @@ async function login(req, res, next) {
           username: user.username,
           email: user.email,
           email_confirmed: user.email_confirmed,
+          isAdmin: user.isAdmin,
           token,
-          roleAdmin: user.roleAdmin,
+          ttl: expireTime,
         });
       }
     } else {
@@ -256,7 +265,7 @@ function emailConfirmation(req, res, next) {
                 username: user.username,
                 email: user.email,
                 email_confirmed: user.email_confirmed,
-                roleAdmin: user.roleAdmin,
+                isAdmin: user.isAdmin,
               },
             },
             process.env.TOKEN_SECRET,

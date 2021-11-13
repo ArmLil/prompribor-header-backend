@@ -1,7 +1,7 @@
 "use strict";
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable("users", {
+    return queryInterface.createTable("Users", {
       id: {
         allowNull: false,
         type: Sequelize.UUID,
@@ -21,7 +21,7 @@ module.exports = {
       fatherName: {
         type: Sequelize.STRING,
       },
-      roleAdmin: {
+      isAdmin: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
       },
@@ -50,6 +50,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("users");
+    return queryInterface.dropTable("Users");
   },
 };
