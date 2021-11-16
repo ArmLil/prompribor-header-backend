@@ -36,6 +36,9 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
       },
+      position: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

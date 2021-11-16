@@ -71,10 +71,19 @@ module.exports = (app) => {
     "/avarii_journals_data/:id",
     avarii_journal.getAvarii_JournalDataById
   );
-  router.post("/avarii_journals_data", avarii_journal.createAvarii_JournalData);
-  router.put("/avarii_journals_data/:id", avarii_journal.updateAvarii_Journal);
+  router.post(
+    "/avarii_journals_data",
+    auth.checkauth,
+    avarii_journal.createAvarii_JournalData
+  );
+  router.put(
+    "/avarii_journals_data/:id",
+    auth.checkauth,
+    avarii_journal.updateAvarii_Journal
+  );
   router.delete(
     "/avarii_journals_data/:id",
+    auth.checkauth,
     avarii_journal.deleteAvarii_Journal
   );
 
@@ -89,14 +98,17 @@ module.exports = (app) => {
   );
   router.post(
     "/donesenii_journals_data",
+    auth.checkauth,
     donesenii_journal.createDonesenii_JournalData
   );
   router.put(
     "/donesenii_journals_data/:id",
+    auth.checkauth,
     donesenii_journal.updateDonesenii_Journal
   );
   router.delete(
     "/donesenii_journals_data/:id",
+    auth.checkauth,
     donesenii_journal.deleteDonesenii_Journal
   );
 
@@ -106,19 +118,40 @@ module.exports = (app) => {
     "/nasosi_journals_data/:id",
     nasosi_journal.getNasosi_JournalDataById
   );
-  router.post("/nasosi_journals_data", nasosi_journal.createNasosi_JournalData);
-  router.put("/nasosi_journals_data/:id", nasosi_journal.updateNasosi_Journal);
+  router.post(
+    "/nasosi_journals_data",
+    auth.checkauth,
+    nasosi_journal.createNasosi_JournalData
+  );
+  router.put(
+    "/nasosi_journals_data/:id",
+    auth.checkauth,
+    nasosi_journal.updateNasosi_Journal
+  );
   router.delete(
     "/nasosi_journals_data/:id",
+    auth.checkauth,
     nasosi_journal.deleteNasosi_Journal
   );
 
   // fuel_journals_data
   router.get("/fuel_journals_data", fuel_journal.getFuel_JournalData);
   router.get("/fuel_journals_data/:id", fuel_journal.getFuel_JournalDataById);
-  router.post("/fuel_journals_data", fuel_journal.createFuel_JournalData);
-  router.put("/fuel_journals_data/:id", fuel_journal.updateFuel_Journal);
-  router.delete("/fuel_journals_data/:id", fuel_journal.deleteFuel_Journal);
+  router.post(
+    "/fuel_journals_data",
+    auth.checkauth,
+    fuel_journal.createFuel_JournalData
+  );
+  router.put(
+    "/fuel_journals_data/:id",
+    auth.checkauth,
+    fuel_journal.updateFuel_Journal
+  );
+  router.delete(
+    "/fuel_journals_data/:id",
+    auth.checkauth,
+    fuel_journal.deleteFuel_Journal
+  );
 
   // users
   router.get("/users", auth.checkauth, users.getUsers);

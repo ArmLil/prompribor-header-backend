@@ -66,6 +66,11 @@ app.engine("handlebars", exphbs());
 app.set("view engine", "handlebars");
 app.set("views", "public/views");
 
+app.use(function (err, req, res, next) {
+  console.error("Error found !");
+  res.status(500).send(err);
+});
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   let err = new Error("Not Found!");

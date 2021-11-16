@@ -23,6 +23,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
+      position: {
+        type: DataTypes.STRING,
+      },
       email: {
         type: DataTypes.STRING,
         validate: {

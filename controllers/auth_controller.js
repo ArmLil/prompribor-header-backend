@@ -13,7 +13,6 @@ function checkauth(req, res, next) {
     req.query.token ||
     req.headers["x-auth"] ||
     req.headers["x-access-token"];
-
   // Get auth header value if it is bearer
   const bearerHeader = req.headers["authorization"];
 
@@ -41,13 +40,13 @@ function checkauth(req, res, next) {
         },
       })
         .then((user) => {
+          console.log("");
           if (!user) {
             return res
               .status(403)
-              .json({ message: "Users with this token does not exist" });
+              .json({ message: "User with this token does not exist" });
           } else if (!user.email_confirmed) {
             // to disable email confirmation discomment next 3 lines of code
-
             req.user = decoded;
             console.log("Token is valid", decoded);
             return next();
@@ -66,10 +65,8 @@ function checkauth(req, res, next) {
           }
         })
         .catch((err) => {
-          console.error("Opps", error);
-          res.json({
-            message: err,
-          });
+          console.error("Opps", err);
+          return next(err);
         });
     }
   });
