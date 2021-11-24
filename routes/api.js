@@ -156,7 +156,7 @@ module.exports = (app) => {
   // users
   router.get("/users", auth.checkauth, users.getUsers);
   router.get("/userById/:id", auth.checkauth, users.getUsersById);
-  // router.post("/users", auth.checkauth, users.createUsers);
+  router.post("/users", auth.checkauth, users.createUser);
   // router.put("/users/:id", auth.checkauth, users.updateUsers);
   // router.delete("/users/:id", auth.checkauth, users.deleteUsers);
 

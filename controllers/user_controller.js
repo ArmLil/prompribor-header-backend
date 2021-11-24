@@ -40,41 +40,61 @@ async function getUsersById(req, res) {
   }
 }
 
-// async function createUsers(req, res) {
-//   console.log("function registerUsers");
-//   try {
-//     const findUsersByUsersname = await db.Users.findOne({
-//       where: { username: req.body.username }
-//     });
-//     if (findUsersByUsersname) {
-//       throw new Error(
-//         "validationError: Users with this username already exists!"
-//       );
-//     }
-//
-//     const findUsersByEmail = await db.Users.findOne({
-//       where: { email: req.body.email }
-//     });
-//     if (findUsersByEmail) {
-//       throw new Error("validationError: Users with this email already exists!");
-//     }
-//
-//     const user = await db.Users.findOrCreate({
-//       where: { username: req.body.username, email: req.body.email },
-//       defaults: {
-//         email: req.body.email,
-//         password: bcrypt.hashSync(req.body.password, saltRounds)
-//       }
-//     });
-//
-//     res.json({ user });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(502).json({
-//       message: err
-//     });
-//   }
-// }
+async function createUser(req, res) {
+  console.log("function createUsers");
+  try {
+    const createUser = {};
+    if (!req.body.username) {
+      return res.status("400").json({ message: "username required" });
+    } else {
+      const findUserByUsersname = await db.Users.findOne({
+        where: { username: req.body.username },
+      });
+      if (findUserByUsersname) {
+        return res.status("400").json({ message: "username already in use" });
+      } else {
+        createUser.username = req.body.username;
+      }
+    }
+    if (!req.body.password) {
+      return res.status("400").json({ message: "password required" });
+    } else {
+      createUser.password = bcrypt.hashSync(req.body.password, saltRounds);
+    }
+    if (req.body.name) {
+      createUser.name = req.body.name;
+    }
+    if (req.body.secondName) {
+      createUser.secondName = req.body.secondName;
+    }
+    if (req.body.fatherName) {
+      createUser.fatherName = req.body.fatherName;
+    }
+    if (req.body.position) {
+      createUser.position = req.body.position;
+    }
+    if (req.body.isAdmin) {
+      createUser.isAdmin = req.body.isAdmin;
+    }
+    if (req.body.email) {
+      createUser.email = req.body.email;
+    }
+    if (req.body.phone) {
+      createUser.phone = req.body.phone;
+    }
+
+    const user = await db.Users.findOrCreate({
+      where: createUser,
+    });
+
+    res.json({ user });
+  } catch (err) {
+    console.error(err);
+    res.status(502).json({
+      message: err,
+    });
+  }
+}
 
 // async function updateUsers(req, res) {
 //   try {
@@ -141,7 +161,7 @@ async function getUsersById(req, res) {
 module.exports = {
   getUsers,
   getUsersById,
-  // createUsers,
+  createUser,
   // updateUsers,
   // deleteUsers
 };

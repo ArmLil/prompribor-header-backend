@@ -135,4 +135,7 @@ to get new tiles for map follow the instruction https://qna.habr.com/q/171137
 ### Admin
 
 password - 12345678
-login - Admin
+login - Админ
+
+password - 11111111
+login - Гость-Иван

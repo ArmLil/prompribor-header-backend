@@ -40,11 +40,11 @@ function checkauth(req, res, next) {
         },
       })
         .then((user) => {
-          console.log("");
           if (!user) {
-            return res
-              .status(403)
-              .json({ message: "User with this token does not exist" });
+            return res.status(403).json({
+              message:
+                "Error: Пользователь с таким токеном не найден, попробуйте выйти, а затем войти снова",
+            });
           } else if (!user.email_confirmed) {
             // to disable email confirmation discomment next 3 lines of code
             req.user = decoded;
