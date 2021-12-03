@@ -96,72 +96,91 @@ async function createUser(req, res) {
   }
 }
 
-// async function updateUsers(req, res) {
-//   try {
-//     const user = await db.Users.findByPk(req.params.id);
-//     if (!user)
-//       throw new Error("validationError: Users by this id is not found!");
-//
-//     //check username
-//     //do not let user to update his username with a username which already exists
-//     const findUsersByUsersname = await db.Users.findOne({
-//       where: { username: req.body.username }
-//     });
-//     if (user.username !== req.body.username && findUsersByUsersname) {
-//       console.log("findUsersByUsersname=", findUsersByUsersname.toJSON());
-//       throw new Error(
-//         "validationError: Users with this username already exists!"
-//       );
-//     }
-//
-//     //check email
-//     //do not let user to update his email with an email which already exists
-//     const findUsersByEmail = await db.Users.findOne({
-//       where: { email: req.body.email }
-//     });
-//     if (user.email !== req.body.email && findUsersByEmail) {
-//       throw new Error("validationError: Users with this email already exists!");
-//     }
-//
-//     user.username = req.body.username;
-//     user.email = req.body.email;
-//     if (req.body.password) {
-//       user.password = bcrypt.hashSync(req.body.password, saltRounds);
-//     }
-//
-//     await user.save(user);
-//     res.json({ user });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(502).json({ message: err.toString() });
-//   }
-// }
+async function updateUser(req, res) {
+  console.log(req.body);
+  try {
+    const user = await db.Users.findByPk(req.params.id);
+    if (!user) {
+      return res
+        .status("404")
+        .json({ message: `User ${req.params.id} not found` });
+    }
 
-// async function deleteUsers(req, res) {
-//   console.log("function deleteUserss");
-//   try {
-//     const user = await db.Users.findByPk(req.params.id);
-//     if (!user)
-//       throw new Error("validationError: Users by this id is not found!");
-//     await user.destroy();
-//     await db.Article.destroy({
-//       where: {
-//         user_id: user.id
-//       }
-//     });
-//     res.json({
-//       massage: `user ${user.username}, ${user.email}, ${user.id} is deleted`
-//     });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(502).json({ message: err.toString() });
-//   }
-// }
+    if (user.username !== "Админ") {
+      //check username
+      //do not let user to update his username with a username which already exists
+      if (req.body.username) {
+        const findUserByUsersname = await db.Users.findOne({
+          where: { username: req.body.username },
+        });
+        if (user.username !== req.body.username && findUserByUsersname) {
+          return res.status("400").json({ message: "username already in use" });
+        }
+        user.username = req.body.username;
+      }
+      if (req.body.isAdmin !== null) {
+        user.isAdmin = req.body.isAdmin;
+      }
+      if (req.body.password) {
+        user.password = bcrypt.hashSync(req.body.password, saltRounds);
+      }
+    } else {
+      return res.status("400").json({
+        message: "Для Админа редактирование никнейма, пароля и прав ограничено",
+      });
+    }
+
+    if (req.body.name) {
+      user.name = req.body.name;
+    }
+    if (req.body.secondName) {
+      user.secondName = req.body.secondName;
+    }
+    if (req.body.fatherName) {
+      user.fatherName = req.body.fatherName;
+    }
+    if (req.body.position) {
+      user.position = req.body.position;
+    }
+
+    if (req.body.email) {
+      user.email = req.body.email;
+    }
+    if (req.body.phone) {
+      user.phone = req.body.phone;
+    }
+
+    await user.save(user);
+    res.json({ user });
+  } catch (err) {
+    console.error(err);
+    res.status(502).json({ message: err.toString() });
+  }
+}
+
+async function deleteUser(req, res) {
+  console.log("function deleteUser");
+  try {
+    const user = await db.Users.findByPk(req.params.id);
+    if (!user) {
+      return res
+        .status("404")
+        .json({ message: `User ${req.params.id} not found` });
+    }
+    await user.destroy();
+    res.json({
+      massage: `user ${user.username}, ${user.email}, ${user.id} is deleted`,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(502).json({ message: err.toString() });
+  }
+}
 
 module.exports = {
   getUsers,
   getUsersById,
   createUser,
-  // updateUsers,
-  // deleteUsers
+  updateUser,
+  deleteUser,
 };

@@ -138,4 +138,4 @@ password - 12345678
 login - Админ
 
 password - 11111111
-login - Гость-Иван
+login - Гость
