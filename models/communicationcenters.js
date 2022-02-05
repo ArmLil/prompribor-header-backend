@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       index: DataTypes.INTEGER,
       lat: DataTypes.STRING,
-      len: DataTypes.STRING,
+      lon: DataTypes.STRING,
       tablePosition: DataTypes.STRING,
       description: DataTypes.TEXT,
     },

@@ -21,13 +21,13 @@ module.exports = (app) => {
   });
 
   router.get("/mapCommCenters", commCenters.getMapCommCenters);
-  router.get("/commCenters", commCenters.getCommCenters);
+  // router.get("/commCenters", commCenters.getCommCenters);
   router.get("/commCenters/:id", commCenters.getCommCenterById);
   router.get(
     "/commCenterControllersRegs/:id",
     commCenters.getCommCenterControllersRegs
   );
-  router.post("/commCenters", commCenters.createCommCenter);
+  router.post("/commCenters", auth.checkauth, commCenters.createCommCenter);
   router.put("/commCenters/:id", commCenters.updateCommCenter);
   router.delete("/commCenters/:id", commCenters.deleteCommCenter);
 
@@ -156,12 +156,14 @@ module.exports = (app) => {
   // users
   router.get("/users", auth.checkauth, users.getUsers);
   router.get("/userById/:id", auth.checkauth, users.getUsersById);
+  router.get("/userBytoken/:token", users.getUserByToken);
   router.post("/users", auth.checkauth, users.createUser);
   router.put("/users/:id", auth.checkauth, users.updateUser);
   router.delete("/users/:id", auth.checkauth, users.deleteUser);
 
   router.post("/signup", auth.signup);
   router.post("/login", auth.login);
+  router.get("/checkauth", auth.checkauth);
   // router.get("/confirmation/:token", auth.emailConfirmation, auth.showHome);
 
   return router;

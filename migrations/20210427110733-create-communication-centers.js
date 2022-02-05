@@ -16,7 +16,7 @@ module.exports = {
       lat: {
         type: Sequelize.STRING,
       },
-      len: {
+      lon: {
         type: Sequelize.STRING,
       },
       tablePosition: {

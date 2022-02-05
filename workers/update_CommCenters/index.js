@@ -2,7 +2,7 @@
 var db = require("../../models");
 var line = require("../../config/config.js")["line"];
 const update_commCenters = async (io) => {
-  // console.log("update_commCenters");
+  console.log("update_commCenters");
   try {
     let options = {};
 

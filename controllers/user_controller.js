@@ -39,6 +39,24 @@ async function getUsersById(req, res) {
     });
   }
 }
+async function getUserByToken(req, res) {
+  console.log("function getUsersByToken");
+  try {
+    let user = await db.Users.findOne({
+      where: {
+        token: req.params.token,
+      },
+      attributes: { exclude: ["password"] },
+    });
+
+    res.json({ user });
+  } catch (err) {
+    console.error(err);
+    res.status(502).json({
+      message: err.toString(),
+    });
+  }
+}
 
 async function createUser(req, res) {
   console.log("function createUsers");
@@ -183,4 +201,5 @@ module.exports = {
   createUser,
   updateUser,
   deleteUser,
+  getUserByToken,
 };

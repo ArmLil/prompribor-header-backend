@@ -1,5 +1,5 @@
 "use strict";
-
+const path = require("path");
 var express = require("express");
 var app = express();
 const client_IP = require("./config/config.js")["client_IP"];
@@ -60,7 +60,7 @@ app.get("/api/v1/", function (req, res) {
 });
 
 app.use("/api/v1/", api);
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.engine("handlebars", exphbs());
 app.set("view engine", "handlebars");

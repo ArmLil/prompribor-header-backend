@@ -1,6 +1,8 @@
 "use strict";
-
+const uuidv4 = require("uuid/v4");
 let db = require("../models");
+const line = require("../config/config.js")["line"];
+const validateLatLon = require("./helpers/validateLatLon");
 
 async function getMapCommCenters(req, res) {
   console.log("function getCommCenters");
@@ -196,12 +198,6 @@ async function getCommCenterById(req, res) {
         fuel_journal_data: fuel_journal_data.rows,
       }
     );
-    // commCenter.fuel_journal_data = fuel_journal_data.rows;
-    // await commCenter.avarii_journal_data = avarii_journal_data;
-    // await commCenter.donesenii_journal_data = donesenii_journal_data;
-    // await commCenter.nasosi_journal_data = nasosi_journal_data;
-
-    await console.log("row195");
 
     res.json(_commCenter);
   } catch (err) {
@@ -248,62 +244,221 @@ async function getCommCenterControllersRegs(req, res) {
 }
 
 async function createCommCenter(req, res) {
-  console.log("function CommCenter");
+  console.log("function createCommCenter");
   try {
     let options = {};
+    let create = true;
 
-    options.path = req.body.path;
+    if (req.body.path) {
+      const commCenterByPath = await db.CommunicationCenters.findOne({
+        where: { path: req.body.path },
+      });
+      if (commCenterByPath) {
+        return res.status(422).send({
+          pathError: "Станция с таким идентификатором уже существует",
+        });
+        create = false;
+      }
+      options.path = req.body.path;
+    } else {
+      return res.status(400).send({ message: "path required" });
+    }
 
     if (req.body.name) {
-      let commCenter = await db.CommunicationCenters.findOne({
+      const commCenterByName = await db.CommunicationCenters.findOne({
         where: { name: req.body.name },
       });
-      if (commCenter) {
+      if (commCenterByName) {
         return res
-          .status(400)
-          .send({ message: `Name ${req.body.name} already exists.` });
+          .status(422)
+          .send({ nameError: "Станция с таким именем уже существует" });
+        create = false;
       }
       options.name = req.body.name;
     } else {
       return res.status(400).send({ message: "name required" });
     }
 
+    if (req.body.index) {
+      options.index = req.body.index;
+      const commCenterByIndex = await db.CommunicationCenters.findOne({
+        where: { index: req.body.index },
+      });
+      if (commCenterByIndex) {
+        return res
+          .status(422)
+          .send({ indexError: "Станция с таким инексом уже существует" });
+        create = false;
+      }
+    } else {
+      return res.status(400).send({ message: "index required" });
+    }
+
+    if (req.body.lat) {
+      if (!validateLatLon(req.body.lat)) {
+        return res
+          .status(400)
+          .send({ message: "wrong lat format " + req.body.lat });
+      }
+      options.lat = req.body.lat;
+    } else {
+      return res.status(400).send({ message: "lat required" });
+    }
+    if (req.body.lon) {
+      if (!validateLatLon(req.body.lon)) {
+        return res
+          .status(400)
+          .send({ message: "wrong lon format " + req.body.lon });
+      }
+      options.lon = req.body.lon;
+    } else {
+      return res.status(400).send({ message: "lon required" });
+    }
+    if (req.body.tablePosition) {
+      options.tablePosition = req.body.tablePosition;
+    } else {
+      return res.status(400).send({ message: "tablePosition required" });
+    }
+
     if (req.body.description) {
       options.description = req.body.description;
     }
-    if (req.body.status) {
-      options.status = req.body.status;
-    }
-    if (req.body.index) {
-      options.index = req.body.index;
-    }
-    if (req.body.lat) {
-      options.lat = req.body.lat;
-    }
-    if (req.body.len) {
-      options.len = req.body.len;
-    }
-    if (req.body.port) {
-      options.port = req.body.port;
-    }
-    if (req.body.host) {
-      //host must be unique
-      let commCenter = await db.CommunicationCenters.findOne({
-        where: { host: req.body.host },
+
+    if (create) {
+      const commCenter = await db.CommunicationCenters.findOrCreate({
+        where: options,
       });
-      if (commCenter) {
-        return res
-          .status(400)
-          .send({ message: `Host ${req.body.host} already exists.` });
-      }
-      options.host = req.body.host;
+
+      // create controllers for created commCenter
+
+      const conts = await db.Controllers.findAll({}).map((el) =>
+        el.get({ plain: true })
+      );
+      //целая часть максимльного modbusID
+      let maxModbusIdTrunc = 0;
+      conts.forEach((cont, i) => {
+        if (Math.trunc(Number(cont.modbusId)) > maxModbusIdTrunc) {
+          maxModbusIdTrunc = Math.trunc(Number(cont.modbusId));
+        }
+      });
+      const newModbusId = maxModbusIdTrunc + 1;
+      const newNasosiController = await db.Controllers.findOrCreate({
+        where: {
+          modbusId: newModbusId + ".1",
+          name: `НС-${newModbusId} контролер-${newModbusId}.1`,
+          line: line,
+          type: "nasosi",
+          commCenterPath: req.body.path,
+          description: "Состояние насоса",
+        },
+      });
+      const newFuelController = await db.Controllers.findOrCreate({
+        where: {
+          modbusId: newModbusId + ".2",
+          name: `НС-${newModbusId} контролер-${newModbusId}.2`,
+          line: line,
+          type: "fuel",
+          commCenterPath: req.body.path,
+          description: "Состояние горючего",
+        },
+      });
+
+      // create registers for created controllers
+      await db.Registers_Controllers_values.bulkCreate([
+        //состояние насоса
+        {
+          id: uuidv4(),
+          registerAddress: "0x1600",
+          controllerModbusId: `${newModbusId}.1`,
+          value: "0",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: uuidv4(),
+          registerAddress: "0x1602",
+          controllerModbusId: `${newModbusId}.1`,
+          value: "0.003",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: uuidv4(),
+          registerAddress: "0x1604",
+          controllerModbusId: `${newModbusId}.1`,
+          value: "0.002",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        // Учет нефтепродукта
+        {
+          id: uuidv4(),
+          registerAddress: "0x1312",
+          controllerModbusId: `${newModbusId}.2`,
+          value: "22.270",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: uuidv4(),
+          registerAddress: "0x1316",
+          controllerModbusId: `${newModbusId}.2`,
+          value: "1.220",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: uuidv4(),
+          registerAddress: "0x1374",
+          controllerModbusId: `${newModbusId}.2`,
+          value: "0.001",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: uuidv4(),
+          registerAddress: "0x13fb",
+          controllerModbusId: `${newModbusId}.2`,
+          value: "0.000",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: uuidv4(),
+          registerAddress: "0x136c",
+          controllerModbusId: `${newModbusId}.2`,
+          value: "133.530",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: uuidv4(),
+          registerAddress: "0x1358",
+          controllerModbusId: `${newModbusId}.2`,
+          value: "112.001",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ]);
+
+      // create new point for display line on map
+      await db.MapPolylinePoints.findOrCreate({
+        where: {
+          id: uuidv4(),
+          index: req.body.index,
+          lat: req.body.lat,
+          lon: req.body.lon,
+          // lat: "56.18016",
+          // lon: "42.89412",
+          type: "commCenter",
+          description: req.body.name,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      });
+
+      res.json(commCenter);
     }
-
-    const commCenter = await db.CommunicationCenters.findOrCreate({
-      where: options,
-    });
-
-    res.json(commCenter);
   } catch (err) {
     console.error(err);
     res.status(502).json({ message: err.toString() });
@@ -339,8 +494,8 @@ async function updateCommCenter(req, res) {
     if (req.body.lat) {
       commCenter.lat = req.body.lat;
     }
-    if (req.body.len) {
-      commCenter.len = req.body.len;
+    if (req.body.lon) {
+      commCenter.lon = req.body.lon;
     }
     if (req.body.port) {
       commCenter.port = req.body.port;
