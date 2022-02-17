@@ -83,10 +83,10 @@ async function createAvarii_JournalData(req, res) {
     if (req.body.note) {
       options.note = req.body.note;
     }
-    if (req.body.commCenterPath) {
-      options.commCenterPath = req.body.commCenterPath;
+    if (req.body.commCenterId) {
+      options.commCenterId = req.body.commCenterId;
     } else {
-      return res.status(400).send({ message: "commCenterPath required" });
+      return res.status(400).send({ message: "commCenterId required" });
     }
     const avarii_JournalData = await db.Avarii_Journals.create(options);
 
@@ -125,9 +125,6 @@ async function updateAvarii_Journal(req, res) {
     }
     if (req.body.note) {
       avarii_JournalData.note = req.body.note;
-    }
-    if (req.body.commCenterPath) {
-      avarii_JournalData.commCenterPath = req.body.commCenterPath;
     }
 
     await avarii_JournalData.save();

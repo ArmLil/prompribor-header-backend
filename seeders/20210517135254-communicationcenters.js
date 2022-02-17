@@ -1,10 +1,12 @@
 "use strict";
+const uuidv4 = require("uuid/v4");
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert("CommunicationCenters", [
       //Информация о журналах
       {
+        id: uuidv4(),
         path: "NS-1",
         name: "НС-1",
         index: 100,
@@ -16,6 +18,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: uuidv4(),
         path: "NS-2",
         name: "НС-2",
         index: 200,
@@ -27,6 +30,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: uuidv4(),
         path: "NS-3",
         name: "НС-3",
         index: 300,
@@ -38,6 +42,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: uuidv4(),
         path: "NS-4",
         name: "НС-4",
         index: 400,
@@ -49,6 +54,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: uuidv4(),
         path: "NS-5",
         name: "НС-5",
         index: 500,
@@ -60,6 +66,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: uuidv4(),
         path: "NS-6",
         name: "НС-6",
         index: 600,
@@ -71,6 +78,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: uuidv4(),
         path: "NS-7",
         name: "НС-7",
         index: 700,

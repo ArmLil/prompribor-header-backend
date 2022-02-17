@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       donesenii: DataTypes.STRING,
       executor: DataTypes.STRING,
       note: DataTypes.STRING,
-      commCenterPath: DataTypes.STRING,
+      commCenterId: DataTypes.STRING,
     },
     {
       timestamps: true,

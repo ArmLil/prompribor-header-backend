@@ -13,9 +13,6 @@ module.exports = {
       sizeRegister: {
         type: Sequelize.INTEGER,
       },
-      recordable: {
-        type: Sequelize.BOOLEAN,
-      },
       dataType: {
         type: Sequelize.STRING,
       },

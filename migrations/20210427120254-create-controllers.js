@@ -19,6 +19,9 @@ module.exports = {
       commCenterPath: {
         type: Sequelize.STRING,
       },
+      commCenterId: {
+        type: Sequelize.STRING,
+      },
       description: {
         type: Sequelize.TEXT,
       },

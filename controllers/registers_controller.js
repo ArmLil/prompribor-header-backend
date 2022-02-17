@@ -53,9 +53,6 @@ async function createRegister(req, res) {
     if (req.body.sizeRegister) {
       options.sizeRegister = req.body.sizeRegister;
     }
-    if (req.body.recordable) {
-      options.recordable = req.body.recordable;
-    }
     if (req.body.dataType) {
       options.dataType = req.body.dataType;
     }
@@ -91,9 +88,7 @@ async function updateRegister(req, res) {
     if (req.body.sizeRegister) {
       options.sizeRegister = req.body.sizeRegister;
     }
-    if (req.body.recordable) {
-      options.recordable = req.body.recordable;
-    }
+
     if (req.body.dataType) {
       options.dataType = req.body.dataType;
     }

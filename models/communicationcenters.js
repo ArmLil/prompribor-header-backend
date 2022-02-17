@@ -3,9 +3,15 @@ module.exports = (sequelize, DataTypes) => {
   const CommunicationCenters = sequelize.define(
     "CommunicationCenters",
     {
+      id: {
+        type: DataTypes.UUID,
+        autoIncrement: false,
+        primaryKey: true,
+        defaultValue: DataTypes.UUIDV4,
+      },
       path: {
         type: DataTypes.STRING,
-        primaryKey: true,
+        // primaryKey: true,
       },
       name: DataTypes.STRING,
       index: DataTypes.INTEGER,
@@ -26,22 +32,23 @@ module.exports = (sequelize, DataTypes) => {
     CommunicationCenters.hasMany(models.Controllers, {
       as: "controllers",
       foreignKey: "commCenterPath",
+      sourceKey: "path",
     });
     CommunicationCenters.hasMany(models.Avarii_Journals, {
       as: "avarii_journal_data",
-      foreignKey: "commCenterPath",
+      foreignKey: "commCenterId",
     });
     CommunicationCenters.hasMany(models.Donesenii_Journals, {
       as: "donesenii_journal_data",
-      foreignKey: "commCenterPath",
+      foreignKey: "commCenterId",
     });
     CommunicationCenters.hasMany(models.Nasosi_Journals, {
       as: "nasosi_journal_data",
-      foreignKey: "commCenterPath",
+      foreignKey: "commCenterId",
     });
     CommunicationCenters.hasMany(models.Fuel_Journals, {
       as: "fuel_journal_data",
-      foreignKey: "commCenterPath",
+      foreignKey: "commCenterId",
     });
   };
   return CommunicationCenters;

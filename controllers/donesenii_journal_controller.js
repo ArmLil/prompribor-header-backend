@@ -90,10 +90,10 @@ async function createDonesenii_JournalData(req, res) {
     if (req.body.note) {
       options.note = req.body.note;
     }
-    if (req.body.commCenterPath) {
-      options.commCenterPath = req.body.commCenterPath;
+    if (req.body.commCenterId) {
+      options.commCenterId = req.body.commCenterId;
     } else {
-      return res.status(400).send({ message: "commCenterPath required" });
+      return res.status(400).send({ message: "commCenterId required" });
     }
     const donesenii_JournalData = await db.Donesenii_Journals.create(options);
 
@@ -134,9 +134,6 @@ async function updateDonesenii_Journal(req, res) {
     }
     if (req.body.note) {
       donesenii_JournalData.note = req.body.note;
-    }
-    if (req.body.commCenterPath) {
-      donesenii_JournalData.commCenterPath = req.body.commCenterPath;
     }
 
     await donesenii_JournalData.save();

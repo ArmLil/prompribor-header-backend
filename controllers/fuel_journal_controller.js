@@ -94,10 +94,10 @@ async function createFuel_JournalData(req, res) {
     if (req.body.note) {
       options.note = req.body.note;
     }
-    if (req.body.commCenterPath) {
-      options.commCenterPath = req.body.commCenterPath;
+    if (req.body.commCenterId) {
+      options.commCenterId = req.body.commCenterId;
     } else {
-      return res.status(400).send({ message: "commCenterPath required" });
+      return res.status(400).send({ message: "commCenterId required" });
     }
     const fuel_JournalData = await db.Fuel_Journals.create(options);
 
@@ -145,9 +145,6 @@ async function updateFuel_Journal(req, res) {
     }
     if (req.body.note) {
       fuel_JournalData.note = req.body.note;
-    }
-    if (req.body.commCenterPath) {
-      fuel_JournalData.commCenterPath = req.body.commCenterPath;
     }
 
     await fuel_JournalData.save();

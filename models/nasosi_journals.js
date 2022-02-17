@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       P_out: DataTypes.STRING,
       revs: DataTypes.STRING,
       note: DataTypes.STRING,
+      commCenterId: DataTypes.STRING,
     },
     {
       timestamps: true,

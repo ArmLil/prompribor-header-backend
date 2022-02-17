@@ -96,10 +96,10 @@ async function createNasosi_JournalData(req, res) {
     if (req.body.note) {
       options.note = req.body.note;
     }
-    if (req.body.commCenterPath) {
-      options.commCenterPath = req.body.commCenterPath;
+    if (req.body.commCenterId) {
+      options.commCenterId = req.body.commCenterId;
     } else {
-      return res.status(400).send({ message: "commCenterPath required" });
+      return res.status(400).send({ message: "commCenterId required" });
     }
     const nasosi_JournalData = await db.Nasosi_Journals.create(options);
 
@@ -141,9 +141,6 @@ async function updateNasosi_Journal(req, res) {
     }
     if (req.body.note) {
       nasosi_JournalData.note = req.body.note;
-    }
-    if (req.body.commCenterPath) {
-      nasosi_JournalData.commCenterPath = req.body.commCenterPath;
     }
 
     await nasosi_JournalData.save();

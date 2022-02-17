@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       total_volume: DataTypes.STRING,
       total_mass: DataTypes.STRING,
       note: DataTypes.STRING,
-      commCenterPath: DataTypes.STRING,
+      commCenterId: DataTypes.STRING,
     },
     {
       timestamps: true,

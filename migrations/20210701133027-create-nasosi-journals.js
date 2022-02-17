@@ -29,7 +29,7 @@ module.exports = {
       note: {
         type: Sequelize.STRING,
       },
-      commCenterPath: {
+      commCenterId: {
         type: Sequelize.STRING,
       },
       createdAt: {

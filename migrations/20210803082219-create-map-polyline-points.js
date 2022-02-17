@@ -9,7 +9,7 @@ module.exports = {
         autoIncrement: false,
       },
       index: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       lat: {
         type: Sequelize.STRING,

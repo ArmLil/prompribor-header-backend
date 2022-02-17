@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: DataTypes.STRING,
       sizeRegister: DataTypes.INTEGER,
-      recordable: DataTypes.BOOLEAN,
       dataType: DataTypes.STRING,
       appointment: DataTypes.STRING,
       description: DataTypes.TEXT,

@@ -21,15 +21,18 @@ module.exports = (app) => {
   });
 
   router.get("/mapCommCenters", commCenters.getMapCommCenters);
-  // router.get("/commCenters", commCenters.getCommCenters);
   router.get("/commCenters/:id", commCenters.getCommCenterById);
+  router.get(
+    "/commCenters/commCenterByPath/:path",
+    commCenters.getCommCenterByPath
+  );
   router.get(
     "/commCenterControllersRegs/:id",
     commCenters.getCommCenterControllersRegs
   );
   router.post("/commCenters", auth.checkauth, commCenters.createCommCenter);
   router.put("/commCenters/:id", commCenters.updateCommCenter);
-  router.delete("/commCenters/:id", commCenters.deleteCommCenter);
+  router.delete("/commCenters/:id", commCenters.deleteCommCenterByPath);
 
   router.get("/controllers", controllers.getControllers);
   router.get("/controllers/:id", controllers.getControllerById);
