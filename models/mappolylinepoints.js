@@ -15,12 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       description: DataTypes.STRING,
     },
-    {
-      timestamps: true,
-      paranoid: true,
-      underscored: false,
-      tableName: "MapPolylinePoints",
-    }
+    {}
   );
   MapPolylinePoints.associate = function (models) {
     // associations can be defined here

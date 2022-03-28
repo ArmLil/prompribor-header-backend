@@ -25,12 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       value: DataTypes.STRING,
     },
-    {
-      timestamps: true,
-      paranoid: true,
-      underscored: false,
-      tableName: "Registers_Controllers_values",
-    }
+    {}
   );
   Registers_Controllers_values.associate = function (models) {
     Registers_Controllers_values.belongsTo(models.Registers, {

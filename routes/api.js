@@ -4,6 +4,7 @@ module.exports = (app) => {
   const express = require("express");
   const router = require("express").Router();
   const commCenters = require("../controllers/commCenters_controller");
+  const mapPolylinePoints = require("../controllers/mapPolylinePoints_controller");
   const controllers = require("../controllers/controllers_controller");
   const registers = require("../controllers/registers_controller");
   const registers_Controllers_values = require("../controllers/registers_Controllers_values_controller");
@@ -31,8 +32,28 @@ module.exports = (app) => {
     commCenters.getCommCenterControllersRegs
   );
   router.post("/commCenters", auth.checkauth, commCenters.createCommCenter);
-  router.put("/commCenters/:id", commCenters.updateCommCenter);
-  router.delete("/commCenters/:id", commCenters.deleteCommCenterByPath);
+  router.put("/commCenters/:id", auth.checkauth, commCenters.updateCommCenter);
+  router.delete(
+    "/commCenters/:id",
+    auth.checkauth,
+    commCenters.deleteCommCenterByPath
+  );
+
+  router.post(
+    "/mapPolylinePoints",
+    auth.checkauth,
+    mapPolylinePoints.createMapPolylinePoint
+  );
+  router.put(
+    "/mapPolylinePoints/:id",
+    auth.checkauth,
+    mapPolylinePoints.updateMapPolylinePoint
+  );
+  router.delete(
+    "/mapPolylinePoints/:id",
+    auth.checkauth,
+    mapPolylinePoints.deleteMapPolylinePoint
+  );
 
   router.get("/controllers", controllers.getControllers);
   router.get("/controllers/:id", controllers.getControllerById);

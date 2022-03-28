@@ -262,11 +262,12 @@ async function createCommCenter(req, res) {
     if (req.body.index) {
       if (
         !Number(req.body.index) ||
-        String(req.body.index).slice(-2) !== "00"
+        String(req.body.index).slice(-2) !== "00" ||
+        Number(req.body.index) < 0
       ) {
         return res.status(422).send({
           indexError:
-            "Поле должно содержать только число, которое заканчивается на 00",
+            "Поле должно содержать только натуральное число, которое заканчивается на 00",
         });
       }
       options.index = req.body.index;
@@ -321,6 +322,7 @@ async function createCommCenter(req, res) {
     const conts = await db.Controllers.findAll({}).map((el) =>
       el.get({ plain: true })
     );
+
     //целая часть максимльного modbusID
     let maxModbusIdTrunc = 0;
     conts.forEach((cont, i) => {
@@ -468,7 +470,21 @@ async function updateCommCenter(req, res) {
           pathError: "Станция с таким идентификатором уже существует",
         });
       }
-      commCenter.path = req.body.path;
+      if (commCenter.path !== req.body.path) {
+        const controllers = await db.Controllers.findAll({
+          where: { commCenterPath: commCenter.path },
+        });
+        controllers.forEach((contr, i) => {
+          console.log(contr);
+          db.Controllers.update(
+            { commCenterPath: req.body.path },
+            {
+              where: { modbusId: contr.dataValues.modbusId },
+            }
+          );
+        });
+        commCenter.path = req.body.path;
+      }
     }
 
     if (req.body.name) {
@@ -490,6 +506,16 @@ async function updateCommCenter(req, res) {
     let willUpdateMapPolylinePoint_Index = false;
 
     if (req.body.index) {
+      if (
+        !Number(req.body.index) ||
+        String(req.body.index).slice(-2) !== "00" ||
+        Number(req.body.index) < 0
+      ) {
+        return res.status(422).send({
+          indexError:
+            "Поле должно содержать только натуральное число, которое заканчивается на 00",
+        });
+      }
       const commCenterByIndex = await db.CommunicationCenters.findOne({
         where: { index: req.body.index },
       });
