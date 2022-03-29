@@ -185,7 +185,12 @@ async function deleteUser(req, res) {
         .status("404")
         .json({ message: `User ${req.params.id} not found` });
     }
-    await user.destroy();
+    if (user.username === "Админ") {
+      return res
+        .status("404")
+        .json({ message: "Удаление данного пользователя невозможно" });
+    }
+    // await user.destroy();
     res.json({
       massage: `user ${user.username}, ${user.email}, ${user.id} is deleted`,
     });
