@@ -89,93 +89,69 @@ module.exports = (app) => {
     registers_Controllers_values.deleteRegisters_Controllers_values
   );
 
-  // avarii_journals_data
-  router.get("/avarii_journals_data", avarii_journal.getAvarii_JournalData);
-  router.get(
-    "/avarii_journals_data/:id",
-    avarii_journal.getAvarii_JournalDataById
-  );
+  // avarii
+  router.get("/avarii", avarii_journal.getAvarii_JournalData);
+  router.get("/avarii/:id", avarii_journal.getAvarii_JournalDataById);
   router.post(
-    "/avarii_journals_data",
+    "/avarii",
     auth.checkauth,
     avarii_journal.createAvarii_JournalData
   );
   router.put(
-    "/avarii_journals_data/:id",
+    "/avarii/:id",
     auth.checkauth,
     avarii_journal.updateAvarii_Journal
   );
   router.delete(
-    "/avarii_journals_data/:id",
+    "/avarii/:id",
     auth.checkauth,
     avarii_journal.deleteAvarii_Journal
   );
 
-  // donesenii_journals_data
-  router.get(
-    "/donesenii_journals_data",
-    donesenii_journal.getDonesenii_JournalData
-  );
-  router.get(
-    "/donesenii_journals_data/:id",
-    donesenii_journal.getDonesenii_JournalDataById
-  );
+  // donesenii
+  router.get("/donesenii", donesenii_journal.getDonesenii_JournalData);
+  router.get("/donesenii/:id", donesenii_journal.getDonesenii_JournalDataById);
   router.post(
-    "/donesenii_journals_data",
+    "/donesenii",
     auth.checkauth,
     donesenii_journal.createDonesenii_JournalData
   );
   router.put(
-    "/donesenii_journals_data/:id",
+    "/donesenii/:id",
     auth.checkauth,
     donesenii_journal.updateDonesenii_Journal
   );
   router.delete(
-    "/donesenii_journals_data/:id",
+    "/donesenii/:id",
     auth.checkauth,
     donesenii_journal.deleteDonesenii_Journal
   );
 
-  // nasosi_journals_data
-  router.get("/nasosi_journals_data", nasosi_journal.getNasosi_JournalData);
-  router.get(
-    "/nasosi_journals_data/:id",
-    nasosi_journal.getNasosi_JournalDataById
-  );
+  // nasosi
+  router.get("/nasosi", nasosi_journal.getNasosi_JournalData);
+  router.get("/nasosi/:id", nasosi_journal.getNasosi_JournalDataById);
   router.post(
-    "/nasosi_journals_data",
+    "/nasosi",
     auth.checkauth,
     nasosi_journal.createNasosi_JournalData
   );
   router.put(
-    "/nasosi_journals_data/:id",
+    "/nasosi/:id",
     auth.checkauth,
     nasosi_journal.updateNasosi_Journal
   );
   router.delete(
-    "/nasosi_journals_data/:id",
+    "/nasosi/:id",
     auth.checkauth,
     nasosi_journal.deleteNasosi_Journal
   );
 
-  // fuel_journals_data
-  router.get("/fuel_journals_data", fuel_journal.getFuel_JournalData);
-  router.get("/fuel_journals_data/:id", fuel_journal.getFuel_JournalDataById);
-  router.post(
-    "/fuel_journals_data",
-    auth.checkauth,
-    fuel_journal.createFuel_JournalData
-  );
-  router.put(
-    "/fuel_journals_data/:id",
-    auth.checkauth,
-    fuel_journal.updateFuel_Journal
-  );
-  router.delete(
-    "/fuel_journals_data/:id",
-    auth.checkauth,
-    fuel_journal.deleteFuel_Journal
-  );
+  // fuel
+  router.get("/fuel", fuel_journal.getFuel_JournalData);
+  router.get("/fuel/:id", fuel_journal.getFuel_JournalDataById);
+  router.post("/fuel", auth.checkauth, fuel_journal.createFuel_JournalData);
+  router.put("/fuel/:id", auth.checkauth, fuel_journal.updateFuel_Journal);
+  router.delete("/fuel/:id", auth.checkauth, fuel_journal.deleteFuel_Journal);
 
   // users
   router.get("/users", auth.checkauth, users.getUsers);

@@ -3,6 +3,7 @@ const uuidv4 = require("uuid/v4");
 let db = require("../models");
 const line = require("../config/config.js")["line"];
 const validateLatLon = require("./helpers/validateLatLon");
+const isNumeric = require("./helpers/isNumeric");
 
 async function getMapCommCenters(req, res) {
   console.log("function getMapCommCenters");
@@ -128,17 +129,13 @@ async function getCommCenterById(req, res) {
 
 async function getCommCenterByPath(req, res) {
   console.log("function getCommCenterByPath");
+  let offset = isNumeric(req.query.offset) ? req.query.offset : 0;
+  let limit = isNumeric(req.query.limit) ? req.query.limit : null;
   try {
     let options = {
       where: {
         path: req.params.path,
       },
-      include: [
-        {
-          model: db.Controllers,
-          as: "controllers",
-        },
-      ],
     };
     let commCenter = await db.CommunicationCenters.findOne(options);
     if (commCenter == null) {
@@ -146,40 +143,48 @@ async function getCommCenterByPath(req, res) {
         .status(400)
         .send({ message: "CommunicationCenter with this path not found" });
     }
-
-    let fuel_journal_data = await db.Fuel_Journals.findAndCountAll({
-      where: { commCenterId: commCenter.id },
-      order: [["createdAt", "ASC"]],
-    });
-    let avarii_journal_data = await db.Avarii_Journals.findAndCountAll({
-      where: { commCenterId: commCenter.id },
-      order: [["createdAt", "ASC"]],
-    });
-    let donesenii_journal_data = await db.Donesenii_Journals.findAndCountAll({
-      where: { commCenterId: commCenter.id },
-      order: [["createdAt", "ASC"]],
-    });
-    let nasosi_journal_data = await db.Nasosi_Journals.findAndCountAll({
-      where: { commCenterId: commCenter.id },
-      order: [["createdAt", "ASC"]],
-    });
-
-    let _commCenter = Object.assign(
-      {},
-      commCenter.dataValues,
-      {
-        nasosi_journal_data: nasosi_journal_data.rows,
-      },
-      {
-        donesenii_journal_data: donesenii_journal_data.rows,
-      },
-      {
-        avarii_journal_data: avarii_journal_data.rows,
-      },
-      {
-        fuel_journal_data: fuel_journal_data.rows,
-      }
-    );
+    let _commCenter = Object.assign({}, commCenter.dataValues);
+    if (req.query.fuel) {
+      let fuel_journal_data = await db.Fuel_Journals.findAndCountAll({
+        where: { commCenterId: commCenter.id },
+        order: [["createdAt", "ASC"]],
+        offset,
+        limit,
+      });
+      fuel_journal_data.offset = offset;
+      fuel_journal_data.limit = limit;
+      _commCenter.fuel = fuel_journal_data;
+    } else if (req.query.avarii) {
+      let avarii_journal_data = await db.Avarii_Journals.findAndCountAll({
+        where: { commCenterId: commCenter.id },
+        order: [["createdAt", "ASC"]],
+        offset: offset,
+        limit: limit,
+      });
+      avarii_journal_data.offset = offset;
+      avarii_journal_data.limit = limit;
+      _commCenter.avarii = avarii_journal_data;
+    } else if (req.query.donesenii) {
+      let donesenii_journal_data = await db.Donesenii_Journals.findAndCountAll({
+        where: { commCenterId: commCenter.id },
+        order: [["createdAt", "ASC"]],
+        offset: offset,
+        limit: limit,
+      });
+      donesenii_journal_data.offset = offset;
+      donesenii_journal_data.limit = limit;
+      _commCenter.donesenii = donesenii_journal_data;
+    } else if (req.query.nasosi) {
+      let nasosi_journal_data = await db.Nasosi_Journals.findAndCountAll({
+        where: { commCenterId: commCenter.id },
+        order: [["createdAt", "ASC"]],
+        offset: offset,
+        limit: limit,
+      });
+      nasosi_journal_data.offset = offset;
+      nasosi_journal_data.limit = limit;
+      _commCenter.nasosi = nasosi_journal_data;
+    }
 
     res.json(_commCenter);
   } catch (err) {
